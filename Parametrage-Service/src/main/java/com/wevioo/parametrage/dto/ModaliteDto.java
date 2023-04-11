@@ -1,6 +1,7 @@
 package com.wevioo.parametrage.dto;
 
 
+import com.wevioo.parametrage.entities.Convention;
 import com.wevioo.parametrage.entities.Fond;
 import com.wevioo.parametrage.enums.*;
 
@@ -11,16 +12,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class ModaliteDto {
-     Integer idModalite;
+     Long idModalite;
      Fond fond;
-     String nomCompletMod;
-     String nomArabeMod;
+     String nomCompletModalite;
+     String nomArabeModalite;
      String abrevModalite;
-     MadaliteStatut statut;
-     long montantMin;
-     long montantMax;
+     ModaliteStatut statut;
+     Long montantMin;
+     Long montantMax;
+     List<Convention> conventions ;
      TypeModalite typeModalite;
      TypeDemande natureDemande;
 }

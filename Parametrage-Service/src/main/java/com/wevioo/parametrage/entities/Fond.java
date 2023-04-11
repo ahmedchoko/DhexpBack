@@ -3,14 +3,9 @@ package com.wevioo.parametrage.entities;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wevioo.parametrage.enums.Fondstatut;
 
@@ -40,13 +35,13 @@ public class Fond {
 	private String sousSecteur ;
 	private String familleActivite ;
 	private String codes ;
-	@OneToMany()
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "fond")
+	//@JsonBackReference
+	@JsonIgnore
 	private List<Modalite> modalites ;
-	@Override
-	public String toString() {
-		return "Fond [idFond=" + idFond + ", montantMax=" + montantMax + ", dateClotureFond=" + dateClotureFond
-				+ ", tresorerieFond=" + tresorerieFond + ", secteur=" + secteur + "]";
-	}
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "fond")
+	@JsonIgnore
+	private List<StopLoss> stopLosses ;
 
 
 	

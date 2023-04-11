@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.wevioo.parametrage.repository.ModaliteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +31,8 @@ public class FondServiceImpl implements FondService{
 	private PartenaireRepository partenaireRepository;
 	@Autowired
 	private ConventionRepository conventionRepository;
+	@Autowired
+	private ModaliteRepository modaliteRepository ;
 	@Override
 	public Page <Fond> getAllFond(String search, int page, int size) {
 		  // create Pageable object using the page and size
@@ -39,13 +42,16 @@ public class FondServiceImpl implements FondService{
 	}
 
 	@Override
-	public void addFond(Fond fond) {
-		fondRepository.save(fond);
+	public Fond addFond(Fond fond) {
+		return fondRepository.save(fond);
 		
 	}
 
 	@Override
 	public void deleteFond(Long id) {
+		List<Modalite> modalites = fondRepository.getById(id).getModalites();
+		modalites.forEach(modalite -> modaliteRepository.deleteById(modalite.getIdModalite()));
+
 	fondRepository.deleteById(id);
 		
 	}
@@ -119,4 +125,10 @@ public class FondServiceImpl implements FondService{
 	        Fond fond = fondRepository.findById(id).get();
 	        return fond;
 	    }
+	@Override
+	public List<Fond> getNonArchivedFonds(){
+		return fondRepository.getNonArchivedFonds();
+	}
+
+
 }

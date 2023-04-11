@@ -29,7 +29,7 @@ import com.wevioo.parametrage.services.PartenaireService;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/partenaire")
+@RequestMapping("/api/v1")
 public class PartenaireController {
 
 	

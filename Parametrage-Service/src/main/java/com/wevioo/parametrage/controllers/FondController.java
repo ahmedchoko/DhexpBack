@@ -26,7 +26,7 @@ import com.wevioo.parametrage.services.FondService;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/fond")
+@RequestMapping("/api/v1")
 public class FondController {
 
 	
@@ -35,13 +35,13 @@ public class FondController {
 	
 	@Autowired
 	private ModelMapper modelMapper;
-	 @GetMapping("/fonds")
+	 @GetMapping("/getAllFonds")
 	  public ResponseEntity < ? > getFonds(@RequestParam(defaultValue = "") String firstNameFilter,
 			                               @RequestParam(defaultValue = "1") int page,
                                            @RequestParam(defaultValue = "3") int size) {
 	    Map < String, Object > jsonResponseMap = new LinkedHashMap < String, Object > ();
 	    Page < Fond > listofFond = fondService.getAllFond(firstNameFilter,page,size);
-	    System.out.println(listofFond);
+	   // System.out.println(listofFond);
 	    List < FondDTO > listofFondDto = new ArrayList < FondDTO > ();
 	    if (!listofFond.isEmpty()) {
 	      for (Fond fond: listofFond ) {
@@ -49,7 +49,7 @@ public class FondController {
 	      }
 	      jsonResponseMap.put("status", 1);
 	     jsonResponseMap.put("data", listofFondDto);
-	     jsonResponseMap.put("pagebale", listofFond);
+	     jsonResponseMap.put("pageable", listofFond);
 	      return new ResponseEntity < > (jsonResponseMap, HttpStatus.OK);
 	    } else {
 	      jsonResponseMap.clear();
@@ -59,8 +59,8 @@ public class FondController {
 	    }
 	  }
 	 @PostMapping("/addFond")
-	 public void AddFond(@RequestBody Fond fond) {
-		 fondService.addFond(fond);
+	 public Fond AddFond(@RequestBody Fond fond) {
+		 return fondService.addFond(fond);
 	 }
 	 @DeleteMapping("/deleteFond")
 	 public void DeleteFond(@RequestParam() Long id) {
@@ -70,4 +70,10 @@ public class FondController {
 	 public void ModifyFond(@RequestBody Fond fond) {
 		fondService.modifyFond(fond);
 	 }
+	 @GetMapping("/getFond")
+	public Fond getFondById(@RequestParam Long id) { return fondService.getFondById(id);}
+	@GetMapping("/getFonds")
+	public List<Fond> getFonds() { return fondService.getNonArchivedFonds();}
+
+
 }

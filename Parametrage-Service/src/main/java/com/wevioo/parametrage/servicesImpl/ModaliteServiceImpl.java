@@ -4,47 +4,63 @@ package com.wevioo.parametrage.servicesImpl;
 import com.wevioo.parametrage.dto.ModaliteDto;
 import com.wevioo.parametrage.entities.Fond;
 import com.wevioo.parametrage.entities.Modalite;
+import com.wevioo.parametrage.repository.FondRepository;
 import com.wevioo.parametrage.repository.ModaliteRepository;
 import com.wevioo.parametrage.services.FondService;
 import com.wevioo.parametrage.services.ModaliteService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+
 
 @Service
 public class ModaliteServiceImpl implements ModaliteService {
     private final ModaliteRepository modaliteRepository;
     private final FondService fondService;
+    private final FondRepository fondRepository;
 
-    public ModaliteServiceImpl(ModaliteRepository modaliteRepository, FondService fondService) {
+    public ModaliteServiceImpl(ModaliteRepository modaliteRepository, FondRepository fondRepository, FondService fondService) {
         super();
         this.modaliteRepository = modaliteRepository;
         this.fondService = fondService;
+        this.fondRepository = fondRepository;
     }
 
 
     @Override
-    public List<Modalite> getAllModalite() {
-        return modaliteRepository.findAll();
+    public Page<Modalite> getAllModalite(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("idModalite"));
+        Page<Modalite> myDataPage = modaliteRepository.findAll(pageable);
+        return myDataPage;
     }
 
     @Override
+    @Transactional
     public Modalite createModalite(ModaliteDto modaliteRequest) {
 
-            Fond fond = fondService.getFondById(modaliteRequest.getFond().getIdFond());
-            Modalite modalite = Modalite.builder()
-                    .nomCompletModalite(modaliteRequest.getNomCompletMod())
-                    .nomArabeModalite(modaliteRequest.getNomArabeMod())
-                    .abrevModalite(modaliteRequest.getAbrevModalite())
-                    .fond(fond)
-                    .typeModalite(modaliteRequest.getTypeModalite())
-                    .statut(modaliteRequest.getStatut())
-                    .montantMin(modaliteRequest.getMontantMin())
-                    .montantMax(modaliteRequest.getMontantMax())
-                    .natureDemande(modaliteRequest.getNatureDemande())
-                    .build();
+        Fond fond = fondService.
+                getFondById(modaliteRequest
+                        .getFond()
+                        .getIdFond());
+
+        Modalite modalite = Modalite.builder()
+                .nomCompletModalite(modaliteRequest.getNomCompletModalite())
+                .nomArabeModalite(modaliteRequest.getNomArabeModalite())
+                .abrevModalite(modaliteRequest.getAbrevModalite())
+                .fond(fond)
+                .typeModalite(modaliteRequest.getTypeModalite())
+                .statut(modaliteRequest.getStatut())
+                .montantMin(modaliteRequest.getMontantMin())
+                .montantMax(modaliteRequest.getMontantMax())
+                .natureDemande(modaliteRequest.getNatureDemande())
+                .build();
 
             return modaliteRepository.save(modalite);
 
@@ -60,9 +76,9 @@ public class ModaliteServiceImpl implements ModaliteService {
     public Modalite updateModalite(Long id, ModaliteDto modaliteRequest) {
         Modalite modalite = modaliteRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Resource with id "+id+" not found"));
-        System.out.println("retrieved modalite object\n"+ modalite);
-        modalite.setNomCompletModalite(modaliteRequest.getNomCompletMod());
-        modalite.setNomArabeModalite(modaliteRequest.getNomArabeMod());
+
+        modalite.setNomCompletModalite(modaliteRequest.getNomCompletModalite());
+        modalite.setNomArabeModalite(modaliteRequest.getNomArabeModalite());
         modalite.setAbrevModalite(modaliteRequest.getAbrevModalite());
         modalite.setFond(modaliteRequest.getFond());
         modalite.setTypeModalite(modaliteRequest.getTypeModalite());

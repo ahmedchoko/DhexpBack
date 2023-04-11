@@ -6,9 +6,7 @@
   <packaging>pom</packaging>
   <modules>
   	<module>Parametrage-Service</module>
-  	<module>Parametrage</module>
   	<module>Api-Gateway</module>
-  	<module>test</module>
   	<module>Discovery-Server</module>
   	<module>Config-Server</module>
   </modules>
