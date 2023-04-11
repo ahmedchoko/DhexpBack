@@ -47,8 +47,6 @@ import com.wevioo.parametrage.specification.FondSpecification;
 public class FondServiceImpl implements FondService{
 
 	@Autowired
-	private EntityManager entityManager;
-	@Autowired
 	private FondRepository fondRepository;
 	@Autowired
 	private PartenaireRepository partenaireRepository;

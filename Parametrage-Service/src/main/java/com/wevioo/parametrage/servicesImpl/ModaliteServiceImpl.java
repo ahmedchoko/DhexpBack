@@ -1,6 +1,7 @@
 package com.wevioo.parametrage.servicesImpl;
 
 
+
 import com.wevioo.parametrage.dto.ModaliteDto;
 import com.wevioo.parametrage.entities.Fond;
 import com.wevioo.parametrage.entities.Modalite;
@@ -8,6 +9,7 @@ import com.wevioo.parametrage.repository.FondRepository;
 import com.wevioo.parametrage.repository.ModaliteRepository;
 import com.wevioo.parametrage.services.FondService;
 import com.wevioo.parametrage.services.ModaliteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,16 +24,21 @@ import java.util.NoSuchElementException;
 
 @Service
 public class ModaliteServiceImpl implements ModaliteService {
-    private final ModaliteRepository modaliteRepository;
-    private final FondService fondService;
-    private final FondRepository fondRepository;
+    @Autowired
+    private  ModaliteRepository modaliteRepository;
+    @Autowired
 
-    public ModaliteServiceImpl(ModaliteRepository modaliteRepository, FondRepository fondRepository, FondService fondService) {
+    private  FondService fondService;
+    @Autowired
+
+    private  FondRepository fondRepository;
+
+  /*  public ModaliteServiceImpl(ModaliteRepository modaliteRepository, FondRepository fondRepository, FondService fondService) {
         super();
         this.modaliteRepository = modaliteRepository;
         this.fondService = fondService;
         this.fondRepository = fondRepository;
-    }
+    }*/
 
 
     @Override

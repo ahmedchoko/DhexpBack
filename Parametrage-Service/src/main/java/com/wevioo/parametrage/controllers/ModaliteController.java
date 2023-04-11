@@ -19,17 +19,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1/modalite")
 public class ModaliteController {
 
-
+    @Autowired
     private ModaliteService modaliteService;
 
-    public ModaliteController(ModaliteService modaliteService) {
-        super();
-        this.modaliteService = modaliteService;
+    public ModaliteController() {
+
     }
     @Autowired
     private ModelMapper modelMapper;

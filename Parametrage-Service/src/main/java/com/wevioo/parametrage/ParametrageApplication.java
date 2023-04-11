@@ -13,8 +13,8 @@ public class ParametrageApplication {
 		SpringApplication.run(ParametrageApplication.class, args);
 	}
 	 @Bean
-	  public ModelMapper modelMapper() {
-	    return new ModelMapper();
-	  }
+	public ModelMapper modelMapper() {
+	   return new ModelMapper();
+	}
 	
 }
