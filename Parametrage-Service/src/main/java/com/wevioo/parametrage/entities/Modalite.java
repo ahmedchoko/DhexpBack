@@ -23,16 +23,15 @@ import org.hibernate.annotations.Cascade;
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class Modalite {
 
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idModalite;
+	@JsonIgnoreProperties("modalites")
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "fond_id")
-	@NotNull
-	//@JsonManagedReference
 	private Fond fond ;
-	@OneToMany()
+	@JsonIgnore
+	@OneToMany(mappedBy="modalite",fetch = FetchType.EAGER)
 	private List <Convention> conventions ;
 	@NotNull
 	private String nomCompletModalite;

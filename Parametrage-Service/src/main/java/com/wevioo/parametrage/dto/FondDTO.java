@@ -2,8 +2,10 @@ package com.wevioo.parametrage.dto;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import com.wevioo.parametrage.entities.Modalite;
+import com.wevioo.parametrage.entities.Secteur;
 import com.wevioo.parametrage.enums.Fondstatut;
 
 import lombok.AllArgsConstructor;
@@ -15,6 +17,7 @@ import lombok.NoArgsConstructor;
 public class FondDTO {
 
 	private Long idFond;
+	private String nomFond ;
 	private String nomCompletFond ;
 	private String nomArabeFond ;
 	private String abrevFond ;
@@ -24,9 +27,15 @@ public class FondDTO {
 	private Date dateDemarrageFond;
 	private Date dateClotureFond;
 	private Long tresorerieFond;
-	private String secteur ;
-	private String sousSecteur ;
-	private String familleActivite ;
+	private List<Secteur> secteurs ;
 	private String codes ;
-	private List<Modalite> modalites ;
+	private Set <Modalite> modalites ;
+	public FondDTO(Long idFond, Set<Modalite> modalites) {
+		super();
+		this.idFond = idFond;
+		this.modalites = modalites;
+	}
+	
 }
+
+
