@@ -1,5 +1,6 @@
 package com.wevioo.parametrage.controllers;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,11 +16,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wevioo.parametrage.dto.FondDTO;
 import com.wevioo.parametrage.dto.PartenaireDTO;
+import com.wevioo.parametrage.entities.Convention;
 import com.wevioo.parametrage.entities.Fond;
 import com.wevioo.parametrage.entities.Modalite;
 import com.wevioo.parametrage.entities.Partenaire;
@@ -27,7 +33,6 @@ import com.wevioo.parametrage.services.FondService;
 import com.wevioo.parametrage.services.PartenaireService;
 
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/partenaire")
 public class PartenaireController {
@@ -41,11 +46,15 @@ public class PartenaireController {
 	@Autowired
 	private ModelMapper modelMapper;
 	 @GetMapping("/partenaires")
-	  public ResponseEntity < ? > getPartenaires(@RequestParam(defaultValue = "") String firstNameFilter,
+	  public ResponseEntity < ? > getPartenaires(  @RequestParam(value = "searchFond",required=false) String searchFond,
+			                                       @RequestParam(value = "MontantMaxsearchTerm",required=false) String MontantMaxsearchTerm,
+                                                   @RequestParam(value = "MontantMinsearchTerm",required=false) String MontantMinsearchTerm,
+                                                   @RequestParam(value = "StatutsearchTerm",required=false) String StatutsearchTerm,
 			                               @RequestParam(defaultValue = "1") int page,
-                                           @RequestParam(defaultValue = "3") int size) {
+                                           @RequestParam(defaultValue = "3") int size) throws ParseException {
 	    Map < String, Object > jsonResponseMap = new LinkedHashMap < String, Object > ();
-	    Page < Partenaire > listofParteanaire = partenaireService.getAllPartenaire(firstNameFilter,page,size);
+	    System.out.println("MontantMinsearchTerm"+MontantMinsearchTerm);
+	    Page < Partenaire > listofParteanaire = partenaireService.getAllPartenaire(searchFond ,MontantMinsearchTerm,MontantMaxsearchTerm,StatutsearchTerm,page,size);
 	    System.out.println(listofParteanaire);
 	    List < PartenaireDTO > listofPartenaireDTO = new ArrayList < PartenaireDTO > ();
 	    if (!listofParteanaire.isEmpty()) {
@@ -57,15 +66,43 @@ public class PartenaireController {
 	     jsonResponseMap.put("pagebale", listofParteanaire);
 	      return new ResponseEntity < > (jsonResponseMap, HttpStatus.OK);
 	    } else {
-	      jsonResponseMap.clear();
-	     jsonResponseMap.put("status", 0);
-	      jsonResponseMap.put("message", "Data is not found");
+
+	        jsonResponseMap.put("status", 1);
+	        Page < Partenaire > listofPartenaire1 = partenaireService.getPartenaireList(page, size);
+		     for (Partenaire partenaire: listofPartenaire1 ) {
+		    	 listofPartenaireDTO.add(modelMapper.map(partenaire, PartenaireDTO.class));
+		      }
+		     List < PartenaireDTO > listofPartenaireDto1 = new ArrayList < PartenaireDTO > ();
+		      jsonResponseMap.put("data", listofPartenaireDto1);
+			     jsonResponseMap.put("pagebale", listofPartenaire1);
 	      return new ResponseEntity < > (jsonResponseMap, HttpStatus.OK);
+		
+		      
 	    }
 	  }
+	 @GetMapping("/getPartenaire")
+     public Partenaire getPartenaireById(@RequestParam() Long id) {
+		 return partenaireService.getPartenaireById(id) ;
+		 }
 	 @GetMapping("/partenaire/modalites")
 	public List <Modalite> getAllModalite( @RequestParam(defaultValue = "1") Long IdPartenaire) {
 		 return this.partenaireService.getAllModaliteOfpartenaire(IdPartenaire);
+	 }
+	 @PostMapping("/addpartenaire")
+	 public void AddPartenaire(@RequestBody Partenaire partenaire) {
+		 partenaireService.addPartenaire(partenaire);
+	 }
+	 @PutMapping("/modifyPartenaire")
+	 public void ModifyPartenaire(@RequestBody Partenaire partenaire) {
+		 partenaireService.modifyPartenaire(partenaire);
+	 }
+	 @PostMapping("/addpartenairewithcvt")
+	 public void AddPartenairewithcvt(@RequestBody List <Convention>  conventions) {
+		 partenaireService.addPartenairewithcvt(conventions);
+	 }
+	 @PutMapping("/modifypartenairewithcvt")
+	 public void ModifyPartenairewithcvt(@RequestBody List <Convention>  conventions) {
+		 partenaireService.modifyPartenairewithcvt(conventions);
 	 }
 	 @GetMapping("/partenaire/fonds")
 		public ResponseEntity < ? >  getAllFondofpartenaire(@RequestParam(defaultValue = "") String firstNameFilter,
@@ -75,10 +112,10 @@ public class PartenaireController {
 		  Map < String, Object > PartenairejsonResponseMap = new LinkedHashMap < String, Object > ();
           Map  < Partenaire,Fond > test = new HashMap <  Partenaire,Fond> ();
            ///Fond fond = new Fond(); 
-		  List <Fond> fonds = new ArrayList(); 
 		  List  res = new ArrayList(); 
 		   PartenaireDTO partenaireDTO = new PartenaireDTO();
-		 for(Partenaire partenaire : this.partenaireService.getAllPartenaire(firstNameFilter, page, size)) {
+		 
+		/* for(Partenaire partenaire : this.partenaireService.getAllPartenaire(firstNameFilter, page, size)) {
 			 for(Fond fond :this.fondService.getAllFondofPartenaire(partenaire.getIdPartenaire()) ) {
 				/// System.out.println("fond "+fond.toString()+"pour partenaire "+partenaire.getIdPartenaire());
 				/// System.out.println(fond.toString());
@@ -113,11 +150,11 @@ public class PartenaireController {
 			
 			/// jsonResponseMap.put("fnds of "+partenaire.getIdPartenaire(), fonds);
 			/// fonds = new ArrayList();
-		 } 
+		 
 		///System.out.println(fonds);
 		 //FondsjsonResponseMap.put("res", res); 
 		// jsonResponseMap.put("res", FondsjsonResponseMap);
 		// jsonResponseMap.put("pagebale", this.partenaireService.getAllPartenaire(firstNameFilter, page, size));
-			 return new ResponseEntity < > (fonds, HttpStatus.OK);
+			 return new ResponseEntity < > ( this.fondService.getAllFondofPartenaire( (long) 1), HttpStatus.OK);
 		 }
 }

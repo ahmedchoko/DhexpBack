@@ -1,0 +1,41 @@
+info:
+  name: ${project.name}
+  description: ${project.description}
+  version: ${project.version}
+server:
+  port: ${CONFIG_PORT:7761} 
+spring:
+  application:
+    name: Config-Service
+    profiles:
+      active: native
+  cloud:
+    config:
+      allow-override: true
+      override-none: true
+      server:
+        native:
+          searchLocations: classpath:/config
+    #   git:
+    #     uri: https://github.com/rcherara/sp-config
+    #     searchPaths: config
+    #     username: your-username
+    #     password: your-password
+endpoints:
+    restart:
+      enabled: true
+logging:
+  level:
+    com:
+      netflix:
+        config:
+          sources:
+            URLConfigurationSource: ERROR
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    health:
+      show-details: always
+  

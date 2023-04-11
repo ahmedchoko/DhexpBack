@@ -7,13 +7,20 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.wevioo.parametrage.enums.MadaliteStatut;
 import com.wevioo.parametrage.enums.TypeDemande;
 import com.wevioo.parametrage.enums.TypeModalite;
@@ -31,9 +38,11 @@ public class Modalite {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idModalite;
-	@ManyToOne
+	@JsonIgnoreProperties("modalites")
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Fond fond ;
-	@OneToMany()
+	@JsonIgnore
+	@OneToMany(mappedBy="modalite",fetch = FetchType.EAGER)
 	private List <Convention> conventions ;
 	private String nomCompletModalite;
 	private String nomArabeModalite;

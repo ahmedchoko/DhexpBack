@@ -32,5 +32,4 @@ public class PartenaireDTO {
 	private Date dateBlocage ; 
 	private Fondstatut statut ;
 	private List<Convention> conventions ;
-	private List<Fond> fonds ;
 }
