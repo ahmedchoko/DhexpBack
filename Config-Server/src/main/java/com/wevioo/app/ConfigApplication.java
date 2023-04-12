@@ -12,10 +12,10 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableAutoConfiguration(exclude= {org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration.class})
 @ComponentScan
 @EnableEurekaClient
-public class Main {
+public class ConfigApplication {
 
 	public static void main(final String[] args) {
-		SpringApplication.run(Main.class, args);
+		SpringApplication.run(ConfigApplication.class, args);
 	}
 
 }

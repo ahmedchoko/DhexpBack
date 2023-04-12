@@ -2,12 +2,14 @@ package com.wevioo.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
-@EnableEurekaServer
+
+@EnableDiscoveryClient
 @SpringBootApplication
-public class Main {
+public class GatewayApplication {
     public static void main(String[] args) {
-    	SpringApplication.run(Main.class, args);
+    	SpringApplication.run(GatewayApplication.class, args);
     }
+ 
 }
