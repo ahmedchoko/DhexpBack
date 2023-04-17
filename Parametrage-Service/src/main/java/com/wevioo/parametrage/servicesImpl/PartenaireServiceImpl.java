@@ -83,13 +83,15 @@ public class PartenaireServiceImpl implements PartenaireService{
 	}
 
 	@Override
-	public void addPartenairewithcvt( List <Convention> conventions) {
+	public Convention addPartenairewithcvt( List <Convention> conventions) {
+		   Convention c = new Convention() ;
 		Partenaire p=partenaireRepository.save(conventions.stream().findFirst().get().getPartenaire());
 		 for(Convention convention:conventions){
 	convention.setPartenaire(p);
 	convention.setDateSignature(convention.getDateSignature());
-    conventionRepository.save(convention);
+    c =  conventionRepository.save(convention);
 		 }
+		 return c;
 	}
 
 	@Override

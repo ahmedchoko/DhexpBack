@@ -39,6 +39,10 @@ public class Convention {
 	public String toString() {
 		return "Convention [idConvention=" + idConvention + ", dateSignature=" + dateSignature + "]";
 	}
+	public Convention(Partenaire partenaire) {
+		super();
+		this.partenaire = partenaire;
+	}
 	
 
 }

@@ -47,5 +47,10 @@ public class Modalite {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "demande_type")
 	private TypeDemande natureDemande;
+	public Modalite(Long idModalite, String nomCompletModalite) {
+		super();
+		this.idModalite = idModalite;
+		this.nomCompletModalite = nomCompletModalite;
+	}
 
 }

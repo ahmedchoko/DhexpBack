@@ -43,9 +43,11 @@ import com.wevioo.parametrage.repository.SecteurRepository;
 import com.wevioo.parametrage.repository.SousSecteurRepository;
 import com.wevioo.parametrage.services.FondService;
 import com.wevioo.parametrage.specification.FondSpecification;
-@Service
-public class FondServiceImpl implements FondService{
 
+import lombok.extern.slf4j.Slf4j;
+@Service
+@Slf4j
+public class FondServiceImpl implements FondService{
 	@Autowired
 	private FondRepository fondRepository;
 	@Autowired
@@ -63,7 +65,7 @@ public class FondServiceImpl implements FondService{
 	}
 	@Transactional
 	@Override
-	public void addFond(Fond fond) {
+	public Fond addFond(Fond fond) {
 		Fond fond1 = new Fond();
 		fond1.setMontantMax(fond.getMontantMax());
 		fond1.setMontantMin(fond.getMontantMin());
@@ -89,6 +91,7 @@ public class FondServiceImpl implements FondService{
 			newFond.setSecteurs(secteursmo);
 			newFond = fondRepository.save(newFond);
 		}
+		return newFond;
 	}
 
 

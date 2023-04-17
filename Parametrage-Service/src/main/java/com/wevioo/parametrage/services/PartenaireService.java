@@ -23,6 +23,6 @@ public interface PartenaireService {
 	 public Partenaire getPartenaireById(Long id);
 	 public void modifyPartenaire(Partenaire partenaire);
 	 public List<Modalite> getAllModaliteOfpartenaire(Long partenaireId);
-	public void addPartenairewithcvt(List <Convention> conventions);
+	public Convention addPartenairewithcvt(List <Convention> conventions);
 	public void modifyPartenairewithcvt(List<Convention> conventions);
 }

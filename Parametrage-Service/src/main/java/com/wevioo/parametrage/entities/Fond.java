@@ -156,6 +156,17 @@ public class Fond {
 		this.secteurs = secteurs;
 
 	}
+	public Fond(String nomFond, String nomCompletFond, String nomArabeFond, Long tresorerieFond) {
+		super();
+		this.nomFond = nomFond;
+		this.nomCompletFond = nomCompletFond;
+		this.nomArabeFond = nomArabeFond;
+		this.tresorerieFond = tresorerieFond;
+	}
+	public Fond() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 
 
