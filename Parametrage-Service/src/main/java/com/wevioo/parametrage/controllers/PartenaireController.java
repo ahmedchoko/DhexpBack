@@ -29,6 +29,7 @@ import com.wevioo.parametrage.entities.Convention;
 import com.wevioo.parametrage.entities.Fond;
 import com.wevioo.parametrage.entities.Modalite;
 import com.wevioo.parametrage.entities.Partenaire;
+import com.wevioo.parametrage.repository.PartenaireRepository;
 import com.wevioo.parametrage.services.FondService;
 import com.wevioo.parametrage.services.PartenaireService;
 
@@ -41,12 +42,16 @@ public class PartenaireController {
 	@Autowired
 	private PartenaireService partenaireService ;
 	@Autowired
+	private PartenaireRepository partenaireRepository ;
+	
+	@Autowired
 	private FondService fondService ;
 	
 	@Autowired
 	private ModelMapper modelMapper;
 	 @GetMapping("/partenaires")
 	  public ResponseEntity < ? > getPartenaires(  @RequestParam(value = "searchFond",required=false) String searchFond,
+			                                       @RequestParam(value = "searchModalite",required=false) String searchModalite,
 			                                       @RequestParam(value = "MontantMaxsearchTerm",required=false) String MontantMaxsearchTerm,
                                                    @RequestParam(value = "MontantMinsearchTerm",required=false) String MontantMinsearchTerm,
                                                    @RequestParam(value = "StatutsearchTerm",required=false) String StatutsearchTerm,
@@ -54,7 +59,7 @@ public class PartenaireController {
                                            @RequestParam(defaultValue = "3") int size) throws ParseException {
 	    Map < String, Object > jsonResponseMap = new LinkedHashMap < String, Object > ();
 	    System.out.println("MontantMinsearchTerm"+MontantMinsearchTerm);
-	    Page < Partenaire > listofParteanaire = partenaireService.getAllPartenaire(searchFond ,MontantMinsearchTerm,MontantMaxsearchTerm,StatutsearchTerm,page,size);
+	    Page < Partenaire > listofParteanaire = partenaireService.getAllPartenaire(searchFond ,searchModalite,MontantMinsearchTerm,MontantMaxsearchTerm,StatutsearchTerm,page,size);
 	    System.out.println(listofParteanaire);
 	    List < PartenaireDTO > listofPartenaireDTO = new ArrayList < PartenaireDTO > ();
 	    if (!listofParteanaire.isEmpty()) {
@@ -83,6 +88,10 @@ public class PartenaireController {
 	 @GetMapping("/getPartenaire")
      public Partenaire getPartenaireById(@RequestParam() Long id) {
 		 return partenaireService.getPartenaireById(id) ;
+		 }
+	 @GetMapping("/getPartenaireList")
+     public List<Partenaire> getPartenaireList() {
+		 return partenaireRepository.findAll();
 		 }
 	 @GetMapping("/partenaire/modalites")
 	public List <Modalite> getAllModalite( @RequestParam(defaultValue = "1") Long IdPartenaire) {

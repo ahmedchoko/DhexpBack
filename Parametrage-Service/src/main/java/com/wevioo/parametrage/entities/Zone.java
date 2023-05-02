@@ -1,14 +1,12 @@
 package com.wevioo.parametrage.entities;
 
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.wevioo.parametrage.enums.Choix;
 
 import lombok.AllArgsConstructor;
@@ -24,6 +22,13 @@ public class Zone {
 	private Long idZone;
 	private String nomZone ;
 	private String nomArabeZone ;
+
+	@OneToMany(fetch = FetchType.EAGER)
+	@JsonIgnoreProperties("listeDelegations")
+	private Set<Gouvernorat> gouvernorats;
+	@OneToMany(fetch = FetchType.EAGER)
+	private Set<Delegation> delegations;
+
 	@JsonIgnore()
 	@ManyToOne()
 	private Quotite quotitee ; 

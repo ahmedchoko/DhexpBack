@@ -16,7 +16,7 @@ public interface PartenaireService {
 
 	
 	
-	 public Page <Partenaire> getAllPartenaire(String fond ,String MontantMinsearchTerm,String MontantMaxsearchTerm, String StatutsearchTerm ,int page, int size) throws ParseException;
+	 public Page <Partenaire> getAllPartenaire(String fond ,String modalite,String MontantMinsearchTerm,String MontantMaxsearchTerm, String StatutsearchTerm , int page, int size) throws ParseException;
 	 public void addPartenaire(Partenaire partenaire );
 	  public Page <Partenaire> getPartenaireList(int page, int size) throws ParseException;
 	 public void deletePartenaire(Long id);

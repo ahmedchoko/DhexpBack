@@ -4,9 +4,11 @@ import com.wevioo.parametrage.common.NotFoundException;
 import com.wevioo.parametrage.dto.FondDTO;
 import com.wevioo.parametrage.dto.StopLossDto;
 
+import com.wevioo.parametrage.dto.StoplossPartenaireDto;
 import com.wevioo.parametrage.entities.Fond;
 import com.wevioo.parametrage.entities.Modalite;
 import com.wevioo.parametrage.entities.StopLoss;
+import com.wevioo.parametrage.entities.StoplossPartenaire;
 import com.wevioo.parametrage.services.StopLossService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,5 +80,25 @@ public class StopLossController {
             return ResponseEntity.notFound().build();
         }
     }
+    @PostMapping("/slPartenaire")
+    public ResponseEntity<StoplossPartenaire> createStoplossPartenaire(@RequestBody StoplossPartenaireDto slPartenaireRequest) {
+        try {
+            StoplossPartenaire slPartenaire = stopLossService.createSLPartenaire(slPartenaireRequest);
+            return ResponseEntity.ok().body(slPartenaire) ;
+        }
+        catch(NotFoundException exception) {
+            return ResponseEntity.badRequest().build();
+
+        }
+    }
+    @GetMapping("slPartenaire")
+    // public Page<StopLoss> getAllStopLoss() { return stopLossService.getAllStopLoss(int page, int size);}
+    public ResponseEntity <Page<StoplossPartenaire> > getAllslPartenaire(@RequestParam(defaultValue = "0") int page,
+                                                           @RequestParam(defaultValue = "20") int size) {
+
+        try { Page<StoplossPartenaire> stoplossPartenaire = stopLossService.getSLPartenaire(page, size);
+            return ResponseEntity.ok().body(stoplossPartenaire) ;   }
+        catch(NotFoundException exception) { return ResponseEntity.notFound().build();  }    }
+
 
 }
