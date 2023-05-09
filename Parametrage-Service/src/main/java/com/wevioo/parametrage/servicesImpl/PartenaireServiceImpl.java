@@ -1,8 +1,12 @@
 package com.wevioo.parametrage.servicesImpl;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -18,6 +22,8 @@ import com.wevioo.parametrage.entities.Convention;
 import com.wevioo.parametrage.entities.Fond;
 import com.wevioo.parametrage.entities.Modalite;
 import com.wevioo.parametrage.entities.Partenaire;
+import com.wevioo.parametrage.enums.TypeDemande;
+import com.wevioo.parametrage.enums.TypePatenaire;
 import com.wevioo.parametrage.repository.ConventionRepository;
 import com.wevioo.parametrage.repository.ModaliteRepository;
 import com.wevioo.parametrage.repository.PartenaireRepository;
@@ -47,9 +53,9 @@ public class PartenaireServiceImpl implements PartenaireService{
 	}
 
 	@Override
-	public void addPartenaire(Partenaire partenaire) {
+	public Long addPartenaire(Partenaire partenaire) {
 		// TODO Auto-generated method stub
-		partenaireRepository.save(partenaire);
+		return partenaireRepository.save(partenaire).getIdPartenaire();
 	}
 
 	@Override
@@ -59,8 +65,8 @@ public class PartenaireServiceImpl implements PartenaireService{
 	}
 
 	@Override
-	public void modifyPartenaire(Partenaire partenaire) {
-		partenaireRepository.save(partenaire);
+	public Long modifyPartenaire(Partenaire partenaire) {
+		return partenaireRepository.save(partenaire).getIdPartenaire();
 		
 	}
 
@@ -101,14 +107,42 @@ public class PartenaireServiceImpl implements PartenaireService{
 	}
 
 	@Override
-	public void modifyPartenairewithcvt(List<Convention> conventions) {
+	public Long modifyPartenairewithcvt(List<Convention> conventions) {
 		Partenaire p=partenaireRepository.save(conventions.stream().findFirst().get().getPartenaire());
 		 for(Convention convention:conventions){
 	convention.setPartenaire(p);
 	convention.setDateSignature(convention.getDateSignature());
    conventionRepository.save(convention);
 		 }
-		
+		return p.getIdPartenaire();
+	}
+
+	@Override
+	public Long modifyConvnetion(Long conventionId, String critereModalite, String DateBlocage) throws ParseException {
+	  	SimpleDateFormat f = new SimpleDateFormat( "E MMM dd yyyy",Locale.ENGLISH);
+		  Date date1re = f.parse( DateBlocage);	
+		  Convention convention = conventionRepository.findById(conventionId).get();
+		  Partenaire partenaire = partenaireRepository.findById(convention.getPartenaire().getIdPartenaire()).get();
+
+		  System.out.println(date1re);
+		  partenaire.setDateBlocage(date1re);
+		/*if(critereModalite.equals("Specifique")) {
+			convention.getModalite().setNatureDemande(TypeDemande.GPP);
+			
+		}*/
+		  partenaireRepository.save(partenaire);
+		return convention.getIdConvention();
+	}
+
+	@Override
+	public List NobrePartenaireParType() {
+		return partenaireRepository.NobrePartenaireParType();
+	}
+
+	@Override
+	public int NombreTotalPartenaire() {
+		// TODO Auto-generated method stub
+		return partenaireRepository.NombreTotalPartenaire();
 	}
 	
 

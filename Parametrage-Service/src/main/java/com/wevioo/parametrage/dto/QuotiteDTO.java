@@ -22,7 +22,7 @@ public class QuotiteDTO {
 	private String nouvPromo ;
 	private String creditLeas ;
 	private Long valeurAppl ;
-	private List<Zone> zones ;
+	private List<ZoneDTO> zones ;
 	private List<Fond> fonds ;
 
 }

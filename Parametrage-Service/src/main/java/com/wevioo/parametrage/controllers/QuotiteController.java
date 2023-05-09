@@ -13,6 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,13 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.wevioo.parametrage.dto.FondDTO;
 import com.wevioo.parametrage.dto.QuotiteDTO;
 import com.wevioo.parametrage.entities.Fond;
+import com.wevioo.parametrage.entities.Partenaire;
 import com.wevioo.parametrage.entities.Quotite;
 import com.wevioo.parametrage.services.FondService;
 import com.wevioo.parametrage.services.QuotiteService;
 
 
 @RestController
-@RequestMapping("/quotite")
+@RequestMapping("/api/v1")
 public class QuotiteController {
 	 
 	@Autowired
@@ -37,7 +41,7 @@ public class QuotiteController {
 	 @GetMapping("/quotites")
 	  public ResponseEntity < ? > getQuotites(
 			                               @RequestParam(value = "fondsearchTerm",required=false) String fondsearchTerm,
-			                               @RequestParam(value = "zonesearchTerm",required=false) String zonesearchTerm,
+			                               @RequestParam(value = "zonesearcnhTerm",required=false) String zonesearchTerm,
 			                               @RequestParam(value="zonalsearchTerm", required=false) String zonalsearchTerm,
 			                               @RequestParam(value="ritic",required=false) String ritic,
 			                               @RequestParam(value = "nouveauProm",required=false) String nouveauProm,
@@ -67,4 +71,17 @@ public class QuotiteController {
 	      return new ResponseEntity < > (jsonResponseMap, HttpStatus.OK);
 	    }
 	 }
+	 @PostMapping("/addQuotite")
+		public void AddQuotite(@RequestBody Quotite quotite) {
+		 quotiteService.addQuotite(quotite)	;	
+		 }
+		@GetMapping("/getQuotite")
+		public Quotite getQuotiteById(@RequestParam() Long id) {
+			return quotiteService.getQuotiteById(id);
+		}
+		@PostMapping("/modifyQuotite")
+		 public Long ModifyQuotite(@RequestBody Quotite quotite) {
+			 return quotiteService.modifyQuotite(quotite);
+		 }
 }
+

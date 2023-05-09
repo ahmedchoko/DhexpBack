@@ -26,6 +26,8 @@ public interface FondService {
 	public List<Secteur> getAllSecteur ();
 	public List<Fond> listFond();
 	public List<Fond> getNonArchivedFonds();
-
+    public List FondTresorieBySecteur();
+    public List FondCountByStatus();
+    public float FondTotal();
 }
 

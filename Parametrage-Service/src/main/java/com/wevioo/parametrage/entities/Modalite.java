@@ -28,6 +28,7 @@ public class Modalite {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idModalite;
 	@JsonIgnoreProperties("modalites")
+	//@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Fond fond ;
 	@JsonIgnore

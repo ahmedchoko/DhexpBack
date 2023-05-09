@@ -29,6 +29,7 @@ import com.wevioo.parametrage.entities.Convention;
 import com.wevioo.parametrage.entities.Fond;
 import com.wevioo.parametrage.entities.Modalite;
 import com.wevioo.parametrage.entities.Partenaire;
+import com.wevioo.parametrage.enums.TypePatenaire;
 import com.wevioo.parametrage.repository.PartenaireRepository;
 import com.wevioo.parametrage.services.FondService;
 import com.wevioo.parametrage.services.PartenaireService;
@@ -93,25 +94,37 @@ public class PartenaireController {
      public List<Partenaire> getPartenaireList() {
 		 return partenaireRepository.findAll();
 		 }
+	 @GetMapping("/NobrePartenaireParType")
+     public ResponseEntity getPartenaireParType() {
+		 return ResponseEntity.ok().body(partenaireRepository.NobrePartenaireParType());
+		 }
 	 @GetMapping("/partenaire/modalites")
 	public List <Modalite> getAllModalite( @RequestParam(defaultValue = "1") Long IdPartenaire) {
 		 return this.partenaireService.getAllModaliteOfpartenaire(IdPartenaire);
 	 }
 	 @PostMapping("/addpartenaire")
-	 public void AddPartenaire(@RequestBody Partenaire partenaire) {
-		 partenaireService.addPartenaire(partenaire);
+	 public Long AddPartenaire(@RequestBody Partenaire partenaire) {
+		 return partenaireService.addPartenaire(partenaire);
 	 }
-	 @PutMapping("/modifyPartenaire")
-	 public void ModifyPartenaire(@RequestBody Partenaire partenaire) {
-		 partenaireService.modifyPartenaire(partenaire);
+	 @PostMapping("/modifyPartenaire")
+	 public Long ModifyPartenaire(@RequestBody Partenaire partenaire) {
+		 return partenaireService.modifyPartenaire(partenaire);
+	 }
+	 @GetMapping("/modifyConvention")
+	 public Long ModifyConvention( @RequestParam(defaultValue = "IdConvention") Long IdConvention , @RequestParam(defaultValue = "critere") String critere, @RequestParam(defaultValue = "dateBlocage") String dateBlocage ) throws ParseException {
+		 return partenaireService.modifyConvnetion(IdConvention, critere, dateBlocage);
+	 }
+	 @GetMapping("/nombreTotalPartenaire")
+	 public int NombreTotalPartenaire(){
+		 return partenaireService.NombreTotalPartenaire();
 	 }
 	 @PostMapping("/addpartenairewithcvt")
-	 public void AddPartenairewithcvt(@RequestBody List <Convention>  conventions) {
-		 partenaireService.addPartenairewithcvt(conventions);
+	 public Long AddPartenairewithcvt(@RequestBody List <Convention>  conventions) {
+		 return partenaireService.addPartenairewithcvt(conventions).getPartenaire().getIdPartenaire();
 	 }
-	 @PutMapping("/modifypartenairewithcvt")
-	 public void ModifyPartenairewithcvt(@RequestBody List <Convention>  conventions) {
-		 partenaireService.modifyPartenairewithcvt(conventions);
+	 @PostMapping("/modifypartenairewithcvt")
+	 public Long ModifyPartenairewithcvt(@RequestBody List <Convention>  conventions) {
+		 return partenaireService.modifyPartenairewithcvt(conventions);
 	 }
 	 @GetMapping("/partenaire/fonds")
 		public ResponseEntity < ? >  getAllFondofpartenaire(@RequestParam(defaultValue = "") String firstNameFilter,

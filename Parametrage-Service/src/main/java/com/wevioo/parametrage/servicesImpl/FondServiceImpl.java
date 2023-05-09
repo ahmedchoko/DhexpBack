@@ -221,6 +221,21 @@ public class FondServiceImpl implements FondService{
 	public List<Fond> getNonArchivedFonds(){
 		return fondRepository.getNonArchivedFonds();
 	}
+	@Override
+	public List FondTresorieBySecteur() {
+		// TODO Auto-generated method stub
+		return fondRepository.FondTresorieBySecteur();
+	}
+	@Override
+	public List FondCountByStatus() {
+		// TODO Auto-generated method stub
+		return fondRepository.FondCountByStatus();
+	}
+	@Override
+	public float FondTotal() {
+		// TODO Auto-generated method stub
+		return fondRepository.FondTotal();
+	}
 
 
 }

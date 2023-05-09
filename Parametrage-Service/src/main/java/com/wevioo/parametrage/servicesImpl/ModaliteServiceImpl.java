@@ -18,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 
@@ -104,5 +106,35 @@ public class ModaliteServiceImpl implements ModaliteService {
         modaliteRepository.deleteById(id);
         return modalite;
     }
+
+	@Override
+	public List NobreModaliteParType() {
+		List<Object[]> resultList = modaliteRepository.findModaliteSummaryByDemandeTypeAndTresorie();
+		Map<Object, Map<Object, List<Integer>>> tresorieByDemandeTypeAndMonth = new HashMap<>();
+		for (Object[] result : resultList) {
+			Object demandeType =result[1];
+		    Integer tresorie = ((Number) result[2]).intValue();
+		    Object month = result[0];
+		    if (tresorieByDemandeTypeAndMonth.containsKey(month)) {
+		        Map<Object, List<Integer>> demandesMap = tresorieByDemandeTypeAndMonth.get(month);
+		        if (demandesMap.containsKey(demandeType)) {
+		            demandesMap.get(demandeType).add(tresorie);
+		        } else {
+		            List<Integer> tresorieList = new ArrayList<>();
+		            tresorieList.add(tresorie);
+		            demandesMap.put(demandeType, tresorieList);
+		        }
+		    } else {
+		        Map<Object, List<Integer>> demandesMap = new HashMap<>();
+		        List<Integer> tresorieList = new ArrayList<>();
+		        tresorieList.add(tresorie);
+		        demandesMap.put(demandeType, tresorieList);
+		        tresorieByDemandeTypeAndMonth.put(month, demandesMap);
+		    }
+		}
+		List datasend = new ArrayList();
+		datasend.add(tresorieByDemandeTypeAndMonth);
+		return datasend;
+	}
 
 }
