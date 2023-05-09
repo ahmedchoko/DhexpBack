@@ -9,6 +9,7 @@
   	<module>Api-Gateway</module>
   	<module>Discovery-Server</module>
   	<module>Config-Server</module>
+      <module>Demande-Service</module>
   </modules>
    <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

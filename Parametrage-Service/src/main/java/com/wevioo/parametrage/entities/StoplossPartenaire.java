@@ -3,10 +3,9 @@ package com.wevioo.parametrage.entities;
 import com.wevioo.parametrage.common.StoplossPartenaireKey;
 import com.wevioo.parametrage.enums.Fondstatut;
 import com.wevioo.parametrage.enums.TypeStopLoss;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,6 +23,7 @@ public class StoplossPartenaire implements Serializable {
         this.stoploss = stoploss;
         this.idSLPartenaire = new StoplossPartenaireKey(partenaire.getIdPartenaire(), stoploss.getIdSL());
     }*/
+
     @EmbeddedId
     StoplossPartenaireKey idSLPartenaire;
 

@@ -5,8 +5,7 @@ import com.wevioo.parametrage.entities.Partenaire;
 import com.wevioo.parametrage.entities.StopLoss;
 import com.wevioo.parametrage.enums.Fondstatut;
 import com.wevioo.parametrage.enums.TypeStopLoss;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,8 +20,8 @@ public class StoplossPartenaireDto {
     Partenaire partenaire;
     StopLoss stoploss;
     Integer tauxSLPartenaire;
-    //Date dateValiditeSLPArt;
-    //Date dateFinSLPart;
+    Date dateValiditeSLPArt;
+    Date dateFinSLPart;
     TypeStopLoss typeSLPart;
     Fondstatut statutSLPart;
 

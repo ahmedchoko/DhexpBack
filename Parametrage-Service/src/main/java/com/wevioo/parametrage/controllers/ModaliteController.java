@@ -1,23 +1,21 @@
 package com.wevioo.parametrage.controllers;
 
 import com.wevioo.parametrage.common.NotFoundException;
-import com.wevioo.parametrage.dto.FondDTO;
 import com.wevioo.parametrage.dto.ModaliteDto;
 import com.wevioo.parametrage.entities.Fond;
 import com.wevioo.parametrage.entities.Modalite;
+import com.wevioo.parametrage.enums.TypeModalite;
+import com.wevioo.parametrage.services.FondService;
 import com.wevioo.parametrage.services.ModaliteService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api/v1/modalite")
@@ -25,7 +23,8 @@ public class ModaliteController {
 
     @Autowired
     private ModaliteService modaliteService;
-
+    @Autowired
+    private FondService fondService ;
     public ModaliteController() {
 
     }
@@ -66,6 +65,16 @@ public class ModaliteController {
     @PostMapping
     public ResponseEntity<Modalite> createModalite(@RequestBody ModaliteDto modaliteRequest) {
         try {
+            Fond fond = fondService.
+                    getFondById(modaliteRequest
+                            .getFond()
+                            .getIdFond());
+            List<TypeModalite> listeMod = new ArrayList<>();
+            fond.getModalites().forEach( (Modalite mod  )  ->  listeMod.add(mod.getTypeModalite()));
+            if ( listeMod.contains(modaliteRequest.getTypeModalite()) ){
+                return ResponseEntity.badRequest().build();
+
+            };
             Modalite modalite = modaliteService.createModalite(modaliteRequest);
             return ResponseEntity.ok().body(modalite) ;
         }
@@ -88,12 +97,28 @@ public class ModaliteController {
     @PutMapping("/{id}")
     public ResponseEntity<Modalite> updateModalite(@PathVariable(name= "id") Long id, @RequestBody ModaliteDto modaliteRequest) {
         try {
+            Fond fond = fondService.
+                    getFondById(modaliteRequest
+                            .getFond()
+                            .getIdFond());
+            List<TypeModalite> listeMod = new ArrayList<>();
+            fond.getModalites().forEach( (Modalite mod  )  ->  listeMod.add(mod.getTypeModalite()));
+            if ( modaliteRequest.getTypeModalite() == modaliteService.getModaliteById(id).getTypeModalite()) {
+                Modalite modalite = modaliteService.updateModalite(id, modaliteRequest);
+                return ResponseEntity.ok().body(modalite);
+            };
+            if ( listeMod.contains(modaliteRequest.getTypeModalite()) ){
+                return ResponseEntity.badRequest().build();
+
+            };
             Modalite modalite = modaliteService.updateModalite(id, modaliteRequest);
-            return ResponseEntity.ok().body(modalite) ;
+            return ResponseEntity.ok().body(modalite);
         }
-        catch(NotFoundException exception){
-            return ResponseEntity.notFound().build();
+        catch(NotFoundException exception) {
+            return ResponseEntity.badRequest().build();
+
         }
+
 
     }
     @DeleteMapping("/{id}")

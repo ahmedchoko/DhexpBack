@@ -15,10 +15,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Date;
-import java.util.List;
 import java.util.NoSuchElementException;
+
 @Service
 public class StopLossServiceImpl implements StopLossService {
 
@@ -93,6 +94,7 @@ public class StopLossServiceImpl implements StopLossService {
         StopLoss stopLoss = stopLossRepository.save(stoplossPartenaireRequest.getStoploss());
         Partenaire partenaire = partenaireRepository.findById(stoplossPartenaireRequest.getPartenaire().getIdPartenaire())
                 .orElseThrow(() -> new NoSuchElementException("Resource with id "+" not found"));
+
         StoplossPartenaire slPartenaire = new StoplossPartenaire(
                 new StoplossPartenaireKey(stopLoss.getIdSL(), partenaire.getIdPartenaire()),
                 stoplossPartenaireRequest.getPartenaire(),
@@ -106,6 +108,17 @@ public class StopLossServiceImpl implements StopLossService {
         stoplossPartenaireRepository.save(slPartenaire);
         return slPartenaire;
     }
+    @Override
+    public StoplossPartenaire supprimerSLPartenaire(@RequestBody StoplossPartenaireDto slpartenaire) {
+        StoplossPartenaireKey id = new StoplossPartenaireKey(slpartenaire.getStoploss().getIdSL(),
+                slpartenaire.getPartenaire().getIdPartenaire());
+        StoplossPartenaire stoplossPartenaire = stoplossPartenaireRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Resource with id "+id+" not found"));
+
+        stoplossPartenaireRepository.deleteById(id);
+        return stoplossPartenaire;
+    }
+
     @Override
     public Page<StoplossPartenaire> getSLPartenaire( int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("idSLPartenaire"));

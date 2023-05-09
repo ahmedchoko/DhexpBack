@@ -1,26 +1,21 @@
 package com.wevioo.parametrage.controllers;
 
 import com.wevioo.parametrage.common.NotFoundException;
-import com.wevioo.parametrage.dto.FondDTO;
 import com.wevioo.parametrage.dto.StopLossDto;
 
 import com.wevioo.parametrage.dto.StoplossPartenaireDto;
-import com.wevioo.parametrage.entities.Fond;
-import com.wevioo.parametrage.entities.Modalite;
+
 import com.wevioo.parametrage.entities.StopLoss;
 import com.wevioo.parametrage.entities.StoplossPartenaire;
+import com.wevioo.parametrage.repository.StoplossPartenaireRepository;
 import com.wevioo.parametrage.services.StopLossService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api/v1/stoploss")
@@ -30,8 +25,9 @@ public class StopLossController {
     private StopLossService stopLossService ;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private StoplossPartenaireRepository stoplossPartenaireRepository;
     @GetMapping
-   // public Page<StopLoss> getAllStopLoss() { return stopLossService.getAllStopLoss(int page, int size);}
     public ResponseEntity <Page<StopLoss> > getAllStopLoss(@RequestParam(defaultValue = "0") int page,
                                          @RequestParam(defaultValue = "20") int size) {
 
@@ -82,7 +78,7 @@ public class StopLossController {
     }
     @PostMapping("/slPartenaire")
     public ResponseEntity<StoplossPartenaire> createStoplossPartenaire(@RequestBody StoplossPartenaireDto slPartenaireRequest) {
-        try {
+        try{
             StoplossPartenaire slPartenaire = stopLossService.createSLPartenaire(slPartenaireRequest);
             return ResponseEntity.ok().body(slPartenaire) ;
         }
@@ -99,6 +95,11 @@ public class StopLossController {
         try { Page<StoplossPartenaire> stoplossPartenaire = stopLossService.getSLPartenaire(page, size);
             return ResponseEntity.ok().body(stoplossPartenaire) ;   }
         catch(NotFoundException exception) { return ResponseEntity.notFound().build();  }    }
+    @PutMapping("slPartenaire")
+    public ResponseEntity <StoplossPartenaire> supprimerSLPartenaire(@RequestBody StoplossPartenaireDto slpartenaire) {
 
+        try { StoplossPartenaire stoplossPartenaire = stopLossService.supprimerSLPartenaire(slpartenaire);
+            return ResponseEntity.ok().body(stoplossPartenaire) ;   }
+        catch(NotFoundException exception) { return ResponseEntity.notFound().build();  }    }
 
 }
