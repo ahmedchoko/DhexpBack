@@ -4,6 +4,7 @@ HELP.md
 /Config-Server/target/
 /Discovery-Server/target/
 /Parametrage-Service/target/
+/Demande-Service/target/
 
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
