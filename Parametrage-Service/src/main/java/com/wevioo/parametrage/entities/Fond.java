@@ -57,9 +57,9 @@ public class Fond {
 	@JsonIgnoreProperties("fond")
 	@OneToMany(mappedBy="fond",fetch = FetchType.EAGER)
 	private Set<Modalite> modalites ;
-	@JsonIgnore()
-	@ManyToOne()
-	private Quotite quotite ;
+	@JsonIgnoreProperties("fond")
+	@OneToMany(mappedBy="fond",fetch = FetchType.EAGER)
+	private Set<Quotite> quotites ;
 	@ManyToMany(cascade={CascadeType.PERSIST,CascadeType.REMOVE},fetch = FetchType.EAGER)
 	private Set<Secteur> secteurs ;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "fond")
@@ -155,6 +155,23 @@ public class Fond {
 	public void setSecteurs(Set<Secteur> secteurs) {
 		this.secteurs = secteurs;
 
+	}
+	public Fond(String nomFond, String nomCompletFond, String nomArabeFond, Long tresorerieFond) {
+		super();
+		this.nomFond = nomFond;
+		this.nomCompletFond = nomCompletFond;
+		this.nomArabeFond = nomArabeFond;
+		this.tresorerieFond = tresorerieFond;
+	}
+	public Fond() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public Set<Quotite> getQuotites() {
+		return quotites;
+	}
+	public void setQuotites(Set<Quotite> quotites) {
+		this.quotites = quotites;
 	}
 
 

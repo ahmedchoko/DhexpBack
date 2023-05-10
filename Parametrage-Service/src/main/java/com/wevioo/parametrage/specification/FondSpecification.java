@@ -21,28 +21,28 @@ public class FondSpecification {
  		super();
  	
  	}
-public static Specification <Fond> getSpec(String test1 , String test2 , String test3,String test4,String test5) throws ParseException{
+public static Specification <Fond> getSpec(String montantMin , String montantMax , String statut,String dateDemarrageFond ,String dateClotureFond) throws ParseException{
   	SimpleDateFormat f = new SimpleDateFormat( "E MMM dd yyyy",Locale.ENGLISH);
-		  Date date1re = f.parse( test4);	  
+		  Date date1re = f.parse( dateDemarrageFond);	  
     SimpleDateFormat f1 = new SimpleDateFormat( "E MMM dd yyyy",Locale.ENGLISH);
-       Date date2res = f1.parse( test5);	 
+       Date date2res = f1.parse( dateClotureFond);	 
 	return ((root,query,criteriaBuilder)->{
 	List<Predicate> predicates = new ArrayList<>();
-	 if (test1 != null && !test1.isEmpty()) {
-         predicates.add(criteriaBuilder.equal(root.get("montantMin"), test1));
+	 if (montantMin != null && !montantMin.isEmpty() && !montantMin.equals("Recherche par montantMin")) {
+         predicates.add(criteriaBuilder.equal(root.get("montantMin"), montantMin));
      }
-	 if (test2 != null && !test2.isEmpty()) {
-         predicates.add(criteriaBuilder.equal(root.get("montantMax"), test2));
+	 if (montantMax != null && !montantMax.isEmpty() && !montantMax.equals("Recherche par montantMax")) {
+         predicates.add(criteriaBuilder.equal(root.get("montantMax"), montantMax));
      }
-     if (test3 != null && !test3.isEmpty() && !test3.equals("Recherche par statut")) {
+     if (statut != null && !statut.isEmpty() && !statut.equals("Recherche par statut")) {
     	 System.out.println("d5al ");
-         predicates.add(criteriaBuilder.equal(root.get("statut"), Fondstatut.valueOf(test3.toUpperCase())));
+         predicates.add(criteriaBuilder.equal(root.get("statut"), Fondstatut.valueOf(statut.toUpperCase())));
      }
-     if (test4 != null && !test4.equals("Sat Mar 18 2023")) {
+     if (dateDemarrageFond != null && !dateDemarrageFond.equals("Sat Mar 18 2023")) {
    
          predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.<Date> get("dateDemarrageFond"),date1re));
      }
-     if (test5 != null && !test5.equals("Sat Mar 18 2023")) {
+     if (dateClotureFond != null && !dateClotureFond.equals("Sat Mar 18 2023")) {
     	 predicates.add(criteriaBuilder.lessThanOrEqualTo(root.<Date> get("dateClotureFond"),date2res));
      }
      return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

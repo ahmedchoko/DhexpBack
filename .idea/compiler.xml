@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Parametrage-Service" />
+        <module name="Demande-Service" />
         <module name="Discovery-Server" />
         <module name="Api-Gateway" />
         <module name="Config-Server" />

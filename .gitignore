@@ -1,8 +1,10 @@
 HELP.md
+
 /Api-Gateway/target/
 /Config-Server/target/
 /Discovery-Server/target/
 /Parametrage-Service/target/
+
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

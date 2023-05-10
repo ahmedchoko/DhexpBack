@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.wevioo.parametrage.entities.Modalite;
+import com.wevioo.parametrage.entities.Quotite;
 import com.wevioo.parametrage.entities.Secteur;
 import com.wevioo.parametrage.enums.Fondstatut;
 
@@ -30,6 +31,8 @@ public class FondDTO {
 	private List<Secteur> secteurs ;
 	private String codes ;
 	private Set <Modalite> modalites ;
+	private Set <Quotite> quotites ;
+
 	public FondDTO(Long idFond, Set<Modalite> modalites) {
 		super();
 		this.idFond = idFond;

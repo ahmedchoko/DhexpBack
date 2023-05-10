@@ -28,6 +28,7 @@ public class Modalite {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idModalite;
 	@JsonIgnoreProperties("modalites")
+	//@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Fond fond ;
 	@JsonIgnore
@@ -47,5 +48,10 @@ public class Modalite {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "demande_type")
 	private TypeDemande natureDemande;
+	public Modalite(Long idModalite, String nomCompletModalite) {
+		super();
+		this.idModalite = idModalite;
+		this.nomCompletModalite = nomCompletModalite;
+	}
 
 }

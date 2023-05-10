@@ -130,4 +130,15 @@ public class ModaliteController {
             return ResponseEntity.notFound().build();
         }
     }
+    
+    @GetMapping("/nombreModaliteParType")
+    public ResponseEntity nombreModaliteParType(){
+        try {
+
+            return ResponseEntity.ok().body(modaliteService.NobreModaliteParType()) ;
+        }
+        catch(NotFoundException exception){
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

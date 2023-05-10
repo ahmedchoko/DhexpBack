@@ -39,11 +39,16 @@ public class Partenaire {
 	private Date dateBlocage ; 
 	@Enumerated(EnumType.STRING)
 	private Fondstatut statut ;
-	@JsonIgnoreProperties("partenaire")
+	 @JsonIgnoreProperties("partenaire")
 	@OneToMany(mappedBy="partenaire",fetch = FetchType.EAGER)
 	private List<Convention> conventions ;
 	@JsonIgnoreProperties("partenaire")
 	@OneToMany(mappedBy="stopLoss", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	@Transient
 	private Set<StoplossPartenaire> stoplosses ;
+	public Partenaire(String nomCompletPartenaire) {
+		super();
+		this.nomCompletPartenaire = nomCompletPartenaire;
+	}
+
 }

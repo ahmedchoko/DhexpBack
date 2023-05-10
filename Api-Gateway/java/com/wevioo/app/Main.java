@@ -1,4 +1,4 @@
-package com.wevioo.demande;
+package com.wevioo.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -14,10 +14,10 @@ import com.wevioo.parametrage.entities.Fond;
 @EnableAutoConfiguration(exclude= {org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration.class})
 @ComponentScan
 @EnableEurekaClient
-public class ConfigApplication {
+public class Main {
 
 	public static void main(final String[] args) {
-		SpringApplication.run(ConfigApplication.class, args);
+		SpringApplication.run(Main.class, args);
 	}
 	public Fond fond ;
 }
