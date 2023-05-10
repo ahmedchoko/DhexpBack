@@ -49,4 +49,9 @@ public class Partenaire {
 	 @JsonIgnoreProperties("partenaire")
 	@OneToMany(mappedBy="partenaire",fetch = FetchType.EAGER)
 	private List<Convention> conventions ;
+	public Partenaire(String nomCompletPartenaire) {
+		super();
+		this.nomCompletPartenaire = nomCompletPartenaire;
+	}
+	 
 }

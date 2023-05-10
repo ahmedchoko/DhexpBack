@@ -20,4 +20,11 @@ public interface FondRepository extends JpaRepository<Fond, Long>, JpaSpecificat
 	String FILTER_ARCHIVED_FONDS = "select f from Fond f where UPPER(f.statut) <> UPPER('archive')";
 	@Query(FILTER_ARCHIVED_FONDS)
 	List<Fond> getNonArchivedFonds();
+	
+	@Query("SELECT s.name, SUM(f.tresorerieFond) AS total_tresoriefond FROM Fond f JOIN f.secteurs s GROUP BY s.name")
+	List<Object[]> FondTresorieBySecteur();
+	@Query("SELECT f.statut, Count(f.idFond) FROM Fond f GROUP BY f.statut")
+	List<Object[]> FondCountByStatus();
+	@Query("SELECT Sum(f.tresorerieFond) FROM Fond f")
+	float FondTotal();
 }

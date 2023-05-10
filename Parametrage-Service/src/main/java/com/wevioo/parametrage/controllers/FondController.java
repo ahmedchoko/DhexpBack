@@ -95,7 +95,7 @@ public class FondController {
 	public void DeleteFond(@RequestParam() Long id) {
 		fondService.deleteFond(id);
 	}
-	@PutMapping("/modifyFond")
+	@PostMapping("/modifyFond")
 	public void ModifyFond(@RequestBody Fond fond) {
 		fondService.modifyFond(fond);
 	}
@@ -109,5 +109,17 @@ public class FondController {
 	}
 	@GetMapping("/getFonds")
 	public List<Fond> getFonds() { return fondService.getNonArchivedFonds();}
-
+	
+	@GetMapping("/fondTresorieBySecteur")
+	public List FondTresorieBySecteur() {
+		 return fondService.FondTresorieBySecteur();
+	}
+	@GetMapping("/fondCountByStatus")
+	public List FondCountByStatus() {
+		 return fondService.FondCountByStatus();
+	}
+	@GetMapping("/fondTotal")
+	public float FondTotal() {
+		 return fondService.FondTotal();
+	}
 }

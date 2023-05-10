@@ -12,9 +12,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.wevioo.parametrage.enums.Choix;
 
 import lombok.AllArgsConstructor;
@@ -42,11 +45,12 @@ public class Quotite {
 	private Choix creditLeas;
 	
 	private int valeurAppl;
-	
-	@OneToMany(mappedBy="quotitee",fetch = FetchType.EAGER)
-	private Set<Zone> zones ;
-	@OneToMany(mappedBy="quotite",fetch = FetchType.EAGER)
-	private Set<Fond> fonds ;
+	@JsonIgnoreProperties("quotitee")
+	@OneToOne()
+	private Zone zone ;
+	@JsonIgnoreProperties("quotites")
+	@ManyToOne()
+	private Fond  fond  ;
 	public Long getIdQuotite() {
 		return idQuotite;
 	}
@@ -83,17 +87,19 @@ public class Quotite {
 	public void setValeurAppl(int valeurAppl) {
 		this.valeurAppl = valeurAppl;
 	}
-	public Set<Zone> getZones() {
-		return zones;
+
+	public Zone getZone() {
+		return zone;
 	}
-	public void setZones(Set<Zone> zones) {
-		this.zones = zones;
+	public void setZone(Zone zone) {
+		this.zone = zone;
 	}
-	public Set<Fond> getFonds() {
-		return fonds;
+	public Fond getFond() {
+		return fond;
 	}
-	public void setFonds(Set<Fond> fonds) {
-		this.fonds = fonds;
+	public void setFond(Fond fond) {
+		this.fond = fond;
 	}
+
 	
 }

@@ -1,5 +1,6 @@
 package com.wevioo.parametrage.servicesImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,13 @@ public class ZoneServiceImpl implements ZoneService{
 	@Override
 	public List<Zone> listZone() {
 		// TODO Auto-generated method stub
-		return zoneRepository.findAll();
+		List <Zone> zonesNonQuotite = new ArrayList();
+		for (Zone zone :zoneRepository.findAll()) {
+			if (zone.getQuotitee()==null) {
+				zonesNonQuotite.add(zone);
+			}
+		}
+		return zonesNonQuotite ;
 	}
 
 }

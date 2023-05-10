@@ -18,7 +18,7 @@ public interface FondService {
 
 	public Page <Fond> getAllFond(String date1 , String date2 ,String StatutsearchTerm,String MontantMaxsearchTerm,String MontantMinsearchTerm, int page, int size) throws ParseException;
 	public Page <Fond> getAllFond(int page, int size) throws ParseException;
-	public void addFond(Fond fond );
+	public Fond addFond(Fond fond );
 	public void deleteFond(Long id);
 	public void modifyFond(Fond fond);
 	public Map<Fond, List<Modalite>> getAllFondofPartenaire(Long partenaireId);
@@ -26,6 +26,8 @@ public interface FondService {
 	public List<Secteur> getAllSecteur ();
 	public List<Fond> listFond();
 	public List<Fond> getNonArchivedFonds();
-
+    public List FondTresorieBySecteur();
+    public List FondCountByStatus();
+    public float FondTotal();
 }
 

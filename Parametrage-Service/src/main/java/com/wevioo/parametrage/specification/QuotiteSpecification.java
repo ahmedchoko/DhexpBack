@@ -27,11 +27,11 @@ public class QuotiteSpecification {
 		return ((root,query,criteriaBuilder)->{
 		List<Predicate> predicates = new ArrayList<>();
 		 if (!fond.equals("Recherche par Fond") && !fond.isEmpty()) {
-			  Join<Quotite, Fond> fondJoin = root.join("fonds");
+			  Join<Quotite, Fond> fondJoin = root.join("fond");
 			  predicates.add( criteriaBuilder.equal(fondJoin.get("nomFond"), fond));
 	     }
-		 if (!zone.equals(" ") && !zone.isEmpty()) {
-			  Join<Quotite, Zone> zoneJoin = root.join("zones");
+		 if (!zone.equals("Recherche par Zone") && !zone.isEmpty()) {
+			  Join<Quotite, Zone> zoneJoin = root.join("zone");
 			  predicates.add( criteriaBuilder.equal(zoneJoin.get("nomZone"), zone));
 	     }
 		 if (!zonal.equals("Recherche par Zonal") && !zonal.isEmpty()) {

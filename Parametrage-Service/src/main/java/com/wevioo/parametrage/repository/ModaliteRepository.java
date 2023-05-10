@@ -1,6 +1,9 @@
 package com.wevioo.parametrage.repository;
 
 import com.wevioo.parametrage.entities.Fond;
+
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,5 +19,7 @@ public interface ModaliteRepository  extends PagingAndSortingRepository<Modalite
     @Query(FILTER_FONDS_ON_FIRST_NAME_QUERY)
     Page<Modalite> findByFirstNameLike(String firstNameFilter, Pageable pageable);*/
 
+	@Query("SELECT MONTH(c.dateSignature),m.natureDemande, Avg(f.tresorerieFond) AS totalTresorerie FROM Convention c JOIN c.modalite m JOIN m.fond f GROUP BY MONTH(c.dateSignature), m.natureDemande, f.tresorerieFond")
+	List<Object[]> findModaliteSummaryByDemandeTypeAndTresorie();
 
 }

@@ -18,6 +18,6 @@ public interface ModaliteService {
 
    Modalite deleteModalite(Long id);
 
-
+   List NobreModaliteParType();
 
 }
