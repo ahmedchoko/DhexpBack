@@ -64,7 +64,7 @@ public class Fond {
 	private Set<Secteur> secteurs ;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "fond")
 	@JsonIgnore
-	private List<StopLoss> stopLosses ;
+	private Set<StopLoss> stoplosses ;
 
 	@Override
 	public String toString() {

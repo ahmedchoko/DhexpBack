@@ -2,10 +2,12 @@ package com.wevioo.parametrage.dto;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 
 import com.wevioo.parametrage.entities.Convention;
 import com.wevioo.parametrage.entities.Fond;
+import com.wevioo.parametrage.entities.StopLoss;
 import com.wevioo.parametrage.enums.Fondstatut;
 import com.wevioo.parametrage.enums.TypePatenaire;
 
