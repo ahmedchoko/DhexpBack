@@ -21,12 +21,13 @@ spring:
           '[/**]':
             allowedOrigins: "http://localhost:4200"
             allowedMethods:
-            - GET
-            - POST
-            - PUT
-            - DELETE
-            allowedHeaders:
-            - Content-Type
+              - GET
+              - PUT
+              - POST
+              - DELETE
+            AllowedHeaders:
+              - Content-Type
+
 
 eureka:
   client:
