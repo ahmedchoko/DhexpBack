@@ -23,7 +23,7 @@ public class QuotiteSpecification {
 		// TODO Auto-generated constructor stub
 	}
 	public static Specification <Quotite> getSpec(String fond ,String zone, String zonal , String ritic,String nouveauProm,String creditLeasing) throws ParseException{ 
-	System.out.println(fond);
+	System.out.println(zone);
 		return ((root,query,criteriaBuilder)->{
 		List<Predicate> predicates = new ArrayList<>();
 		 if (!fond.equals("Recherche par Fond") && !fond.isEmpty()) {

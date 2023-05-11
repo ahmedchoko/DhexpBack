@@ -2,12 +2,31 @@ package com.wevioo.parametrage.entities;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.wevioo.parametrage.enums.Choix;
+import com.wevioo.parametrage.enums.FormeRomboursement;
+import com.wevioo.parametrage.enums.NatureCredit;
+import com.wevioo.parametrage.enums.NatureTauxInteret;
+import com.wevioo.parametrage.enums.ObjetCredit;
+import com.wevioo.parametrage.enums.Periodicite;
+import com.wevioo.parametrage.enums.TypeCredit;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+
+@Entity
+@Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class Credit {
-	/*@Id
+	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idCredit;
 	private TypeCredit typeCredit ;
@@ -36,8 +55,10 @@ public class Credit {
     private Choix eligibleRITI ;
     private String schemaCofinancementPoolBancaire ;
     private Choix cofinancement ;
-    private ImmobilisationNettesAvantNouvelInvestissement 
+    private String ImmobilisationNettesAvantNouvelInvestissement ;
+    private Long montantInvestissement ;
+    private Choix NouveauPrometeur ;
+    private Date dateEntreeProduction ;
     
 
-	*/
 }

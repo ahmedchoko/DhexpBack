@@ -1,9 +1,10 @@
 package com.wevioo.parametrage.servicesImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import com.wevioo.parametrage.dto.ZoneDto;
+import com.wevioo.parametrage.dto.ZoneDTO;
 import com.wevioo.parametrage.entities.StopLoss;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,7 +31,7 @@ public class ZoneServiceImpl implements ZoneService{
 	}
 
 	@Override
-	public Zone createZone(ZoneDto zoneRequest) {
+	public Zone createZone(ZoneDTO zoneRequest) {
 		Zone zone = Zone.builder()
 				.nomZone(zoneRequest.getNomZone())
 				.nomArabeZone(zoneRequest.getNomArabeZone())
@@ -49,7 +50,7 @@ public class ZoneServiceImpl implements ZoneService{
 	}
 
 	@Override
-	public Zone updateZone(Long id, ZoneDto zoneRequest) {
+	public Zone updateZone(Long id, ZoneDTO zoneRequest) {
 		Zone zone = zoneRepository.findById(id)
 				.orElseThrow(() -> new NoSuchElementException("Resource with id "+id+" not found"));
 
@@ -67,5 +68,16 @@ public class ZoneServiceImpl implements ZoneService{
 				.orElseThrow(() -> new NoSuchElementException("Resource with id "+id+" not found"));
 		zoneRepository.deleteById(id);
 		return zone;
+	}
+	@Override
+	public List<Zone> listZone() {
+		// TODO Auto-generated method stub
+		List <Zone> zonesNonQuotite = new ArrayList();
+		for (Zone zone :zoneRepository.findAll()) {
+			if (zone.getQuotitee()==null) {
+				zonesNonQuotite.add(zone);
+			}
+		}
+		return zonesNonQuotite ;
 	}
 }

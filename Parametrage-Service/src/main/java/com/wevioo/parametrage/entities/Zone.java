@@ -29,7 +29,7 @@ public class Zone {
 	@OneToMany(fetch = FetchType.EAGER)
 	private Set<Delegation> delegations;
 
-	@JsonIgnore()
-	@ManyToOne()
-	private Quotite quotitee ; 
+	@JsonIgnoreProperties("zones")
+	@OneToOne(mappedBy="zone",fetch = FetchType.EAGER)
+	private Quotite quotitee ;
 }

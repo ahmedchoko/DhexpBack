@@ -1,11 +1,14 @@
 package com.wevioo.parametrage.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.wevioo.parametrage.common.NotFoundException;
 import com.wevioo.parametrage.dto.StopLossDto;
-import com.wevioo.parametrage.dto.ZoneDto;
+import com.wevioo.parametrage.dto.ZoneDTO;
 import com.wevioo.parametrage.entities.StopLoss;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +25,8 @@ public class ZoneController {
 	
 	@Autowired
 	private ZoneService zoneService ;
-	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	 @GetMapping()
 	 public ResponseEntity <Page<Zone>> getAllZones(@RequestParam(defaultValue = "0") int page,
@@ -33,7 +37,7 @@ public class ZoneController {
 	 }
 
 	@PostMapping
-	public ResponseEntity<Zone> createZone(@RequestBody ZoneDto zoneRequest) {
+	public ResponseEntity<Zone> createZone(@RequestBody ZoneDTO zoneRequest) {
 		try {
 			Zone zone = zoneService.createZone(zoneRequest);
 			return ResponseEntity.ok().body(zone) ;
@@ -54,7 +58,7 @@ public class ZoneController {
 		}
 	}
 	@PutMapping("/{id}")
-	public ResponseEntity<Zone> updateZone(@PathVariable(name= "id") Long id, @RequestBody ZoneDto zoneRequest) {
+	public ResponseEntity<Zone> updateZone(@PathVariable(name= "id") Long id, @RequestBody ZoneDTO zoneRequest) {
 		try {
 			Zone zone = zoneService.updateZone(id, zoneRequest);
 			return ResponseEntity.ok().body(zone) ;
@@ -73,4 +77,12 @@ public class ZoneController {
 			return ResponseEntity.notFound().build();
 		}
 	}
+	 @GetMapping("/listzones")
+	 public List <ZoneDTO> listZone() {
+			List < ZoneDTO > listofZoneDto = new ArrayList < ZoneDTO > ();
+		 for (Zone zone: zoneService.listZone() ) {
+			 listofZoneDto.add(modelMapper.map(zone, ZoneDTO.class));
+			}
+		 return listofZoneDto;
+	 }
 }
