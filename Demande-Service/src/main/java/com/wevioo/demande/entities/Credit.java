@@ -8,13 +8,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.wevioo.demande.enums.FormeRomboursement;
+import com.wevioo.demande.enums.NatureCredit;
+import com.wevioo.demande.enums.NatureTauxInteret;
+import com.wevioo.demande.enums.ObjetCredit;
+import com.wevioo.demande.enums.Periodicite;
+import com.wevioo.demande.enums.TypeCredit;
 import com.wevioo.parametrage.enums.Choix;
-import com.wevioo.parametrage.enums.FormeRomboursement;
-import com.wevioo.parametrage.enums.NatureCredit;
-import com.wevioo.parametrage.enums.NatureTauxInteret;
-import com.wevioo.parametrage.enums.ObjetCredit;
-import com.wevioo.parametrage.enums.Periodicite;
-import com.wevioo.parametrage.enums.TypeCredit;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class Credit {
-	@Id
+    @Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idCredit;
 	private TypeCredit typeCredit ;

@@ -23,7 +23,7 @@ import com.wevioo.parametrage.services.ZoneService;
 @RequestMapping("parametrage/api/v1/zone")
 public class ZoneController {
 
-	@Autowireds
+	@Autowired
 	private ZoneService zoneService ;
 	@Autowired
 	private ModelMapper modelMapper;
