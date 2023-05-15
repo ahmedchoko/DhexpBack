@@ -36,7 +36,7 @@ import com.wevioo.parametrage.services.PartenaireService;
 
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("parametrage/api/v1/partenaire")
 public class PartenaireController {
 
 	

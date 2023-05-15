@@ -1,4 +1,4 @@
-package com.wevioo.parametrage.entities;
+package com.wevioo.demande.entities;
 
 import java.util.Date;
 

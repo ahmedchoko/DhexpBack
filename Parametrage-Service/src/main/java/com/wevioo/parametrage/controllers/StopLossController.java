@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/stoploss")
+@RequestMapping("parametrage/api/v1/stoploss")
 public class StopLossController {
 
     @Autowired

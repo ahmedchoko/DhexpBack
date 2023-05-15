@@ -17,7 +17,7 @@ import com.wevioo.parametrage.services.QuotiteService;
 import com.wevioo.parametrage.services.ZoneService;
 
 @RestController
-@RequestMapping("/zone")
+@RequestMapping("parametrage/api/v1/zone")
 public class ZoneController {
 	
 	@Autowired

@@ -13,7 +13,13 @@ spring:
       - id: Parametrage-Service
         uri: http://localhost:8090/
         predicates:
-        - Path=/**
+        - Path=/parametrage/**
+        filters:
+        - RewritePath=/(?<path>.*), /$\{path}
+      - id: Demande-Service
+        uri: http://localhost:8091/
+        predicates:
+        - Path=/demande/**
         filters:
         - RewritePath=/(?<path>.*), /$\{path}
       globalcors:

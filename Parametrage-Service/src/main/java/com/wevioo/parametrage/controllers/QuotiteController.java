@@ -30,7 +30,7 @@ import com.wevioo.parametrage.services.QuotiteService;
 
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("parametrage/api/v1/quotite")
 public class QuotiteController {
 	 
 	@Autowired

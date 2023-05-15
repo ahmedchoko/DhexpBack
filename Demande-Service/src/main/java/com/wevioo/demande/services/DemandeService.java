@@ -1,4 +1,4 @@
-package com.wevioo.parametrage.services;
+package com.wevioo.demande.services;
 
 public interface DemandeService {
 

@@ -12,7 +12,6 @@ spring:
   cloud:
     config:
       allow-override: true
-      override-none: true
       server:
         native:
           searchLocations: classpath:/config

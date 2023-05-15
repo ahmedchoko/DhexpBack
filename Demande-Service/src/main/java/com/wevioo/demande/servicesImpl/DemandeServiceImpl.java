@@ -1,6 +1,6 @@
-package com.wevioo.parametrage.servicesImpl;
+package com.wevioo.demande.servicesImpl;
 
-import com.wevioo.parametrage.services.DemandeService;
+import com.wevioo.demande.services.DemandeService;
 
 public class DemandeServiceImpl implements DemandeService{
 
