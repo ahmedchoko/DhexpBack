@@ -27,7 +27,7 @@ public class Beneficiaire {
 	    private TYPEPERSONNE typePersonne;
 	    private Personne personne;
 	    private Long matriculeFiscale;
-	    
+
 	    @OneToOne
 	    private PersonneMorale personneMorale;
 	    @OneToOne
