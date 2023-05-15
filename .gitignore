@@ -3,6 +3,7 @@ HELP.md
 /Api-Gateway/target/
 /Config-Server/target/
 /Discovery-Server/target/
+/Demande-Service/target/
 /Parametrage-Service/target/
 /Demande-Service/target/
 

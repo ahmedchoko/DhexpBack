@@ -20,14 +20,14 @@ import com.wevioo.parametrage.services.QuotiteService;
 import com.wevioo.parametrage.services.ZoneService;
 
 @RestController
-@RequestMapping("/api/v1/zone")
+@RequestMapping("parametrage/api/v1/zone")
 public class ZoneController {
-	
-	@Autowired
+
+	@Autowireds
 	private ZoneService zoneService ;
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	 @GetMapping()
 	 public ResponseEntity <Page<Zone>> getAllZones(@RequestParam(defaultValue = "0") int page,
 												  @RequestParam(defaultValue = "20") int size) {
@@ -85,7 +85,7 @@ public class ZoneController {
 			}
 		 return listofZoneDto;
 	 }
-	 
+
 	 @GetMapping("/listZoneWithoutAffectation")
 	 public ResponseEntity <List<Zone>> listZoneWithoutAffectation(){
 			try {

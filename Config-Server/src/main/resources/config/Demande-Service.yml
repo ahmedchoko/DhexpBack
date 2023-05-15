@@ -1,7 +1,7 @@
 server:
+  port: 8091
   servlet:
-    context-path: /parametrage
-  port: 8090
+    context-path: /demande
 eureka:
   client:
     serviceUrl:

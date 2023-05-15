@@ -18,7 +18,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/v1/modalite")
+@RequestMapping("parametrage/api/v1/modalite")
 public class ModaliteController {
 
     @Autowired

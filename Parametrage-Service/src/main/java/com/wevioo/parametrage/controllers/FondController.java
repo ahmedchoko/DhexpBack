@@ -35,7 +35,7 @@ import com.wevioo.parametrage.services.FondService;
 
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("parametrage/api/v1/fond")
 public class FondController {
 
 

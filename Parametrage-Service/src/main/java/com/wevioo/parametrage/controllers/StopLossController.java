@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/v1/stoploss")
+@RequestMapping("parametrage/api/v1/stoploss")
 public class StopLossController {
 
     @Autowired

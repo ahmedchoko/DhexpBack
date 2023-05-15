@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 
 public class ParametrageApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(ParametrageApplication.class, args);
 	}
@@ -17,5 +16,5 @@ public class ParametrageApplication {
 	public ModelMapper modelMapper() {
 	   return new ModelMapper();
 	}
-	
+	 
 }
