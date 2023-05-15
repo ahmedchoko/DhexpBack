@@ -55,9 +55,10 @@ public class Credit {
     private Choix eligibleRITI ;
     private String schemaCofinancementPoolBancaire ;
     private Choix cofinancement ;
-    private String ImmobilisationNettesAvantNouvelInvestissement ;
+    private String immobilisationNettesAvantNouvelInvestissement ;
     private Long montantInvestissement ;
-    private Choix NouveauPrometeur ;
+    private Long montantrisque ;
+    private Choix nouveauPrometeur ;
     private Date dateEntreeProduction ;
     
 
