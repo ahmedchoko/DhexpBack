@@ -30,7 +30,7 @@ public class QuotiteSpecification {
 			  Join<Quotite, Fond> fondJoin = root.join("fond");
 			  predicates.add( criteriaBuilder.equal(fondJoin.get("nomFond"), fond));
 	     }
-		 if (!zone.equals("Recherche par Zone") && !zone.isEmpty()) {
+		 if (zone!=null && !zone.equals("Recherche par Zone")) {
 			  Join<Quotite, Zone> zoneJoin = root.join("zone");
 			  predicates.add( criteriaBuilder.equal(zoneJoin.get("nomZone"), zone));
 	     }

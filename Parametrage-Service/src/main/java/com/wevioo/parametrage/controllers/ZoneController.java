@@ -85,4 +85,15 @@ public class ZoneController {
 			}
 		 return listofZoneDto;
 	 }
+	 
+	 @GetMapping("/listZoneWithoutAffectation")
+	 public ResponseEntity <List<Zone>> listZoneWithoutAffectation(){
+			try {
+				List<Zone> zones = zoneService.listZoneWithoutAffectation();
+				return ResponseEntity.ok().body(zones) ;
+			}
+			catch(NotFoundException exception){
+				return ResponseEntity.notFound().build();
+			}
+	 }
 }

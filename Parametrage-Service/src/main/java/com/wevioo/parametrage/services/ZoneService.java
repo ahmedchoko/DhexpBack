@@ -20,5 +20,5 @@ public interface ZoneService {
 
 	Zone deleteZone(Long id);
 	 public List<Zone> listZone();
-
+	 public List<Zone> listZoneWithoutAffectation();
 }

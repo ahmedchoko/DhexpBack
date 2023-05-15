@@ -41,7 +41,7 @@ public class QuotiteController {
 	 @GetMapping("/quotites")
 	  public ResponseEntity < ? > getQuotites(
 			                               @RequestParam(value = "fondsearchTerm",required=false) String fondsearchTerm,
-			                               @RequestParam(value = "zonesearcnhTerm",required=false) String zonesearchTerm,
+			                               @RequestParam(value = "zonesearchTerm",required=false) String zonesearchTerm,
 			                               @RequestParam(value="zonalsearchTerm", required=false) String zonalsearchTerm,
 			                               @RequestParam(value="ritic",required=false) String ritic,
 			                               @RequestParam(value = "nouveauProm",required=false) String nouveauProm,
@@ -49,6 +49,7 @@ public class QuotiteController {
 			                               @RequestParam(value = "page") int page,
                                            @RequestParam(value = "size") int size) throws ParseException {
 	    Map < String, Object > jsonResponseMap = new LinkedHashMap < String, Object > ();
+	    System.out.println("ggg"+zonesearchTerm);
 	    Page < Quotite > listofQuotite = quotiteService.getAllQuotite(page, size, fondsearchTerm, zonesearchTerm,zonalsearchTerm, ritic, nouveauProm, creditLeasing);
 	    List < QuotiteDTO > listofQuotiteDto = new ArrayList < QuotiteDTO > ();
 	    if (!listofQuotite.isEmpty()) {
@@ -65,9 +66,8 @@ public class QuotiteController {
 	     for (Quotite quotite: listofQuotite1 ) {
 	    	 listofQuotiteDto.add(modelMapper.map(quotite, QuotiteDTO.class));
 	      }
-	     List < QuotiteDTO > listofQuotiteDto1 = new ArrayList < QuotiteDTO > ();
-	      jsonResponseMap.put("data", listofQuotiteDto1);
-		     jsonResponseMap.put("pagebale", listofQuotiteDto1);
+		     jsonResponseMap.put("data", listofQuotiteDto);
+		     jsonResponseMap.put("pagebale", listofQuotite1);
 	      return new ResponseEntity < > (jsonResponseMap, HttpStatus.OK);
 	    }
 	 }

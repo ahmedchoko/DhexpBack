@@ -32,4 +32,5 @@ public class Zone {
 	@JsonIgnoreProperties("zones")
 	@OneToOne(mappedBy="zone",fetch = FetchType.EAGER)
 	private Quotite quotitee ;
+	
 }

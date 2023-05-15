@@ -18,6 +18,6 @@ public class QuotiteDTO {
 	private String creditLeas ;
 	private Long valeurAppl ;
 	private List<ZoneDTO> zones ;
-	private List<Fond> fonds ;
+	private List<FondDTO> fonds ;
 
 }

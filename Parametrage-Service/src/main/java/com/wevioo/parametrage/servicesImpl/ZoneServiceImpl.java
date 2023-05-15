@@ -80,4 +80,14 @@ public class ZoneServiceImpl implements ZoneService{
 		}
 		return zonesNonQuotite ;
 	}
+
+	@Override
+	public List<Zone> listZoneWithoutAffectation() {
+		List <Zone> zones = new ArrayList();
+		// TODO Auto-generated method stub
+		for (Zone zone :zoneRepository.findAll()) {
+				zones.add(zone);
+		}
+		return zones ;
+				}
 }
