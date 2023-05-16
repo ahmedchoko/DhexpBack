@@ -1,8 +1,19 @@
 package com.wevioo.demande.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 
 public class Passifs {
     @Id
@@ -14,9 +25,9 @@ public class Passifs {
     private Long resultatReporte;
     private Long totalCapitauxPropresAvRes;
     private Long ResExercice;
-    private Long getTotalCapitauxPropres;
+    private Long totalCapitauxPropres;
     private Long emprunt;
-    private Long pasisifsFinanciers;
+    private Long passifsFinanciers;
     private Long provisions;
     private Long totalActifsNonCour;
     private Long fourComptesRattaches;
@@ -24,6 +35,6 @@ public class Passifs {
     private Long concoursBancaires;
     private Long totalPassifsCourants;
     private Long totalPassifs;
-    private Long getTotalCapitauxPropresEtPassifs;
+    private Long totalCapitauxPropresEtPassifs;
 
 }

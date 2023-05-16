@@ -29,7 +29,6 @@ public class ModaliteServiceImpl implements ModaliteService {
     @Autowired
     private  ModaliteRepository modaliteRepository;
     @Autowired
-
     private  FondService fondService;
     @Autowired
 

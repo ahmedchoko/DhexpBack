@@ -5,11 +5,18 @@ import com.wevioo.parametrage.entities.Delegation;
 import com.wevioo.parametrage.entities.Gouvernorat;
 import com.wevioo.parametrage.entities.Secteur;
 import com.wevioo.parametrage.entities.SousSecteur;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Beneficiaire {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
