@@ -22,7 +22,7 @@ public class Beneficiaire {
     private Long idBeneficiaire;
     private TYPEPERSONNE typPersonne;
     private Long matriculeFiscale;
-    //private Personne personne;
+    private Personne personne;
     private String natureActivite;
     private Integer codeActivite;
     @OneToOne

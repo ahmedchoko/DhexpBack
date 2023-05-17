@@ -39,8 +39,8 @@ public class Projet {
     private String prodOuServices;
 	@OneToOne(mappedBy="projet")
     private Demande demande;
-	   @OneToOne
-	    private Zone zone;
-	   @OneToOne
-	   private Delegation delegation;
+    @OneToOne
+	private Zone zone;
+    @OneToOne
+	private Delegation delegation;
 }
