@@ -8,23 +8,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class Projet {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idProjet;
     private TypeProjet typeProjet;
+    @OneToOne
     private Zone zone;
-    private Delegation delegation;
+   @OneToOne
+   private Delegation delegation;
     private Integer codePostal;
     private String garanties;
     private String facteurRisque;

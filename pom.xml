@@ -10,6 +10,7 @@
   	<module>Discovery-Server</module>
   	<module>Config-Server</module>
       <module>Demande-Service</module>
+      <module>Test-Service</module>
   </modules>
    <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

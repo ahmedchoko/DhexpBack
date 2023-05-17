@@ -14,7 +14,6 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class MontantInvestissement {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

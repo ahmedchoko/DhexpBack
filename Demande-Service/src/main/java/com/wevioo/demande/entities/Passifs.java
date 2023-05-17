@@ -14,7 +14,6 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class Passifs {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

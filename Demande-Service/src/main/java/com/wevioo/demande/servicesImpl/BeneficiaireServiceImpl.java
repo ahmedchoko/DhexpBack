@@ -21,7 +21,7 @@ public class BeneficiaireServiceImpl implements BeneficiaireService {
                 .delegation(BeneficiaireRequest.getDelegation())
                 .gouvernorat(BeneficiaireRequest.getGouvernorat())
                 .region(BeneficiaireRequest.getRegion())
-                .secteur(BeneficiaireRequest.getSecteur())
+               .secteur(BeneficiaireRequest.getSecteur())
                 .sousSecteur(BeneficiaireRequest.getSousSecteur())
                 .typPersonne(BeneficiaireRequest.getTypPersonne())
                 .matriculeFiscale(BeneficiaireRequest.getMatriculeFiscale())
