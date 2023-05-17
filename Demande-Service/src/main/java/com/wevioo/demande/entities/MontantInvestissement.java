@@ -6,11 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.wevioo.parametrage.entities.Convention;
-import com.wevioo.parametrage.entities.Modalite;
-import com.wevioo.parametrage.entities.Partenaire;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -45,6 +44,8 @@ public class MontantInvestissement {
     private Long creditExterieur;
     private Long creditCT;
     private Long montantContribution;
+    @OneToOne(mappedBy="montantInvestissement")
+    public Demande demande ;
 
 
 }

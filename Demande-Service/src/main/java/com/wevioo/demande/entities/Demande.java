@@ -6,25 +6,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.wevioo.demande.enums.NatureCredit;
-import com.wevioo.demande.enums.ObjetCredit;
-import com.wevioo.demande.enums.TypeCredit;
-import com.wevioo.parametrage.entities.Convention;
-import com.wevioo.parametrage.entities.Fond;
-import com.wevioo.parametrage.entities.Modalite;
-import com.wevioo.parametrage.entities.Partenaire;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import com.wevioo.parametrage.entities.Fond;
+import com.wevioo.parametrage.entities.Modalite;
+import com.wevioo.parametrage.entities.Partenaire;
 
-@Entity
+
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
+@Entity
 public class Demande {
 
 	    @Id
@@ -40,15 +37,28 @@ public class Demande {
 		private String statut;
 		private String Utilisateur;
 		private Date dateDeclaration;
+		@OneToOne()
 		private Beneficiaire beneficiare;	
+		@OneToOne()
 		private Projet projet;
+		@OneToOne()
 		private Credit credit ; 
-        private Partenaire partenaire ;
+		@OneToOne()
         private Autorisation autorisation;
-        private Fond fond;
-        private Modalite modalite ;	
+		@OneToOne()
         private Passifs passifs ;
+		@OneToOne()
         private Actifs actifs ;
+		@OneToOne()
 		private MontantInvestissement montantInvestissement;
+		@OneToOne()
 		private PieceJointes pieceJointes;
+		@OneToOne()
+	    private Modalite modalite ;
+		@OneToOne()
+	    private Fond fond ; 
+		@OneToOne()
+		private Partenaire partenaire ; 
+
+		
 }

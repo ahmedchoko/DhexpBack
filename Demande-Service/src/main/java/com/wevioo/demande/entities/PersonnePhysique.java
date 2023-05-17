@@ -1,17 +1,18 @@
 package com.wevioo.demande.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.wevioo.demande.enums.PieceIdentification;
-import com.wevioo.parametrage.entities.Convention;
-import com.wevioo.parametrage.entities.Modalite;
-import com.wevioo.parametrage.entities.Partenaire;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +21,9 @@ import lombok.NoArgsConstructor;
 
 
 @Entity
-public class PersonnePhysique extends Personne {
+@DiscriminatorValue(value="physique")
+
+public class PersonnePhysique extends Personne implements Serializable{
 	
 	
 	@Id
@@ -31,4 +34,6 @@ public class PersonnePhysique extends Personne {
 	private PieceIdentification peiceIdenti;
 	private Long numeroPiece;
 	private String telephone;
+	@OneToOne()
+	private Beneficiaire beneficiaire ;
 }

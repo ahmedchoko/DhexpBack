@@ -1,5 +1,16 @@
 package com.wevioo.demande.repository;
 
-public interface DemandeRepository {
+import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+
+import com.wevioo.demande.entities.Demande;
+
+public interface DemandeRepository extends JpaRepository<Demande, Long>
+{
+	
 }

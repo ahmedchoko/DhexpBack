@@ -7,11 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.wevioo.parametrage.entities.Convention;
-import com.wevioo.parametrage.entities.Modalite;
-import com.wevioo.parametrage.entities.Partenaire;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,5 +36,7 @@ public class Actifs {
     private Long liquiditesEtEquivalents;
     private Long totalActCourants;
     private Long totalActifs;
+    @OneToOne(mappedBy="actifs")
+    public Demande demande ;
 
 }

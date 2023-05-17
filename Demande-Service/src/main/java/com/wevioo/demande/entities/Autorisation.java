@@ -14,7 +14,6 @@ import com.wevioo.demande.enums.ObjetCredit;
 import com.wevioo.demande.enums.Periodicite;
 import com.wevioo.demande.enums.TypeAutorisation;
 import com.wevioo.demande.enums.TypeCredit;
-import com.wevioo.parametrage.enums.Choix;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

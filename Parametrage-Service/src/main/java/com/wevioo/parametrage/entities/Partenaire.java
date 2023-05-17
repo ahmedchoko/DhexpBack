@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.wevioo.demande.entities.Demande;
 import com.wevioo.parametrage.enums.Fondstatut;
 import com.wevioo.parametrage.enums.TypePatenaire;
 
@@ -37,6 +38,8 @@ public class Partenaire {
 	private String site ;
 	private Date dateActivation ;
 	private Date dateBlocage ; 
+	/*@OneToOne()
+	public Demande demande ;*/
 	@Enumerated(EnumType.STRING)
 	private Fondstatut statut ;
 	 @JsonIgnoreProperties("partenaire")
