@@ -10,7 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import com.wevioo.parametrage.entities.Delegation;
+import com.wevioo.parametrage.entities.Zone;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,5 +39,9 @@ public class Actifs {
     private Long totalActifs;
     @OneToOne(mappedBy="actifs")
     public Demande demande ;
+    @OneToOne
+    private Zone zone;
+   @OneToOne
+   private Delegation delegation;
 
 }

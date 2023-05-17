@@ -1,6 +1,8 @@
 package com.wevioo.demande.entities;
 
 import com.wevioo.demande.enums.TypeProjet;
+import com.wevioo.parametrage.entities.Delegation;
+import com.wevioo.parametrage.entities.Zone;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,5 +30,8 @@ public class Projet {
     private String prodOuServices;
 	@OneToOne(mappedBy="projet")
     private Demande demande;
-
+	   @OneToOne
+	    private Zone zone;
+	   @OneToOne
+	   private Delegation delegation;
 }

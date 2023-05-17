@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/delegation")
+@RequestMapping("parametrage/api/v1/delegation")
 public class DelegationController {
     @Autowired
     DelegationRepository delegationRepository;
