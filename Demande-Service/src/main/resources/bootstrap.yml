@@ -1,4 +1,14 @@
 spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sotugar?useSSL=false
+    username: root
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
   application:
     name: Demande-Service
   cloud:
@@ -6,3 +16,7 @@ spring:
       uri: http://localhost:7761
   main:
     web-application-type: reactive
+server:
+  servlet:
+    context-path: /demande
+
