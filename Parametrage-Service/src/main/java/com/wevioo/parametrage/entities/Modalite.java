@@ -23,7 +23,6 @@ import org.hibernate.annotations.Cascade;
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class Modalite {
 
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idModalite;
@@ -53,5 +52,4 @@ public class Modalite {
 		this.idModalite = idModalite;
 		this.nomCompletModalite = nomCompletModalite;
 	}
-
 }

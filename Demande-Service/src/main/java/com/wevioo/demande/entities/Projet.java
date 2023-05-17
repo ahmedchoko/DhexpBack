@@ -4,6 +4,11 @@ import com.wevioo.demande.enums.TypeProjet;
 import com.wevioo.parametrage.entities.Delegation;
 import com.wevioo.parametrage.entities.Zone;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +17,10 @@ import javax.persistence.OneToOne;
 
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Projet {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -38,7 +38,7 @@ public class Passifs {
     private Long concoursBancaires;
     private Long totalPassifsCourants;
     private Long totalPassifs;
-    private Long getTotalCapitauxPropresEtPassifs;
+    private Long totalCapitauxPropresEtPassifs;
     @OneToOne(mappedBy="passifs")
     public Demande demande ;
 }

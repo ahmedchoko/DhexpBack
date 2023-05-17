@@ -11,9 +11,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = {"com.wevioo.demande.*"})
-@ComponentScan(basePackages = {"com.wevioo.demande.*"})
-@EntityScan(basePackages = {"com.wevioo.demande.*"})
+@EnableJpaRepositories(basePackages = {"com.wevioo.parametrage.*","com.wevioo.demande.*"})
+@ComponentScan(basePackages = {"com.wevioo.parametrage.*","com.wevioo.demande.*"})
+@EntityScan(basePackages = {"com.wevioo.parametrage.*","com.wevioo.demande.*"})
 public class ParametrageApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ParametrageApplication.class, args);
