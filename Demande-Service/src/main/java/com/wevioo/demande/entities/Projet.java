@@ -1,29 +1,20 @@
 package com.wevioo.demande.entities;
 
 import com.wevioo.demande.enums.TypeProjet;
-import com.wevioo.parametrage.entities.Delegation;
-import com.wevioo.parametrage.entities.Zone;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Projet {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idProjet;
     private TypeProjet typeProjet;
-    @OneToOne
-    private Zone zone;
-   @OneToOne
-   private Delegation delegation;
     private Integer codePostal;
     private String garanties;
     private String facteurRisque;
@@ -35,5 +26,7 @@ public class Projet {
     private String strategieComm;
     private String site;
     private String prodOuServices;
+	@OneToOne(mappedBy="projet")
+    private Demande demande;
 
 }

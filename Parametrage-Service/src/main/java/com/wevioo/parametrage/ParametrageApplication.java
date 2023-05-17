@@ -22,5 +22,5 @@ public class ParametrageApplication {
 	public ModelMapper modelMapper() {
 	   return new ModelMapper();
 	}
-	 
+
 }

@@ -1,20 +1,25 @@
 package com.wevioo.demande.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.Date;
+
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
 @Entity
+@Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class Actifs {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,5 +36,7 @@ public class Actifs {
     private Long liquiditesEtEquivalents;
     private Long totalActCourants;
     private Long totalActifs;
+    @OneToOne(mappedBy="actifs")
+    public Demande demande ;
 
 }

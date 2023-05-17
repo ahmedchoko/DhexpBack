@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -39,7 +40,7 @@ public class Secteur {
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL,mappedBy="secteurs")
 	  private Set<Fond> fonds;
-	
+
 	@OneToMany(mappedBy="secteur",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@Fetch(value=FetchMode.SELECT)
 	  private Set<SousSecteur> sousSecteurs;

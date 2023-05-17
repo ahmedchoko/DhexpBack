@@ -6,15 +6,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.wevioo.demande.enums.Choix;
 import com.wevioo.demande.enums.FormeRomboursement;
 import com.wevioo.demande.enums.NatureCredit;
 import com.wevioo.demande.enums.NatureTauxInteret;
 import com.wevioo.demande.enums.ObjetCredit;
 import com.wevioo.demande.enums.Periodicite;
 import com.wevioo.demande.enums.TypeCredit;
-import com.wevioo.parametrage.enums.Choix;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,10 +56,13 @@ public class Credit {
     private Choix eligibleRITI ;
     private String schemaCofinancementPoolBancaire ;
     private Choix cofinancement ;
-    private String ImmobilisationNettesAvantNouvelInvestissement ;
+    private String immobilisationNettesAvantNouvelInvestissement ;
     private Long montantInvestissement ;
-    private Choix NouveauPrometeur ;
+    private Long montantrisque ;
+    private Choix nouveauPrometeur ;
     private Date dateEntreeProduction ;
+	@OneToOne(mappedBy="credit")
+    private Demande demande;
     
 
 }

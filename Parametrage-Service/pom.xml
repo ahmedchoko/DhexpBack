@@ -86,10 +86,20 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
             <version>2.6.2</version>
         </dependency>
+        	<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+			   <version>2.8.6</version>
+		</dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.12.5</version>
+        </dependency>
+        <dependency>
+        	<groupId>com.wevioo.app</groupId>
+        	<artifactId>Demande-Service</artifactId>
+        	<version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <dependencyManagement>

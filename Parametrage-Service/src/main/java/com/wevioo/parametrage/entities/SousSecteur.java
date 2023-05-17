@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -28,6 +29,7 @@ public class SousSecteur {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idSousSecteur;
 	private String name;
+
     @JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Secteur secteur ; 

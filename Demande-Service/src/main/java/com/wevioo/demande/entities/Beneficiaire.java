@@ -38,5 +38,20 @@ public class Beneficiaire {
     private String adresse;
     private Integer codePostal;
 
-}
+	    @OneToOne(mappedBy="beneficiaire")
+	    private PersonneMorale personneMorale;
+	    @OneToOne(mappedBy="beneficiaire")
+	    private PersonnePhysique personnePhysique;
+	    private String natureActivite;
+	    private Integer codeActivite;
+	    private String secteur;
+	    private String soussecteur;
+	    private String activite;
+	    private String region;
+	    private String gouvernorat;
+	    private String delegation;
+	    private String adresse;
+	    private Integer codePostal;
 
+
+}
