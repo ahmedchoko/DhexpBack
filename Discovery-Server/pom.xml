@@ -58,7 +58,6 @@
 					<profiles>
 						<profile>development</profile>
 					</profiles>
-					<useSystemClassLoader>false</useSystemClassLoader>
 				</configuration>
 				<executions>
 					<execution>

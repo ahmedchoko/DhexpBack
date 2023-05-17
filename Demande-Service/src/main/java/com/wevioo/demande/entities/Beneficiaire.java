@@ -5,11 +5,17 @@ import com.wevioo.parametrage.entities.Delegation;
 import com.wevioo.parametrage.entities.Gouvernorat;
 import com.wevioo.parametrage.entities.Secteur;
 import com.wevioo.parametrage.entities.SousSecteur;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import javax.persistence.*;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
 public class Beneficiaire {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,12 +25,16 @@ public class Beneficiaire {
     //private Personne personne;
     private String natureActivite;
     private Integer codeActivite;
+    @OneToOne
     private Secteur secteur;
+    @OneToOne
     private SousSecteur sousSecteur;
     private String activite;
     private String region;
-    private Gouvernorat gouvernorat;
-    private Delegation delegation;
+  @OneToOne
+ private Gouvernorat gouvernorat;
+ @OneToOne
+  private Delegation delegation;
     private String adresse;
     private Integer codePostal;
 
