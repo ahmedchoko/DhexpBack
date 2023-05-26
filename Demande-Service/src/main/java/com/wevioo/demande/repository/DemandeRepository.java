@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 
-public interface DemandeRepository extends JpaRepository<Demande, Long>
+public interface DemandeRepository extends JpaRepository<Demande, Long> , JpaSpecificationExecutor<Demande>
 {
 	
 }

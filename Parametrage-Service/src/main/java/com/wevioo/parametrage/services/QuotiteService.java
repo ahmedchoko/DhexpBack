@@ -1,12 +1,10 @@
 package com.wevioo.parametrage.services;
 
 import java.text.ParseException;
-import java.util.List;
+
 
 import org.springframework.data.domain.Page;
 
-import com.wevioo.parametrage.entities.Fond;
-import com.wevioo.parametrage.entities.Modalite;
 import com.wevioo.parametrage.entities.Quotite;
 
 public interface QuotiteService {

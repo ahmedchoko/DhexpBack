@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.wevioo.demande.enums.Choix;
 import com.wevioo.demande.enums.FormeRomboursement;
@@ -66,6 +67,7 @@ public class Credit {
     @Enumerated(EnumType.STRING)
     private Choix nouveauPrometeur ;
     private Date dateEntreeProduction ;
+    @JsonIgnore
 	@OneToOne(mappedBy="credit")
     private Demande demande;
     

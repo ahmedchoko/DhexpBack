@@ -10,7 +10,9 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.mysql.cj.Session;
 import com.wevioo.parametrage.entities.Convention;
 import com.wevioo.parametrage.entities.Fond;
 import com.wevioo.parametrage.entities.Modalite;
@@ -43,34 +46,24 @@ public class PartenaireServiceImpl implements PartenaireService{
 	private ConventionRepository conventionRepository;
 	@Autowired
 	private ModaliteRepository modaliteRepository;
+	
+	
 
 	@Override
+	public Page<Partenaire> getAllPartenaire(String fond ,String modalite , String MontantMinsearchTerm,String MontantMaxsearchTerm, String StatutsearchTerm ,int page, int size) throws ParseException {
+	
+			  Pageable pageable = PageRequest.of(page, size);
+				
+		        PartenaireSpecification specif = new PartenaireSpecification();
+				Specification <Partenaire> spec = specif.getPartenairewithSpec(fond ,modalite ,MontantMinsearchTerm, MontantMaxsearchTerm, StatutsearchTerm);
+		Page<Partenaire> pats =  partenaireRepository.findAll(spec,pageable);
+		for(Partenaire p : pats.getContent()) {
+			p.getConventions().size();
+		}
+		return pats;
 
-public Page<Partenaire> getAllPartenaire(String fond ,String modalite , String MontantMinsearchTerm,String MontantMaxsearchTerm, String StatutsearchTerm ,int page, int size) throws ParseException {
-
-
-
-  Pageable pageable = PageRequest.of(page, size);
-
-
-
- PartenaireSpecification specif = new PartenaireSpecification();
-
-Specification <Partenaire> spec = specif.getPartenairewithSpec(fond ,modalite ,MontantMinsearchTerm, MontantMaxsearchTerm, StatutsearchTerm);
-
- Page<Partenaire> pats = partenaireRepository.findAll(spec,pageable);
-
-  for(Partenaire p : pats.getContent()) {
-
- p.getConventions().size();
-
- }
-
- return pats;
-
-
-
- }
+		
+	}
 
 	@Override
 	public Long addPartenaire(Partenaire partenaire) {
@@ -94,9 +87,6 @@ Specification <Partenaire> spec = specif.getPartenairewithSpec(fond ,modalite ,M
 	public List<Modalite> getAllModaliteOfpartenaire(Long partenaireId) {
 		Partenaire partenaire = partenaireRepository.findById(partenaireId).get();
 		List <Modalite> modalites=new ArrayList<Modalite>() ;
-		 for(Convention convention:partenaire.getConventions()){
-			// modalites.add(convention.getModalite());
-		    }
 		return modalites;
 	}
 
@@ -155,14 +145,20 @@ Specification <Partenaire> spec = specif.getPartenairewithSpec(fond ,modalite ,M
 	}
 
 	@Override
-	public List NobrePartenaireParType() {
+	public List nobrePartenaireParType() {
 		return partenaireRepository.NobrePartenaireParType();
 	}
 
 	@Override
-	public int NombreTotalPartenaire() {
+	public int nombreTotalPartenaire() {
 		// TODO Auto-generated method stub
 		return partenaireRepository.NombreTotalPartenaire();
+	}
+
+	@Override
+	public List<Partenaire> getAllPartenaire() {
+		// TODO Auto-generated method stub
+		return partenaireRepository.findAll();
 	}
 	
 

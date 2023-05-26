@@ -2,10 +2,8 @@ package com.wevioo.parametrage.services;
 
 import java.util.List;
 
-import com.wevioo.parametrage.dto.ModaliteDto;
+
 import com.wevioo.parametrage.dto.ZoneDTO;
-import com.wevioo.parametrage.entities.Fond;
-import com.wevioo.parametrage.entities.Modalite;
 import com.wevioo.parametrage.entities.Zone;
 import org.springframework.data.domain.Page;
 

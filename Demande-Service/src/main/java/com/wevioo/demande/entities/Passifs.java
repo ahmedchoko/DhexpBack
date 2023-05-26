@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
@@ -39,6 +40,7 @@ public class Passifs {
     private Long totalPassifsCourants;
     private Long totalPassifs;
     private Long totalCapitauxPropresEtPassifs;
+    @JsonIgnore
     @OneToOne(mappedBy="passifs")
     public Demande demande ;
 }

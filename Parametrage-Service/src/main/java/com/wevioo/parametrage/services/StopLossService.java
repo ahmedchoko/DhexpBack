@@ -4,6 +4,9 @@ import com.wevioo.parametrage.dto.StopLossDto;
 import com.wevioo.parametrage.dto.StoplossPartenaireDto;
 import com.wevioo.parametrage.entities.StopLoss;
 import com.wevioo.parametrage.entities.StoplossPartenaire;
+
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 
 
@@ -18,7 +21,7 @@ public interface StopLossService {
     StopLoss updateStopLoss(Long id, StopLossDto stoplossRequest);
 
     StopLoss deleteStopLoss(Long id);
-
+    List<StoplossPartenaire> getSLPartenaire();
     StoplossPartenaire createSLPartenaire(StoplossPartenaireDto stoplossPartenaireRequest);
     StoplossPartenaire updateSLPartenaire(StoplossPartenaireDto slpartenaire);
 

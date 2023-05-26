@@ -1,18 +1,17 @@
 package com.wevioo.parametrage.services;
 
 import java.text.ParseException;
-import java.util.HashSet;
+
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
 
 import org.springframework.data.domain.Page;
 
 import com.wevioo.parametrage.entities.Convention;
-import com.wevioo.parametrage.entities.Fond;
+
 import com.wevioo.parametrage.entities.Modalite;
 import com.wevioo.parametrage.entities.Partenaire;
-import com.wevioo.parametrage.enums.TypePatenaire;
+
 
 
 
@@ -30,6 +29,7 @@ public interface PartenaireService {
 	public Convention addPartenairewithcvt(List <Convention> conventions);
 	public Long modifyConvnetion(Long conventionId , String critere, String DateBlocage) throws ParseException;
 	public Long modifyPartenairewithcvt(List<Convention> conventions);
-	public List NobrePartenaireParType ();
-	public int NombreTotalPartenaire();
+	public List nobrePartenaireParType ();
+	public List<Partenaire> getAllPartenaire ();
+	public int nombreTotalPartenaire();
 }

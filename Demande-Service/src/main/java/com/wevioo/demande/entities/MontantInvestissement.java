@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
@@ -44,6 +45,7 @@ public class MontantInvestissement {
     private Long creditExterieur;
     private Long creditCT;
     private Long montantContribution;
+    @JsonIgnore
     @OneToOne(mappedBy="montantInvestissement")
     public Demande demande ;
 

@@ -33,11 +33,6 @@ public class FondDTO {
 	private Set <Modalite> modalites ;
 	private Set <Quotite> quotites ;
 
-	public FondDTO(Long idFond, Set<Modalite> modalites) {
-		super();
-		this.idFond = idFond;
-		this.modalites = modalites;
-	}
 	
 }
 
