@@ -1,6 +1,7 @@
 package com.wevioo.demande.controllers;
 
 import com.wevioo.demande.dto.DemandeDto;
+import com.wevioo.demande.dto.DemandePreliminaireDTO;
 import com.wevioo.demande.entities.Demande;
 import com.wevioo.demande.enums.ObjetCredit;
 import com.wevioo.demande.repository.DemandeRepository;
@@ -14,7 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @ControllerAdvice
@@ -22,13 +25,6 @@ import java.util.List;
 public class DemandeController {
     @Autowired
     public DemandeServiceImpl demandeServiceImpl;
-
-
-
-
-        @Autowired
-       	private DemandeServiceImpl demandeServiceImpl;
-
     	private Object data;
     @PostMapping("/createDemande")
     public ResponseEntity<Demande> createDemande(@RequestBody Demande demandeRequest) {
@@ -68,11 +64,13 @@ public class DemandeController {
             return ResponseEntity.badRequest().build();
 
         }
-    }
+    
+}
     @GetMapping("/demandes")
     public List<Demande> getDemandes(){
 
             return demandeServiceImpl.getDemandes();
+    }
             @GetMapping("/getDemandePreliminaire")
           	public ResponseEntity < ? > getDemandePreliminaire(@RequestParam(value = "page") int page,
           			@RequestParam(value = "size") int size) {
@@ -105,5 +103,6 @@ public class DemandeController {
           		    }*/
           		    return new ResponseEntity < > (data, HttpStatus.OK) ;
           }
-    }
+  
+
 }
