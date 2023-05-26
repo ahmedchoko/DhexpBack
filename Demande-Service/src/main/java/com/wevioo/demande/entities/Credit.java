@@ -2,11 +2,7 @@ package com.wevioo.demande.entities;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.wevioo.demande.enums.Choix;
@@ -30,35 +26,44 @@ public class Credit {
     @Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idCredit;
+    @Enumerated(EnumType.STRING)
 	private TypeCredit typeCredit ;
-	private NatureCredit natureCredit ; 
+    @Enumerated(EnumType.STRING)
+	private NatureCredit natureCredit ;
+    @Enumerated(EnumType.STRING)
 	private ObjetCredit objetCredit ;
 	private Long montantCredit;
 	private Long dureeCredit ; 
-	private int solde ; 
-	private int montantCreditExige ;
-	private int montantContributionPaye;
+	private Integer solde ;
+	private Integer montantCreditExige ;
+	private Integer montantContributionPaye;
 	private String sureteReel ;
-	private int marge ; 
-	private String tauxInteret;
+	private Integer marge ;
+	private Integer tauxInteret;
+    @Enumerated(EnumType.STRING)
 	private NatureTauxInteret natureTauxInteret ;
     private Date dateEcheance ;
     private Date dateAutorisation ; 
     private Date dateDerniereTombePrincipale ; 
-    private Date datePremiereTombePrincipale ; 
+    private Date datePremiereTombePrincipale ;
+    @Enumerated(EnumType.STRING)
     private FormeRomboursement formeRomboursement;
+    @Enumerated(EnumType.STRING)
     private Periodicite periodicite ;
-    private int numeroTranche ;
+    private Integer numeroTranche ;
     private Date dateDeblocage;
     private Long montantCreditDebloquee;
     private Long capitalSocial ;
-    private Long montantCreditAutorise ; 
+    private Long montantCreditAutorise ;
+    @Enumerated(EnumType.STRING)
     private Choix eligibleRITI ;
     private String schemaCofinancementPoolBancaire ;
+    @Enumerated(EnumType.STRING)
     private Choix cofinancement ;
-    private String immobilisationNettesAvantNouvelInvestissement ;
+    private Long immobilisationNettesAvantNouvelInvestissement ;
     private Long montantInvestissement ;
     private Long montantrisque ;
+    @Enumerated(EnumType.STRING)
     private Choix nouveauPrometeur ;
     private Date dateEntreeProduction ;
 	@OneToOne(mappedBy="credit")

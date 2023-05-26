@@ -20,6 +20,8 @@ public interface StopLossService {
     StopLoss deleteStopLoss(Long id);
 
     StoplossPartenaire createSLPartenaire(StoplossPartenaireDto stoplossPartenaireRequest);
+    StoplossPartenaire updateSLPartenaire(StoplossPartenaireDto slpartenaire);
+
     StoplossPartenaire supprimerSLPartenaire(StoplossPartenaireDto slpartenaire);
     Page<StoplossPartenaire> getSLPartenaire(int page, int size);
 }

@@ -2,12 +2,7 @@ package com.wevioo.demande.entities;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 
 import lombok.AllArgsConstructor;
@@ -28,30 +23,31 @@ public class Demande {
 		@GeneratedValue(strategy = GenerationType.AUTO)
 		private Long idDemande;
 		private String numeroCompte ;
-		private String numeroPret ;
-		private String codeCentraleRisque ;
-		private String codedouane ;
+		private Long numeroPret ;
+		private Long codeCentraleRisque ;
+		private Long codedouane ;
 		private String numeroRne ;
 		private String referenceDemande;
 		private String nouveauPromoteur;
 		private String statut;
 		private String Utilisateur;
 		private Date dateDeclaration;
-		@OneToOne()
+		//private String modaliteAcceptee;
+		@OneToOne(cascade = {CascadeType.ALL})
 		private Beneficiaire beneficiare;
-		@OneToOne()
+		@OneToOne(cascade = {CascadeType.ALL})
 		private Projet projet;
-		@OneToOne()
+		@OneToOne(cascade = {CascadeType.ALL})
 		private Credit credit ;
-		@OneToOne()
+		@OneToOne(cascade = {CascadeType.ALL})
         private Autorisation autorisation;
-		@OneToOne()
+		@OneToOne(cascade = {CascadeType.ALL})
         private Passifs passifs ;
-		@OneToOne()
+		@OneToOne(cascade = {CascadeType.ALL})
         private Actifs actifs ;
-		@OneToOne()
+		@OneToOne(cascade = {CascadeType.ALL})
 		private MontantInvestissement montantInvestissement;
-		@OneToOne()
+		@OneToOne(cascade = {CascadeType.ALL})
 		private PieceJointes pieceJointes;
 		@OneToOne()
 	    private Modalite modalite ;

@@ -20,9 +20,8 @@ public class Beneficiaire {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idBeneficiaire;
+    @Enumerated(EnumType.STRING)
     private TYPEPERSONNE typPersonne;
-    private Long matriculeFiscale;
-    private Personne personne;
     private String natureActivite;
     private Integer codeActivite;
     @OneToOne
@@ -31,17 +30,16 @@ public class Beneficiaire {
     private SousSecteur sousSecteur;
     private String activite;
     private String region;
-  @OneToOne
- private Gouvernorat gouvernorat;
- @OneToOne
-  private Delegation delegation;
+    @OneToOne
+    private Gouvernorat gouvernorat;
+    @OneToOne
+    private Delegation delegation;
     private String adresse;
     private Integer codePostal;
-
-	    @OneToOne(mappedBy="beneficiaire")
-	    private PersonneMorale personneMorale;
-	    @OneToOne(mappedBy="beneficiaire")
-	    private PersonnePhysique personnePhysique;
+    @OneToOne(mappedBy="beneficiaire")
+    private PersonneMorale personneMorale;
+    @OneToOne(mappedBy="beneficiaire")
+    private PersonnePhysique personnePhysique;
 
 
 }

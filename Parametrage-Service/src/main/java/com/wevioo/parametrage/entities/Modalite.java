@@ -31,7 +31,7 @@ public class Modalite {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Fond fond ;
 	@JsonIgnore
-	@OneToMany(mappedBy="modalite",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="modalite",fetch = FetchType.LAZY)
 	private List <Convention> conventions ;
 	private String nomCompletModalite;
 

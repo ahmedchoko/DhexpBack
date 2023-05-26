@@ -4,8 +4,10 @@ import com.wevioo.demande.entities.MontantInvestissement;
 import com.wevioo.demande.repository.MontantInvestissementRepository;
 import com.wevioo.demande.services.MontantInvestissementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
+@Service
 
 public class MontantinvestissementServiceImpl implements MontantInvestissementService {
     @Autowired

@@ -6,7 +6,7 @@ HELP.md
 /Demande-Service/target/
 /Parametrage-Service/target/
 /Demande-Service/target/
-
+/Test-Service
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

@@ -4,8 +4,10 @@ import com.wevioo.demande.entities.Projet;
 import com.wevioo.demande.repository.ProjetRepository;
 import com.wevioo.demande.services.ProjetService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
+@Service
 
 public class ProjetServiceImpl implements ProjetService{
     @Autowired

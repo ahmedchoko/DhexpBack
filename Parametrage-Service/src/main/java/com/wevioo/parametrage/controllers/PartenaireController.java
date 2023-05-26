@@ -90,7 +90,7 @@ public class PartenaireController {
      public Partenaire getPartenaireById(@RequestParam() Long id) {
 		 return partenaireService.getPartenaireById(id) ;
 		 }
-	 @GetMapping("/getPartenaireList")
+	 @GetMapping("/getPartenaicreateDemandereList")
      public List<Partenaire> getPartenaireList() {
 		 return partenaireRepository.findAll();
 		 }

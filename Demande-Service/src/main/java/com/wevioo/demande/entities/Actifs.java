@@ -41,7 +41,7 @@ public class Actifs {
     public Demande demande ;
     @OneToOne
     private Zone zone;
-   @OneToOne
-   private Delegation delegation;
+    @OneToOne
+    private Delegation delegation;
 
 }

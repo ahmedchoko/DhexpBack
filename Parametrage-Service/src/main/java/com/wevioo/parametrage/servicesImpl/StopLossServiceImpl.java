@@ -118,6 +118,14 @@ public class StopLossServiceImpl implements StopLossService {
         stoplossPartenaireRepository.deleteById(id);
         return stoplossPartenaire;
     }
+    @Override
+    public StoplossPartenaire updateSLPartenaire( StoplossPartenaireDto slpartenaire) {
+
+        supprimerSLPartenaire(slpartenaire);
+        StoplossPartenaire slPartenaire = createSLPartenaire(slpartenaire);
+
+        return slPartenaire;
+    }
 
     @Override
     public Page<StoplossPartenaire> getSLPartenaire( int page, int size) {

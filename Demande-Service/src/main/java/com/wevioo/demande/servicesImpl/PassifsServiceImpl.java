@@ -4,8 +4,10 @@ import com.wevioo.demande.entities.Passifs;
 import com.wevioo.demande.repository.PassifsRepository;
 import com.wevioo.demande.services.PassifsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
+@Service
 
 public class PassifsServiceImpl implements PassifsService {
     @Autowired

@@ -43,14 +43,34 @@ public class PartenaireServiceImpl implements PartenaireService{
 	private ConventionRepository conventionRepository;
 	@Autowired
 	private ModaliteRepository modaliteRepository;
-	
+
 	@Override
-	public Page<Partenaire> getAllPartenaire(String fond ,String modalite , String MontantMinsearchTerm,String MontantMaxsearchTerm, String StatutsearchTerm ,int page, int size) throws ParseException {
-        Pageable pageable = PageRequest.of(page, size);
-        PartenaireSpecification specif = new PartenaireSpecification();
-		Specification <Partenaire> spec = specif.getPartenairewithSpec(fond ,modalite ,MontantMinsearchTerm, MontantMaxsearchTerm, StatutsearchTerm);
-		return partenaireRepository.findAll(spec,pageable);
-	}
+
+public Page<Partenaire> getAllPartenaire(String fond ,String modalite , String MontantMinsearchTerm,String MontantMaxsearchTerm, String StatutsearchTerm ,int page, int size) throws ParseException {
+
+
+
+  Pageable pageable = PageRequest.of(page, size);
+
+
+
+ PartenaireSpecification specif = new PartenaireSpecification();
+
+Specification <Partenaire> spec = specif.getPartenairewithSpec(fond ,modalite ,MontantMinsearchTerm, MontantMaxsearchTerm, StatutsearchTerm);
+
+ Page<Partenaire> pats = partenaireRepository.findAll(spec,pageable);
+
+  for(Partenaire p : pats.getContent()) {
+
+ p.getConventions().size();
+
+ }
+
+ return pats;
+
+
+
+ }
 
 	@Override
 	public Long addPartenaire(Partenaire partenaire) {

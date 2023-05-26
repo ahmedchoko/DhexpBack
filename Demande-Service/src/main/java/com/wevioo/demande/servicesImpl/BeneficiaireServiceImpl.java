@@ -4,9 +4,10 @@ import com.wevioo.demande.entities.Beneficiaire;
 import com.wevioo.demande.repository.BeneficiaireRepository;
 import com.wevioo.demande.services.BeneficiaireService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
-
+@Service
 public class BeneficiaireServiceImpl implements BeneficiaireService {
 @Autowired
     BeneficiaireRepository beneficiaireRepository;
@@ -24,7 +25,7 @@ public class BeneficiaireServiceImpl implements BeneficiaireService {
                .secteur(BeneficiaireRequest.getSecteur())
                 .sousSecteur(BeneficiaireRequest.getSousSecteur())
                 .typPersonne(BeneficiaireRequest.getTypPersonne())
-                .matriculeFiscale(BeneficiaireRequest.getMatriculeFiscale())
+             //   .matriculeFiscale(BeneficiaireRequest.getMatriculeFiscale())
                 .build();
         return beneficiaireRepository.save(beneficiaire);
     }
@@ -51,7 +52,7 @@ public class BeneficiaireServiceImpl implements BeneficiaireService {
         beneficiaire.setCodeActivite(BeneficiaireRequest.getCodeActivite());
         beneficiaire.setCodePostal(BeneficiaireRequest.getCodePostal());
         beneficiaire.setTypPersonne(BeneficiaireRequest.getTypPersonne());
-        beneficiaire.setMatriculeFiscale(BeneficiaireRequest.getMatriculeFiscale());
+       // beneficiaire.setMatriculeFiscale(BeneficiaireRequest.getMatriculeFiscale());
         return beneficiaireRepository.save(beneficiaire);
     }
 

@@ -4,6 +4,7 @@ import com.wevioo.parametrage.common.NotFoundException;
 import com.wevioo.parametrage.dto.ModaliteDto;
 import com.wevioo.parametrage.entities.Fond;
 import com.wevioo.parametrage.entities.Modalite;
+import com.wevioo.parametrage.enums.TypeDemande;
 import com.wevioo.parametrage.enums.TypeModalite;
 import com.wevioo.parametrage.services.FondService;
 import com.wevioo.parametrage.services.ModaliteService;
@@ -69,9 +70,9 @@ public class ModaliteController {
                     getFondById(modaliteRequest
                             .getFond()
                             .getIdFond());
-            List<TypeModalite> listeMod = new ArrayList<>();
-            fond.getModalites().forEach( (Modalite mod  )  ->  listeMod.add(mod.getTypeModalite()));
-            if ( listeMod.contains(modaliteRequest.getTypeModalite()) ){
+            List<TypeDemande> listeMod = new ArrayList<>();
+            fond.getModalites().forEach( (Modalite mod  )  ->  listeMod.add(mod.getNatureDemande()));
+            if ( listeMod.contains(modaliteRequest.getNatureDemande()) ){
                 return ResponseEntity.badRequest().build();
 
             };

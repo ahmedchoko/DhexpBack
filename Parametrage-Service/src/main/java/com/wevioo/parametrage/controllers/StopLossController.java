@@ -101,5 +101,13 @@ public class StopLossController {
         try { StoplossPartenaire stoplossPartenaire = stopLossService.supprimerSLPartenaire(slpartenaire);
             return ResponseEntity.ok().body(stoplossPartenaire) ;   }
         catch(NotFoundException exception) { return ResponseEntity.notFound().build();  }    }
+    @PostMapping("updateSlPartenaire")
+    public ResponseEntity <StoplossPartenaire> updateSLPartenaire(@RequestBody StoplossPartenaireDto slpartenaire) {
+
+        try { StoplossPartenaire stoplossPartenaire = stopLossService.updateSLPartenaire(slpartenaire);
+            return ResponseEntity.ok().body(stoplossPartenaire) ;   }
+        catch(NotFoundException exception) { return ResponseEntity.notFound().build();  }    }
+
+
 
 }

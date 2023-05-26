@@ -1,7 +1,9 @@
 package com.wevioo.parametrage.services;
 
 import com.wevioo.parametrage.dto.ModaliteDto;
+import com.wevioo.parametrage.dto.StoplossPartenaireDto;
 import com.wevioo.parametrage.entities.Modalite;
+import com.wevioo.parametrage.entities.StoplossPartenaire;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

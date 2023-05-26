@@ -9,11 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 
 @Entity
@@ -25,6 +21,7 @@ public class Projet {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idProjet;
+    @Enumerated(EnumType.STRING)
     private TypeProjet typeProjet;
     private Integer codePostal;
     private String garanties;

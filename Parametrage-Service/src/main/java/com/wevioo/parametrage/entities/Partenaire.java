@@ -40,7 +40,7 @@ public class Partenaire {
 	@Enumerated(EnumType.STRING)
 	private Fondstatut statut ;
 	 @JsonIgnoreProperties("partenaire")
-	@OneToMany(mappedBy="partenaire",fetch = FetchType.LAZY)
+	@OneToMany(mappedBy="partenaire",fetch = FetchType.EAGER)
 	private List<Convention> conventions ;
 	@JsonIgnoreProperties("partenaire")
 	@OneToMany(mappedBy="stopLoss", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)

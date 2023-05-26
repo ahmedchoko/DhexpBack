@@ -2,10 +2,7 @@ package com.wevioo.demande.entities;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import com.wevioo.demande.enums.FormeRomboursement;
 import com.wevioo.demande.enums.NatureCredit;
@@ -27,5 +24,6 @@ public class Autorisation {
 		@GeneratedValue(strategy = GenerationType.AUTO)
 		private Long idAutorisation;
 		private Long numDeclarationAutori ;
+	    @Enumerated(EnumType.STRING)
 		private TypeAutorisation typeAutorisation ; 
 }

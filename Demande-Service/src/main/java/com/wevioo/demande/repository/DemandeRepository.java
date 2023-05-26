@@ -9,6 +9,9 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import com.wevioo.demande.entities.Demande;
+import org.springframework.stereotype.Repository;
+
+@Repository
 
 public interface DemandeRepository extends JpaRepository<Demande, Long>
 {
