@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @DiscriminatorValue(value="moral")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
