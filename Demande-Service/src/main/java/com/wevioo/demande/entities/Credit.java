@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.wevioo.demande.enums.Choix;
 import com.wevioo.demande.enums.FormeRomboursement;
@@ -61,6 +62,7 @@ public class Credit {
     private Long montantrisque ;
     private Choix nouveauPrometeur ;
     private Date dateEntreeProduction ;
+    @JsonIgnore
 	@OneToOne(mappedBy="credit")
     private Demande demande;
     

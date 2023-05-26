@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Date;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -124,5 +125,9 @@ public class StopLossServiceImpl implements StopLossService {
         Pageable pageable = PageRequest.of(page, size, Sort.by("idSLPartenaire"));
         Page<StoplossPartenaire> myDataPage = stoplossPartenaireRepository.findAll(pageable);
         return myDataPage;
+    }
+    @Override
+    public List<StoplossPartenaire> getSLPartenaire() {
+        return stoplossPartenaireRepository.findAll();
     }
 }

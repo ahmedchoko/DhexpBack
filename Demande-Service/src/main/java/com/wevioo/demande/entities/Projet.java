@@ -1,5 +1,6 @@
 package com.wevioo.demande.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wevioo.demande.enums.TypeProjet;
 import com.wevioo.parametrage.entities.Delegation;
 import com.wevioo.parametrage.entities.Zone;
@@ -37,6 +38,7 @@ public class Projet {
     private String strategieComm;
     private String site;
     private String prodOuServices;
+    @JsonIgnore
 	@OneToOne(mappedBy="projet")
     private Demande demande;
 	   @OneToOne

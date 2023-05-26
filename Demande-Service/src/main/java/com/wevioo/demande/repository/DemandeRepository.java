@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.wevioo.demande.entities.Demande;
 
-public interface DemandeRepository extends JpaRepository<Demande, Long>
+public interface DemandeRepository extends JpaRepository<Demande, Long> , JpaSpecificationExecutor<Demande>
 {
 	
 }

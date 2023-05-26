@@ -135,7 +135,7 @@ public class ModaliteController {
     public ResponseEntity nombreModaliteParType(){
         try {
 
-            return ResponseEntity.ok().body(modaliteService.NobreModaliteParType()) ;
+            return ResponseEntity.ok().body(modaliteService.nobreModaliteParType()) ;
         }
         catch(NotFoundException exception){
             return ResponseEntity.notFound().build();

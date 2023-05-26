@@ -2,20 +2,14 @@ package com.wevioo.parametrage.servicesImpl;
 
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
+
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
+
 import javax.transaction.Transactional;
 
 
@@ -26,21 +20,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.wevioo.parametrage.dto.FondDTO;
+
 import com.wevioo.parametrage.entities.Activite;
-import com.wevioo.parametrage.entities.Convention;
+
 import com.wevioo.parametrage.entities.Fond;
-import com.wevioo.parametrage.entities.Modalite;
-import com.wevioo.parametrage.entities.Partenaire;
+
 import com.wevioo.parametrage.entities.Secteur;
-import com.wevioo.parametrage.entities.SousSecteur;
+
 import com.wevioo.parametrage.enums.Fondstatut;
 import com.wevioo.parametrage.repository.ActiviteRepository;
 import com.wevioo.parametrage.repository.ConventionRepository;
 import com.wevioo.parametrage.repository.FondRepository;
 import com.wevioo.parametrage.repository.PartenaireRepository;
 import com.wevioo.parametrage.repository.SecteurRepository;
-import com.wevioo.parametrage.repository.SousSecteurRepository;
+
 import com.wevioo.parametrage.services.FondService;
 import com.wevioo.parametrage.specification.FondSpecification;
 
@@ -56,12 +49,18 @@ public class FondServiceImpl implements FondService{
 	private ConventionRepository conventionRepository;
 	@Autowired
 	private SecteurRepository secteurRepository;
+	@Autowired
+	private ActiviteRepository activiteRepository;
 	@Override
 	public Page <Fond> getAllFond(String date1 ,String date2 ,String StatutsearchTerm,String MontantMaxsearchTerm,String MontantMinsearchTerm, int page, int size) throws ParseException {
 		Pageable pageable = PageRequest.of(page, size);
-		FondSpecification specif = new FondSpecification();
-		Specification <Fond> spec = specif.getSpec(MontantMinsearchTerm, MontantMaxsearchTerm, StatutsearchTerm,date1, date2 );
-		return fondRepository.findAll(spec,pageable);
+		//FondSpecification specif = new FondSpecification();
+		Specification <Fond> spec = FondSpecification.getSpec(MontantMinsearchTerm, MontantMaxsearchTerm, StatutsearchTerm,date1, date2 );
+		Page <Fond> fonds =fondRepository.findAll(spec,pageable);
+				for (Fond fond : fonds.getContent()){
+					fond.getSecteurs().size();
+				};
+		return fonds;
 	}
 	@Transactional
 	@Override
@@ -131,69 +130,6 @@ public class FondServiceImpl implements FondService{
 
 		// Save the modified Fond entity
 		fondRepository.save(fond);
-
-
-	}
-
-	@Override
-	public Map<Fond, List<Modalite>> getAllFondofPartenaire(Long partenaireId) {
-		Partenaire partenaire =this.partenaireRepository.findById(partenaireId).get();
-		List <Convention> conventions = this.conventionRepository.findAll();
-		List <Fond> fonds=new ArrayList<Fond>() ;
-		List <Modalite> mods=new ArrayList<Modalite>() ;
-		List < Object> test1=new ArrayList() ;
-		Map  < Fond, Modalite > test = new HashMap <  Fond,Modalite> ();
-		Map  < Fond, List <Modalite> > res = new HashMap <  Fond,List <Modalite>> ();
-		/* for(Convention convention:conventions){
-			 if(partenaire.getIdPartenaire()==convention.getPartenaire().getIdPartenaire()) {
-
-				//System.out.println(convention.getModalite().getFond().toString());
-				//System.out.println( convention.getModalite().toString());
-				test.put(convention.getModalite().getFond(), convention.getModalite());
-				test1.add(test);
-				  fonds.add(convention.getModalite().getFond());
-			 }
-
-				    }
-		 /*for (int i = 0; i < test1.size(); i++) {
-			 for (int j=0 ; j < test1.size();j++) {
-				 if(i!=j)  {
-					   if( test1.get(i)== test1.get(j)) {
-				 //fonds.remove(fonds.get(i));
-				/// System.out.println( test1.get(i));
-				 for (Map.Entry m : ((Map<Fond, Modalite>) test1.get(i)).entrySet()) {
-					 for(Map.Entry nn : ((Map<Fond, Modalite>) test1.get(j)).entrySet()) {
-			           System.out.println("ID: "+m.getKey()+", Nom: "+m.getValue());
-			           if( m.getKey()== nn.getKey()) {
-			            	//System.out.print( m.getKey().toString());
-			            }
-
-			        }
-			 }
-
-
-			 }
-
-			}
-
-			 }
-*/
-		System.out.println("dcd "+test1);
-		for (Map.Entry<Fond, Modalite > m : test.entrySet()) {
-
-			for (Map.Entry<Fond, Modalite > n : test.entrySet()) {
-				if(m.getKey().getIdFond()==n.getKey().getIdFond()) {
-
-					mods.add(m.getValue());
-					res.put(m.getKey(),mods);
-				}
-
-			}
-
-		}
-
-		System.out.println("test111" + res);
-		return res;
 	}
 	@Override
 	public Fond getFondById(Long id) {
@@ -210,6 +146,7 @@ public class FondServiceImpl implements FondService{
 	}
 	@Override
 	public List<Secteur> getAllSecteur() {
+		
 		return secteurRepository.findAll().stream().collect(Collectors.toList());
 	}
 	@Override
@@ -222,19 +159,24 @@ public class FondServiceImpl implements FondService{
 		return fondRepository.getNonArchivedFonds();
 	}
 	@Override
-	public List FondTresorieBySecteur() {
+	public List fondTresorieBySecteur() {
 		// TODO Auto-generated method stub
 		return fondRepository.FondTresorieBySecteur();
 	}
 	@Override
-	public List FondCountByStatus() {
+	public List fondCountByStatus() {
 		// TODO Auto-generated method stub
 		return fondRepository.FondCountByStatus();
 	}
 	@Override
-	public float FondTotal() {
+	public float fondTotal() {
 		// TODO Auto-generated method stub
 		return fondRepository.FondTotal();
+	}
+	@Override
+	public List<Activite> listActivites() {
+		// TODO Auto-generated method stub
+		return activiteRepository.findAll();
 	}
 
 

@@ -1,5 +1,6 @@
 package com.wevioo.demande.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -22,9 +23,11 @@ import com.wevioo.parametrage.entities.Partenaire;
 
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 @Entity
-public class Demande {
+public class Demande implements Serializable{
 
-	    @Id
+
+	private static final long serialVersionUID = 1L;
+		@Id
 		@GeneratedValue(strategy = GenerationType.AUTO)
 		private Long idDemande;
 		private String numeroCompte ;
@@ -35,7 +38,7 @@ public class Demande {
 		private String referenceDemande;
 		private String nouveauPromoteur;
 		private String statut;
-		private String Utilisateur;
+		private String utilisateur;
 		private Date dateDeclaration;
 		@OneToOne()
 		private Beneficiaire beneficiare;

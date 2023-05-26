@@ -116,7 +116,7 @@ public class PartenaireController {
 	 }
 	 @GetMapping("/nombreTotalPartenaire")
 	 public int NombreTotalPartenaire(){
-		 return partenaireService.NombreTotalPartenaire();
+		 return partenaireService.nombreTotalPartenaire();
 	 }
 	 @PostMapping("/addpartenairewithcvt")
 	 public Long AddPartenairewithcvt(@RequestBody List <Convention>  conventions) {
@@ -126,7 +126,7 @@ public class PartenaireController {
 	 public Long ModifyPartenairewithcvt(@RequestBody List <Convention>  conventions) {
 		 return partenaireService.modifyPartenairewithcvt(conventions);
 	 }
-	 @GetMapping("/partenaire/fonds")
+	/* @GetMapping("/partenaire/fonds")
 		public ResponseEntity < ? >  getAllFondofpartenaire(@RequestParam(defaultValue = "") String firstNameFilter,
                 @RequestParam(defaultValue = "1") int page,
                 @RequestParam(defaultValue = "3") int size) {
@@ -177,6 +177,7 @@ public class PartenaireController {
 		 //FondsjsonResponseMap.put("res", res); 
 		// jsonResponseMap.put("res", FondsjsonResponseMap);
 		// jsonResponseMap.put("pagebale", this.partenaireService.getAllPartenaire(firstNameFilter, page, size));
-			 return new ResponseEntity < > ( this.fondService.getAllFondofPartenaire( (long) 1), HttpStatus.OK);
-		 }
+			// return new ResponseEntity < > ( this.fondService.getAllFondofPartenaire( (long) 1), HttpStatus.OK);
+		// }
+
 }

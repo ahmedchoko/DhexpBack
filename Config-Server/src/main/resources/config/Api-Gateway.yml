@@ -44,4 +44,3 @@ management:
     web: 
       exposure:
          include: "*"
-         

@@ -9,3 +9,7 @@ info:
   name: ${project.name}
   description: ${project.description}
   version: ${project.version}
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/  

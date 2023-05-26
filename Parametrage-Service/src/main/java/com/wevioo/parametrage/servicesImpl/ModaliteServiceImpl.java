@@ -106,7 +106,7 @@ public class ModaliteServiceImpl implements ModaliteService {
         return modalite;
     }
     @Override
-    public List NobreModaliteParType() {
+    public List nobreModaliteParType() {
         List<Object[]> resultList = modaliteRepository.findModaliteSummaryByDemandeTypeAndTresorie();
         Map<Object, Map<Object, List<Integer>>> tresorieByDemandeTypeAndMonth = new HashMap<>();
         for (Object[] result : resultList) {

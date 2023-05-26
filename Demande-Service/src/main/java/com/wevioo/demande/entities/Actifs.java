@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.wevioo.parametrage.entities.Delegation;
 import com.wevioo.parametrage.entities.Zone;
@@ -37,6 +38,7 @@ public class Actifs {
     private Long liquiditesEtEquivalents;
     private Long totalActCourants;
     private Long totalActifs;
+    @JsonIgnore
     @OneToOne(mappedBy="actifs")
     public Demande demande ;
     @OneToOne

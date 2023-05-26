@@ -6,7 +6,7 @@ import java.util.Set;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.wevioo.parametrage.enums.Fondstatut;
 import com.wevioo.parametrage.enums.TypePatenaire;
@@ -40,7 +40,7 @@ public class Partenaire {
 	@Enumerated(EnumType.STRING)
 	private Fondstatut statut ;
 	 @JsonIgnoreProperties("partenaire")
-	@OneToMany(mappedBy="partenaire",fetch = FetchType.LAZY)
+	@OneToMany(mappedBy="partenaire",fetch = FetchType.EAGER)
 	private List<Convention> conventions ;
 	@JsonIgnoreProperties("partenaire")
 	@OneToMany(mappedBy="stopLoss", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -52,3 +52,4 @@ public class Partenaire {
 	}
 
 }
+

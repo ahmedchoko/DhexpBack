@@ -1,7 +1,7 @@
 package com.wevioo.parametrage.entities;
 
-import java.util.HashSet;
-import java.util.List;
+
+
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,9 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,48 +29,46 @@ public class SousSecteur {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idSousSecteur;
 	private String name;
-
-    @JsonIgnore
-	@ManyToOne(cascade = CascadeType.ALL)
+	 @JsonIgnoreProperties("sousSecteurs")
+	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private Secteur secteur ; 
+    @JsonIgnoreProperties("sousSecteur")
 	@OneToMany(mappedBy="sousSecteur",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	  private Set<Activite> activites;
-
-	@Override
-	public String toString() {
-		return "SousSecteur [idSousSecteur=" + idSousSecteur + ", name=" + name + "]";
+	public SousSecteur(Long idSousSecteur, String name, Secteur secteur, Set<Activite> activites) {
+		super();
+		this.idSousSecteur = idSousSecteur;
+		this.name = name;
+		this.secteur = secteur;
+		this.activites = activites;
 	}
-
 	public Long getIdSousSecteur() {
 		return idSousSecteur;
 	}
-
 	public void setIdSousSecteur(Long idSousSecteur) {
 		this.idSousSecteur = idSousSecteur;
 	}
-
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public Secteur getSecteur() {
 		return secteur;
 	}
-
 	public void setSecteur(Secteur secteur) {
 		this.secteur = secteur;
 	}
-
 	public Set<Activite> getActivites() {
 		return activites;
 	}
-
 	public void setActivites(Set<Activite> activites) {
 		this.activites = activites;
 	}
-	
+	public SousSecteur() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 }

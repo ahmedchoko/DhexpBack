@@ -28,17 +28,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.modelmapper.ModelMapper;
 import com.wevioo.parametrage.dto.FondDTO;
+import com.wevioo.parametrage.entities.Activite;
 import com.wevioo.parametrage.entities.Fond;
 import com.wevioo.parametrage.entities.Modalite;
+import com.wevioo.parametrage.entities.ParametrageEvent;
 import com.wevioo.parametrage.entities.Secteur;
 import com.wevioo.parametrage.services.FondService;
+import com.wevioo.parametrage.servicesImpl.ParametrageProduce;
 
 
 @RestController
 @RequestMapping("parametrage/api/v1/fond")
 public class FondController {
 
-
+	
+	@Autowired
+    private ParametrageProduce parametrageProducer ;
 
 	@Autowired
 	private FondService fondService ;
@@ -103,8 +108,17 @@ public class FondController {
 	public List <Secteur> listSecteur() {
 		return fondService.getAllSecteur();
 	}
+	@GetMapping("/activites")
+	public List <Activite> listActivite() {
+		return fondService.listActivites();
+	}
 	@GetMapping("/listFonds")
 	public List <Fond> listFond() {
+		/*ParametrageEvent parametrageevent = new ParametrageEvent();
+		parametrageevent.setStatus("PENDING");
+		parametrageevent.setMessage("parametrage status is in pending");
+		parametrageevent.setFond(fondService.listFond());
+		parametrageProducer.sendMessage(parametrageevent);*/
 		return fondService.listFond();
 	}
 	@GetMapping("/getFonds")
@@ -112,14 +126,14 @@ public class FondController {
 	
 	@GetMapping("/fondTresorieBySecteur")
 	public List FondTresorieBySecteur() {
-		 return fondService.FondTresorieBySecteur();
+		 return fondService.fondTresorieBySecteur();
 	}
 	@GetMapping("/fondCountByStatus")
 	public List FondCountByStatus() {
-		 return fondService.FondCountByStatus();
+		 return fondService.fondCountByStatus();
 	}
 	@GetMapping("/fondTotal")
 	public float FondTotal() {
-		 return fondService.FondTotal();
+		 return fondService.fondTotal();
 	}
 }

@@ -13,8 +13,5 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Personne {
-  @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idPersonne;
     
 }

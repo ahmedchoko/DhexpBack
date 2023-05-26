@@ -14,9 +14,9 @@ spring:
     config:
       uri: http://localhost:7761
   main:
-    web-application-type: reactive
+    web-application-type: reactive 
 server:
   servlet:
     context-path: /parametrage
 
-    
+ 
