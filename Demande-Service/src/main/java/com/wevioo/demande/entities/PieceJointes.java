@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,6 +31,7 @@ public class PieceJointes {
 	private String nouveauPromoteur;
 	private String tabAmortissement;
 	private String contratOuvRenouvCredit;
+    @JsonIgnore
 	@OneToOne(mappedBy="pieceJointes")
 	public Demande demande  ;
 

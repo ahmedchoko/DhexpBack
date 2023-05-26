@@ -5,7 +5,7 @@ import com.wevioo.parametrage.dto.StoplossPartenaireDto;
 import com.wevioo.parametrage.entities.Modalite;
 import com.wevioo.parametrage.entities.StoplossPartenaire;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
 
 import java.util.List;
 
@@ -20,6 +20,6 @@ public interface ModaliteService {
 
    Modalite deleteModalite(Long id);
 
-   List NobreModaliteParType();
+    List nobreModaliteParType();
 
 }

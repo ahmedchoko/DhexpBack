@@ -1,6 +1,4 @@
 server:
-  servlet:
-    context-path: /parametrage
   port: 8090
 eureka:
   client:

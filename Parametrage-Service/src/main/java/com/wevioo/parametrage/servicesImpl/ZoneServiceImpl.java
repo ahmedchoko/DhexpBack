@@ -72,7 +72,7 @@ public class ZoneServiceImpl implements ZoneService{
 	@Override
 	public List<Zone> listZone() {
 		// TODO Auto-generated method stub
-		List <Zone> zonesNonQuotite = new ArrayList();
+		List <Zone> zonesNonQuotite = new ArrayList<Zone>();
 		for (Zone zone :zoneRepository.findAll()) {
 			if (zone.getQuotitee()==null) {
 				zonesNonQuotite.add(zone);
@@ -83,7 +83,7 @@ public class ZoneServiceImpl implements ZoneService{
 
 	@Override
 	public List<Zone> listZoneWithoutAffectation() {
-		List <Zone> zones = new ArrayList();
+		List <Zone> zones = new ArrayList<Zone>();
 		// TODO Auto-generated method stub
 		for (Zone zone :zoneRepository.findAll()) {
 				zones.add(zone);

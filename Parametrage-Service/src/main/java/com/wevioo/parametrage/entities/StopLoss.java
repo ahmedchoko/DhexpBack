@@ -1,10 +1,7 @@
 package com.wevioo.parametrage.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.wevioo.parametrage.common.StoplossPartenaireKey;
 import com.wevioo.parametrage.enums.Fondstatut;
-import com.wevioo.parametrage.enums.TypePatenaire;
-import com.wevioo.parametrage.enums.TypeStopLoss;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

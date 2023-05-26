@@ -1,13 +1,13 @@
 package com.wevioo.parametrage.entities;
 
-import java.util.List;
+
 import java.util.Set;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.wevioo.parametrage.enums.Choix;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

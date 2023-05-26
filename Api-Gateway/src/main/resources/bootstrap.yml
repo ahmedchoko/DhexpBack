@@ -1,6 +1,13 @@
 spring:
-  application:
+  application: #app discovery  config
     name: Api-Gateway
   cloud:
     config:
-      uri: http://localhost:7761
+      uri: http://${CONFIG_SERVICE:localhost}:${CONFIG_PORT:7761}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8080/auth/realms/banque-realm/protocol/openid-connect/certs
+  main:
+    web-application-type: reactive

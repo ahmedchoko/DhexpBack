@@ -1,8 +1,11 @@
 package com.wevioo.demande.repository;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public interface CreditRepository {
+import com.wevioo.demande.entities.Credit;
+import com.wevioo.demande.entities.Demande;
+
+public interface CreditRepository  extends JpaRepository<Credit, Long>
+{
 
 }

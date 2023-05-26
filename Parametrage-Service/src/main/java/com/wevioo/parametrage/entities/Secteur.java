@@ -1,8 +1,6 @@
 package com.wevioo.parametrage.entities;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
+
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,24 +10,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.wevioo.parametrage.enums.Fondstatut;
-import com.wevioo.parametrage.enums.TypePatenaire;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Entity
- 
 public class Secteur {
 
 	@Id
@@ -40,14 +38,10 @@ public class Secteur {
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL,mappedBy="secteurs")
 	  private Set<Fond> fonds;
-
+	 @JsonIgnoreProperties("secteur")
 	@OneToMany(mappedBy="secteur",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@Fetch(value=FetchMode.SELECT)
 	  private Set<SousSecteur> sousSecteurs;
-	@Override
-	public String toString() {
-		return "Secteur [ name=" + name + "]";
-	}
 	public Long getIdSec() {
 		return idSec;
 	}
@@ -72,6 +66,16 @@ public class Secteur {
 	public void setSousSecteurs(Set<SousSecteur> sousSecteurs) {
 		this.sousSecteurs = sousSecteurs;
 	}
-	
-	
+	public Secteur(Long idSec, String name, Set<Fond> fonds, Set<SousSecteur> sousSecteurs) {
+		super();
+		this.idSec = idSec;
+		this.name = name;
+		this.fonds = fonds;
+		this.sousSecteurs = sousSecteurs;
+	}
+	public Secteur() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 }

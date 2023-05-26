@@ -1,16 +1,17 @@
 package com.wevioo.demande.services;
 
-import com.wevioo.demande.dto.DemandeDto;
-import com.wevioo.demande.entities.Demande;
-import org.springframework.http.ResponseEntity;
-
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+
+import com.wevioo.demande.dto.DemandePreliminaireDTO;
+import com.wevioo.demande.entities.Demande;
 
 public interface DemandeService {
 
-	
-	public boolean Verifmatriculefiscal(String matricule);
-	public Demande createDemande(Demande demande);
-
 	public List<Demande> getDemandes();
+	public boolean Verifmatriculefiscal(String matricule);
+	public String VerifCritereEligibilite(DemandePreliminaireDTO demandePreliminaire);
+	public  Page <Demande>  getDemandePreliminaire(int page, int size);
+	Demande createDemande(Demande demande);
 }

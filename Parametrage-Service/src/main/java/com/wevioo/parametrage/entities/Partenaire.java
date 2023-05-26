@@ -6,7 +6,7 @@ import java.util.Set;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.wevioo.parametrage.enums.Fondstatut;
 import com.wevioo.parametrage.enums.TypePatenaire;
@@ -52,3 +52,4 @@ public class Partenaire {
 	}
 
 }
+

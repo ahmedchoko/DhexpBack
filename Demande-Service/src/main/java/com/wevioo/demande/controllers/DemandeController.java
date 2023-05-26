@@ -24,6 +24,12 @@ public class DemandeController {
     public DemandeServiceImpl demandeServiceImpl;
 
 
+
+
+        @Autowired
+       	private DemandeServiceImpl demandeServiceImpl;
+
+    	private Object data;
     @PostMapping("/createDemande")
     public ResponseEntity<Demande> createDemande(@RequestBody Demande demandeRequest) {
         if (! demandeRequest.getPartenaire().getStatut().equals( Fondstatut.ACTIF) )
@@ -67,7 +73,37 @@ public class DemandeController {
     public List<Demande> getDemandes(){
 
             return demandeServiceImpl.getDemandes();
+            @GetMapping("/getDemandePreliminaire")
+          	public ResponseEntity < ? > getDemandePreliminaire(@RequestParam(value = "page") int page,
+          			@RequestParam(value = "size") int size) {
+          		Map < String, Object > jsonResponseMap = new LinkedHashMap < String, Object > ();
+          	     jsonResponseMap.put("status", 1);
+          	     jsonResponseMap.put("pagebale", demandeServiceImpl.getDemandePreliminaire(page,size));
+          	      return new ResponseEntity < > (jsonResponseMap, HttpStatus.OK);
 
+          	}
+            @PostMapping("/addDemandePreliminaire")
+          	public ResponseEntity AddDemandePreliminaire(@RequestBody DemandePreliminaireDTO demande) {
+          		/*
+          		ParametrageEvent parametrageevent = new ParametrageEvent();
 
+          		parametrageevent.setStatus("PENDING");
+          		parametrageevent.setMessage("DEMANDE status is in pending , I NEED data");
+          		parametrageProducer.sendMessage(parametrageevent);
+          		  try {
+          		        Thread.sleep(2000); // 2 seconds
+          		    } catch (InterruptedException e) {
+          		        e.printStackTrace();
+          		    }
+          		  ObjectMapper objectMapper = new ObjectMapper();
+          		    try {
+          		         data = objectMapper.writeValueAsString(demandeServiceImpl.VerifCritereEligibilite(demande));
+          		    } catch (JsonProcessingException e) {
+          		        // Handle the exception appropriately
+          		        e.printStackTrace();
+          		        return null;
+          		    }*/
+          		    return new ResponseEntity < > (data, HttpStatus.OK) ;
+          }
     }
 }
