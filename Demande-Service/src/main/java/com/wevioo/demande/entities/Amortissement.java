@@ -3,6 +3,7 @@ package com.wevioo.demande.entities;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,8 +33,6 @@ public class Amortissement {
 	private Long montantEcheance ;
 	private Long restantDu ;
 	private String statutsEcheance ;
-	
-	
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.EAGER)
 	private Tranche tranche ; 
 }

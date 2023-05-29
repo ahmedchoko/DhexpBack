@@ -48,10 +48,10 @@ public class Demande implements Serializable{
 		private Credit credit ;
 		@OneToOne()
         private Autorisation autorisation;
-		@OneToOne()
+		/*@OneToOne()
         private Passifs passifs ;
 		@OneToOne()
-        private Actifs actifs ;
+        private Actifs actifs ;*/
 		@OneToOne()
 		private MontantInvestissement montantInvestissement;
 		@OneToOne()

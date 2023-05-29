@@ -1,5 +1,7 @@
 package com.wevioo.demande.entities;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,7 @@ import javax.persistence.OneToOne;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wevioo.demande.enums.TypeProjet;
 import com.wevioo.parametrage.entities.Delegation;
+import com.wevioo.parametrage.entities.Modalite;
 import com.wevioo.parametrage.entities.Zone;
 
 import lombok.AllArgsConstructor;
@@ -30,5 +33,5 @@ public class Tranche {
 	private Long idTranche;
     private Integer numeroTranche ;
     @OneToMany(mappedBy="tranche",fetch = FetchType.EAGER)
-    private Amortissement amortissement;
+    private Set<Amortissement> amortissement;
 }

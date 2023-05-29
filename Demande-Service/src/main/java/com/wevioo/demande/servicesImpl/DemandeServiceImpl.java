@@ -207,7 +207,6 @@ public class DemandeServiceImpl implements DemandeService{
 	public Demande createDemande(Demande demande) {
 
 		Demande nouvDemande = Demande.builder()
-				.actifs(demande.getActifs())
 				.autorisation(demande.getAutorisation())
 				.beneficiare(demande.getBeneficiare())
 				.fond(demande.getFond())
@@ -219,7 +218,6 @@ public class DemandeServiceImpl implements DemandeService{
 				.numeroPret(demande.getNumeroPret())
 				.numeroRne(demande.getNumeroRne())
 				.partenaire(demande.getPartenaire())
-				.passifs(demande.getPassifs())
 				.projet(demande.getProjet())
 				.statut(demande.getStatut())
 				.numeroCompte(demande.getNumeroCompte())

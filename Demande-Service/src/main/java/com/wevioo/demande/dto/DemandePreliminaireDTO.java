@@ -3,7 +3,6 @@ package com.wevioo.demande.dto;
 import java.util.Date;
 import java.util.List;
 
-import com.wevioo.demande.entities.Actifs;
 import com.wevioo.demande.entities.Demande;
 import com.wevioo.demande.enums.ObjetCredit;
 import com.wevioo.demande.enums.TYPEPERSONNE;
