@@ -51,7 +51,6 @@ public class Credit {
     private FormeRomboursement formeRomboursement;
     @Enumerated(EnumType.STRING)
     private Periodicite periodicite ;
-    private Integer numeroTranche ;
     private Date dateDeblocage;
     private Long montantCreditDebloquee;
     private Long capitalSocial ;
@@ -70,6 +69,9 @@ public class Credit {
     @JsonIgnore
 	@OneToOne(mappedBy="credit")
     private Demande demande;
+    
+	@OneToOne()
+    private Tranche tranche;
     
 
 }

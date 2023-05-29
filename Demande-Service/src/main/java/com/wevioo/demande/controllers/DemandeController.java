@@ -1,12 +1,16 @@
 package com.wevioo.demande.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wevioo.demande.dto.DemandeDto;
 import com.wevioo.demande.dto.DemandePreliminaireDTO;
 import com.wevioo.demande.entities.Demande;
 import com.wevioo.demande.enums.ObjetCredit;
 import com.wevioo.demande.repository.DemandeRepository;
+import com.wevioo.demande.servicesImpl.DemandeProducer;
 import com.wevioo.demande.servicesImpl.DemandeServiceImpl;
 import com.wevioo.parametrage.common.NotFoundException;
+import com.wevioo.parametrage.entities.ParametrageEvent;
 import com.wevioo.parametrage.enums.Fondstatut;
 import com.wevioo.parametrage.enums.ModaliteStatut;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +29,8 @@ import java.util.Map;
 public class DemandeController {
     @Autowired
     public DemandeServiceImpl demandeServiceImpl;
+    @Autowired
+    public DemandeProducer demandeProducer;
     	private Object data;
     @PostMapping("/createDemande")
     public ResponseEntity<Demande> createDemande(@RequestBody Demande demandeRequest) {
@@ -82,12 +88,12 @@ public class DemandeController {
           	}
             @PostMapping("/addDemandePreliminaire")
           	public ResponseEntity AddDemandePreliminaire(@RequestBody DemandePreliminaireDTO demande) {
-          		/*
+          		
           		ParametrageEvent parametrageevent = new ParametrageEvent();
 
           		parametrageevent.setStatus("PENDING");
           		parametrageevent.setMessage("DEMANDE status is in pending , I NEED data");
-          		parametrageProducer.sendMessage(parametrageevent);
+          		demandeProducer.sendMessage(parametrageevent);
           		  try {
           		        Thread.sleep(2000); // 2 seconds
           		    } catch (InterruptedException e) {
@@ -100,7 +106,7 @@ public class DemandeController {
           		        // Handle the exception appropriately
           		        e.printStackTrace();
           		        return null;
-          		    }*/
+          		    }
           		    return new ResponseEntity < > (data, HttpStatus.OK) ;
           }
   

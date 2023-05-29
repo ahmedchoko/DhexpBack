@@ -45,5 +45,4 @@ public class Actifs {
     private Zone zone;
     @OneToOne
     private Delegation delegation;
-
 }

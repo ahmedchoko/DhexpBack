@@ -14,7 +14,7 @@ import com.wevioo.parametrage.entities.ParametrageEvent;
 @Service
 public class DemandeProducer {
 	private static final Logger LOGGER =LoggerFactory.getLogger(DemandeProducer.class) ;
-/*
+
 	private NewTopic topic;
 	private KafkaTemplate<String,ParametrageEvent> kafkaTemplate ;
 	public DemandeProducer(NewTopic topic, KafkaTemplate<String, ParametrageEvent> kafkaTemplate) {
@@ -28,5 +28,5 @@ public class DemandeProducer {
 		Message <ParametrageEvent> message = MessageBuilder.withPayload(event).setHeader(KafkaHeaders.TOPIC, "topic1").build();
 		kafkaTemplate.send(message);
 	}
-	*/
+	
 }

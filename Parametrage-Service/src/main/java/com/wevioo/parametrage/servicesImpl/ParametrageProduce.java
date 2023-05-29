@@ -23,11 +23,11 @@ public class ParametrageProduce {
 		this.topic = topic;
 		this.kafkaTemplate = kafkaTemplate;
 	} 
-	/*
+	
 	public void sendMessage(ParametrageEvent event) {
 		LOGGER.info(String.format("parametrage event "));
 		Message <ParametrageEvent> message = MessageBuilder.withPayload(event).setHeader(KafkaHeaders.TOPIC, "topic2").build();
 		kafkaTemplate.send(message);
-	}*/
+	}
 	
 }

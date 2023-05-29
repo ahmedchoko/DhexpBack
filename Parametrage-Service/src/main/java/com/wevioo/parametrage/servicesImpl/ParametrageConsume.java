@@ -1,9 +1,17 @@
 package com.wevioo.parametrage.servicesImpl;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+
+import com.wevioo.parametrage.entities.Fond;
+import com.wevioo.parametrage.entities.ParametrageEvent;
+import com.wevioo.parametrage.entities.Partenaire;
+import com.wevioo.parametrage.entities.StoplossPartenaire;
+
 
 
 
@@ -23,7 +31,7 @@ public class ParametrageConsume {
         this.parametrageProducer = parametrageProducer;
         this.stopLossServiceimpl=stopLossServiceimpl;
     }
-/*
+
     @KafkaListener(topics = "topic1", groupId = "fond")
     public void consumeMessage(ParametrageEvent event) {
         System.out.print("xxxxxx"+event.getMessage());
@@ -41,5 +49,5 @@ public class ParametrageConsume {
         parametrageEvent.setStpparteanire(stpparteanire);
         // Send the ParametrageEvent to the other microservice
         parametrageProducer.sendMessage(parametrageEvent);
-    }*/
+    }
 }

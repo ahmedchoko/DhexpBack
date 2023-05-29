@@ -1,6 +1,11 @@
 server:
-  port: ${CONFIG_PORT:8060}
+  port: ${GATEWAY_PORT:8060}
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8080/auth/realms/banque-realm/protocol/openid-connect/certs
   application: #app discovery  config
     name: Api-Gateway
   main:
@@ -11,13 +16,13 @@ spring:
     gateway:
       routes:
       - id: Parametrage-Service
-        uri: http://localhost:8090/
+        uri: http://${PARAMETRAGE_SERVICE:localhost}:8090/
         predicates:
         - Path=/parametrage/**
         filters:
         - RewritePath=/(?<path>.*), /$\{path}
       - id: Demande-Service
-        uri: http://localhost:8091/
+        uri: http://${DEMANDE_SERVICE:localhost}:8091/
         predicates:
         - Path=/demande/**
         filters:
@@ -38,7 +43,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://${DISCOVERY_SERVICE:localhost}:${DISCOVERY_PORT:8761}/eureka/
 management:
   endpoints: 
     web: 

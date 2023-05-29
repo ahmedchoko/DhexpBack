@@ -15,7 +15,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
+ @NoArgsConstructor @AllArgsConstructor @Builder
 public class Zone {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,8 +29,56 @@ public class Zone {
 	@OneToMany(fetch = FetchType.EAGER)
 	private Set<Delegation> delegations;
 
-	@JsonIgnoreProperties("zones")
+	@JsonIgnoreProperties("zone")
 	@OneToOne(mappedBy="zone",fetch = FetchType.EAGER)
 	private Quotite quotitee ;
+
+	public Long getIdZone() {
+		return idZone;
+	}
+
+	public void setIdZone(Long idZone) {
+		this.idZone = idZone;
+	}
+
+	public String getNomZone() {
+		return nomZone;
+	}
+
+	public void setNomZone(String nomZone) {
+		this.nomZone = nomZone;
+	}
+
+	public String getNomArabeZone() {
+		return nomArabeZone;
+	}
+
+	public void setNomArabeZone(String nomArabeZone) {
+		this.nomArabeZone = nomArabeZone;
+	}
+
+	public Set<Gouvernorat> getGouvernorats() {
+		return gouvernorats;
+	}
+
+	public void setGouvernorats(Set<Gouvernorat> gouvernorats) {
+		this.gouvernorats = gouvernorats;
+	}
+
+	public Set<Delegation> getDelegations() {
+		return delegations;
+	}
+
+	public void setDelegations(Set<Delegation> delegations) {
+		this.delegations = delegations;
+	}
+
+	public Quotite getQuotitee() {
+		return quotitee;
+	}
+
+	public void setQuotitee(Quotite quotitee) {
+		this.quotitee = quotitee;
+	}
 
 }
