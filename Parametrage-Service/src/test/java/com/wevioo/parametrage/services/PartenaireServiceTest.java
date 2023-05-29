@@ -57,7 +57,7 @@ public class PartenaireServiceTest {
 	
 	@Test
 	public void testAddPartenairewithconvention() throws ParseException {
-		Modalite m = new Modalite((long)90,"ASN8");
+		Modalite m = new Modalite((long)2,"ASN8");
 		Mockito.when(modaliteRepository.findById((long)2)).thenReturn(Optional.of(m));
 		Partenaire partenaire = new Partenaire("ABC");
 		Convention convention = new Convention(partenaire);

@@ -65,14 +65,14 @@ public class DemandeServiceImpl implements DemandeService{
 		// TODO Auto-generated method stub
 		return false;
 	}
-/*
+
 	@KafkaListener(topics="topic2",groupId="fond")
 	public void consumeMessage(ParametrageEvent event) {
 		System.out.println("fff" +event.getFond());
    	    this.fonds =event.getFond() ;
    	    this.partenaires = event.getPartenaire();
    	    this.stoplosspartenaires = event.getStpparteanire();
-}*/
+}
 	@Override
 	public String VerifCritereEligibilite(DemandePreliminaireDTO demandePreliminaire) {
 		System.out.println("fonds "+this.stoplosspartenaires);
@@ -80,107 +80,118 @@ public class DemandeServiceImpl implements DemandeService{
 	String message ="";
 	String modalites = "";
 	String conventions = "";
+	boolean isgaranted = true ;
 	System.out.println("demandePreliminaire "+demandePreliminaire);
 	for(Fond fond : this.fonds) {
-		if(fond.getIdFond().toString().equals(demandePreliminaire.getFond()) &&(fond.getStatut().toString().equals("ACTIF"))) {
-			System.out.println(fond.getModalites());
-			for(Modalite modalite : fond.getModalites()) {
-				modalites=modalites+" "+modalite.getTypeModalite().name();
-				if(modalite.getTypeModalite().toString().equals(demandePreliminaire.getModalite())) {
-					if(modalite.getStatut().toString().equals("NONACTIF") ) {
-						message = "modalite choisie n'est pas ACTIF";
-						return message;
-					}
-					else {
-						for(Partenaire partenaire : this.partenaires) {
-								if(demandePreliminaire.getNomCompletPartenaire().equals(partenaire.getNomCompletPartenaire())) {
-									 if (partenaire.getStatut().toString().equals("ACTIF")) {
-										 	for(Convention convention : partenaire.getConventions()) {
-										 		conventions = conventions+""+convention.getModalite().getTypeModalite();
+		System.out.println("1"+fond.getStatut().toString())	;
+		System.out.println("2"+demandePreliminaire.getFond());	
+		System.out.println("3"+fond.getIdFond().toString());		
+		if((fond.getIdFond().toString().equals(demandePreliminaire.getFond()))) {
+			if((fond.getStatut().toString().equals("ACTIF"))) {
+				for(Modalite modalite : fond.getModalites()) {
+					modalites=modalites+" "+modalite.getTypeModalite().name();
+					System.out.println("t"+modalite.getTypeModalite().toString().equals(demandePreliminaire.getModalite()));
+					if(modalite.getTypeModalite().toString().equals(demandePreliminaire.getModalite())) {
+						if(modalite.getStatut().toString().equals("NONACTIF") ) {
+							System.out.println(message);
+							message = "modalite choisie n'est pas ACTIF";
+							return message;
+						}
+						else {
+							for(Partenaire partenaire : this.partenaires) {
+									if(demandePreliminaire.getNomCompletPartenaire().equals(partenaire.getNomCompletPartenaire())) {
+										 if (partenaire.getStatut().toString().equals("ACTIF")) {
+											 	for(Convention convention : partenaire.getConventions()) {
+											 		conventions = conventions+""+convention.getModalite().getTypeModalite();
 
-								if(convention.getModalite().getTypeModalite().toString().equals(demandePreliminaire.getModalite())) {
-									Long res=(long) 0;
-									Long montant = demandePreliminaire.getMontantinvestissement();
-									for(StoplossPartenaire stoplosspartenaire : stoplosspartenaires) {
-										if(partenaire.getIdPartenaire().equals(stoplosspartenaire.getPartenaire().getIdPartenaire())) {
-												Integer taux = stoplosspartenaire.getTauxSLPartenaire() ;
-									 res =	(stoplosspartenaire.getStoploss().getFond().getTresorerieFond() * taux) /100;
+									if(convention.getModalite().getTypeModalite().toString().equals(demandePreliminaire.getModalite())) {
+										Long res=(long) 0;
+										Long montant = demandePreliminaire.getMontantinvestissement();
+										for(StoplossPartenaire stoplosspartenaire : stoplosspartenaires) {
+											if(partenaire.getIdPartenaire().equals(stoplosspartenaire.getPartenaire().getIdPartenaire())) {
+													Integer taux = stoplosspartenaire.getTauxSLPartenaire() ;
+										 res =	(stoplosspartenaire.getStoploss().getFond().getTresorerieFond() * taux) /100;
+											}
+
 										}
+										if(montant< res) {
+											message = "Parfait demande preliminaire est accepte";
+											Demande demande = new Demande();
+											demande.setReferenceDemande(demandePreliminaire.getReferencedossierpartenaire());
+											demande.setPartenaire(partenaire);
+											demande.setNouveauPromoteur(demandePreliminaire.getNouvPromo());
+											demande.setNumeroCompte(demandePreliminaire.getNumerocompte());
+											demande.setNumeroRne(demandePreliminaire.getNumerorne());
+											Credit credit =new Credit();
+										    credit.setTypeCredit(demandePreliminaire.getTypecredit());
+										    credit.setMontantCreditAutorise(demandePreliminaire.getMontantcreditautorise());
+										    credit.setObjetCredit(demandePreliminaire.getObjetcredit());
+										    Credit creditsaved = creditRepository.save(credit);
+											demande.setCredit(creditsaved);
+											Projet projet = new Projet();
+											projet.setTypeProjet(demandePreliminaire.getTypeprojet());
+											Projet projetsaved = projetRepository.save(projet);
+											demande.setPartenaire(partenaire);
+											demande.setModalite(modalite);
+											demande.setProjet(projetsaved);
+											Beneficiaire beneficiare = new Beneficiaire();
+											beneficiare.setTypPersonne(demandePreliminaire.getTypebenificiaire());
+											if(demandePreliminaire.getTypebenificiaire().equals(TYPEPERSONNE.MORALE)) {
+												Beneficiaire beneficiaresaved = beneficiaireRepository.save(beneficiare);
+												PersonneMorale personnemorale = new PersonneMorale();
+												personnemorale.setBeneficiaire(beneficiaresaved);
+												PersonneMorale personnemoralesaved = personneMoraleRepository.save(personnemorale);
 
-									}
-									if(montant< res) {
-										message = "Parfait demande preliminaire est accepte";
-										Demande demande = new Demande();
-										demande.setReferenceDemande(demandePreliminaire.getReferencedossierpartenaire());
-										demande.setPartenaire(partenaire);
-										demande.setNouveauPromoteur(demandePreliminaire.getNouvPromo());
-										demande.setNumeroCompte(demandePreliminaire.getNumerocompte());
-										demande.setNumeroRne(demandePreliminaire.getNumerorne());
-										Credit credit =new Credit();
-									    credit.setTypeCredit(demandePreliminaire.getTypecredit());
-									    credit.setMontantCreditAutorise(demandePreliminaire.getMontantcreditautorise());
-									    credit.setObjetCredit(demandePreliminaire.getObjetcredit());
-									    Credit creditsaved = creditRepository.save(credit);
-										demande.setCredit(creditsaved);
-										Projet projet = new Projet();
-										projet.setTypeProjet(demandePreliminaire.getTypeprojet());
-										Projet projetsaved = projetRepository.save(projet);
-										demande.setPartenaire(partenaire);
-										demande.setModalite(modalite);
-										demande.setProjet(projetsaved);
-										Beneficiaire beneficiare = new Beneficiaire();
-										beneficiare.setTypPersonne(demandePreliminaire.getTypebenificiaire());
-										if(demandePreliminaire.getTypebenificiaire().equals(TYPEPERSONNE.MORALE)) {
-											Beneficiaire beneficiaresaved = beneficiaireRepository.save(beneficiare);
-											PersonneMorale personnemorale = new PersonneMorale();
-											personnemorale.setBeneficiaire(beneficiaresaved);
-											PersonneMorale personnemoralesaved = personneMoraleRepository.save(personnemorale);
+												demande.setBeneficiare(beneficiaresaved);
 
-											demande.setBeneficiare(beneficiaresaved);
-
+											}
+											else {
+												Beneficiaire beneficiaresaved = beneficiaireRepository.save(beneficiare);
+												PersonnePhysique personnephysique = new PersonnePhysique();
+												personnephysique.setBeneficiaire(beneficiaresaved);
+												PersonnePhysique personnephysiquesaved = personnePhysiqueRepository.save(personnephysique);
+												demande.setBeneficiare(beneficiaresaved);
+											}
+											demandeRepository.save(demande);
+											return message;
 										}
 										else {
-											Beneficiaire beneficiaresaved = beneficiaireRepository.save(beneficiare);
-											PersonnePhysique personnephysique = new PersonnePhysique();
-											personnephysique.setBeneficiaire(beneficiaresaved);
-											PersonnePhysique personnephysiquesaved = personnePhysiqueRepository.save(personnephysique);
-											demande.setBeneficiare(beneficiaresaved);
+											message = "Le montant mis dépasse le taux du partenaire choisis sur ce fond" ;
+											return message;
 										}
-										demandeRepository.save(demande);
-										return message;
+
 									}
 									else {
-										message = "Le montant mis dépasse le taux du partenaire choisis sur ce fond" ;
+										message = "Partenaire choisi n'a pas signé un Contrat "+ demandePreliminaire.getModalite() +"tu peux choisir l'un de ces modalités signés par ce partenaire "+conventions ;
+										return message;
+									}
+								}
+										 }
+										 else {
+										message = "Parteanire choisie n'est pas ACTIF";
 										return message;
 									}
 
-								}
-								else {
-									message = "Partenaire choisi n'a pas signé un Contrat "+ demandePreliminaire.getModalite() +"tu peux choisir l'un de ces modalités signés par ce partenaire "+conventions ;
-									return message;
-								}
 							}
-									 }
-									 else {
-									message = "Parteanire choisie n'est pas ACTIF";
-									return message;
-								}
+							}
 
 						}
-						}
+					}
+					else {
 
+						message = "modalite choisie " + demandePreliminaire.getModalite()+" n'est pas affecté au fond "+fond.getNomCompletFond() +" tu peux choisir l'un de ces modalites "+modalites;
+						return message;
 					}
 				}
-				else {
-
-					message = "modalite choisie " + demandePreliminaire.getModalite()+" n'est pas affecté au fond "+fond.getNomCompletFond() +" tu peux choisir l'un de ces modalites "+modalites;
-				}
 			}
-		}
-		else {
+			else {
 			message="Fond choisi n'est pas actif";
+			System.out.println(message);
 			return message;
 		}
+
+		}
+	
 	}
 	return message;
 	}

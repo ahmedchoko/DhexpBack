@@ -20,7 +20,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
+ @NoArgsConstructor @AllArgsConstructor @Builder
 public class Quotite {
 
 	@Id
@@ -46,5 +46,53 @@ public class Quotite {
 	@JsonIgnoreProperties("quotites")
 	@ManyToOne()
 	private Fond  fond  ;
+	public Long getIdQuotite() {
+		return idQuotite;
+	}
+	public void setIdQuotite(Long idQuotite) {
+		this.idQuotite = idQuotite;
+	}
+	public Choix getZonal() {
+		return zonal;
+	}
+	public void setZonal(Choix zonal) {
+		this.zonal = zonal;
+	}
+	public Choix getRitic() {
+		return ritic;
+	}
+	public void setRitic(Choix ritic) {
+		this.ritic = ritic;
+	}
+	public Choix getNouvPromo() {
+		return nouvPromo;
+	}
+	public void setNouvPromo(Choix nouvPromo) {
+		this.nouvPromo = nouvPromo;
+	}
+	public Choix getCreditLeas() {
+		return creditLeas;
+	}
+	public void setCreditLeas(Choix creditLeas) {
+		this.creditLeas = creditLeas;
+	}
+	public int getValeurAppl() {
+		return valeurAppl;
+	}
+	public void setValeurAppl(int valeurAppl) {
+		this.valeurAppl = valeurAppl;
+	}
+	public Zone getZone() {
+		return zone;
+	}
+	public void setZone(Zone zone) {
+		this.zone = zone;
+	}
+	public Fond getFond() {
+		return fond;
+	}
+	public void setFond(Fond fond) {
+		this.fond = fond;
+	}
 	
 }

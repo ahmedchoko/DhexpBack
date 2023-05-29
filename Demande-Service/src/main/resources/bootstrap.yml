@@ -12,10 +12,10 @@ spring:
     name: Demande-Service
   cloud:
     config:
-      uri: http://localhost:7761
+      uri: http://${CONFIG_PORT:localhost}:7761
   main:
     web-application-type: reactive
-server:
-  servlet:
-    context-path: /demande
+
+
+
 
