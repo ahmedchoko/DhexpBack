@@ -34,7 +34,8 @@ public class DemandeController {
     	private Object data;
     @PostMapping("/createDemande")
     public ResponseEntity<Demande> createDemande(@RequestBody Demande demandeRequest) {
-        if (! demandeRequest.getPartenaire().getStatut().equals( Fondstatut.ACTIF) )
+		return null;
+      /*  if (! demandeRequest.getPartenaire().getStatut().equals( Fondstatut.ACTIF) )
         { return ResponseEntity.badRequest().build();};
         if (! (new Date()).before(demandeRequest.getPartenaire().getDateBlocage()))
         { return ResponseEntity.badRequest().build();};
@@ -69,7 +70,7 @@ public class DemandeController {
         catch(NotFoundException exception) {
             return ResponseEntity.badRequest().build();
 
-        }
+        }*/
     
 }
     @GetMapping("/demandes")

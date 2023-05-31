@@ -27,6 +27,14 @@ spring:
         - Path=/demande/**
         filters:
         - RewritePath=/(?<path>.*), /$\{path}
+      - id: Parametrage-Service-NotFound
+        uri: forward:/parametrage-service-not-found
+        predicates:
+        - Path=/parametrage/**
+      - id: Demande-Service-NotFound
+        uri: forward:/demande-service-not-found
+        predicates:
+        - Path=/demande/**
       globalcors:
         corsConfigurations:
           '[/**]':

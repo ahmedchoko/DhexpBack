@@ -1,5 +1,6 @@
 package com.wevioo.demande.entities;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -7,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -34,4 +36,7 @@ public class Tranche {
     private Integer numeroTranche ;
     @OneToMany(mappedBy="tranche",fetch = FetchType.EAGER)
     private Set<Amortissement> amortissement;
+    
+	@ManyToOne()
+    private Credit credit;
 }
