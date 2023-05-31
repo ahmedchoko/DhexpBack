@@ -23,6 +23,7 @@ public class Beneficiaire {
     @Enumerated(EnumType.STRING)
     private TYPEPERSONNE typPersonne;
     private String natureActivite;
+	private String numeroRib ;
     private Integer codeActivite;
     @OneToOne
     private Secteur secteur;
