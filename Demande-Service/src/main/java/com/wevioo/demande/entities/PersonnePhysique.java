@@ -3,12 +3,7 @@ package com.wevioo.demande.entities;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -25,15 +20,15 @@ import lombok.NoArgsConstructor;
 @DiscriminatorValue(value="physique")
  @NoArgsConstructor @AllArgsConstructor @Builder
 public class PersonnePhysique extends Personne implements Serializable{
-	
-	
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idPersonnePhysique;
 	private String nomCompletBenificiare;
 	private PieceIdentification typePieceIdentification;
 	private Long numPieceIdentification;
-	private String genre ; 
+	private String genre ;
 	private String telephonefixe;
 	private String telephoneMobile1;
 	private String telephoneMobile2;
@@ -102,5 +97,5 @@ public class PersonnePhysique extends Personne implements Serializable{
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
-	
+
 }

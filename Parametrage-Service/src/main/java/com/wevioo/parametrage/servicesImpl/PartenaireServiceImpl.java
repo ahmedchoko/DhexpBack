@@ -39,21 +39,21 @@ import com.wevioo.parametrage.specification.PartenaireSpecification;
 public class PartenaireServiceImpl implements PartenaireService{
 
 	  @Autowired
-	    private EntityManager entityManager; 
+	    private EntityManager entityManager;
 	@Autowired
 	private PartenaireRepository partenaireRepository;
 	@Autowired
 	private ConventionRepository conventionRepository;
 	@Autowired
 	private ModaliteRepository modaliteRepository;
-	
-	
+
+
 
 	@Override
 	public Page<Partenaire> getAllPartenaire(String fond ,String modalite , String MontantMinsearchTerm,String MontantMaxsearchTerm, String StatutsearchTerm ,int page, int size) throws ParseException {
-	
+
 			  Pageable pageable = PageRequest.of(page, size);
-				
+
 		        PartenaireSpecification specif = new PartenaireSpecification();
 				Specification <Partenaire> spec = specif.getPartenairewithSpec(fond ,modalite ,MontantMinsearchTerm, MontantMaxsearchTerm, StatutsearchTerm);
 		Page<Partenaire> pats =  partenaireRepository.findAll(spec,pageable);
@@ -62,7 +62,7 @@ public class PartenaireServiceImpl implements PartenaireService{
 		}
 		return pats;
 
-		
+
 	}
 
 	@Override
@@ -74,13 +74,13 @@ public class PartenaireServiceImpl implements PartenaireService{
 	@Override
 	public void deletePartenaire(Long id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public Long modifyPartenaire(Partenaire partenaire) {
 		return partenaireRepository.save(partenaire).getIdPartenaire();
-		
+
 	}
 
 	@Override
@@ -130,7 +130,7 @@ public class PartenaireServiceImpl implements PartenaireService{
 	@Override
 	public Long modifyConvnetion(Long conventionId, String critereModalite, String DateBlocage) throws ParseException {
 	  	SimpleDateFormat f = new SimpleDateFormat( "E MMM dd yyyy",Locale.ENGLISH);
-		  Date date1re = f.parse( DateBlocage);	
+		  Date date1re = f.parse( DateBlocage);
 		  Convention convention = conventionRepository.findById(conventionId).get();
 		  Partenaire partenaire = partenaireRepository.findById(convention.getPartenaire().getIdPartenaire()).get();
 
@@ -138,7 +138,7 @@ public class PartenaireServiceImpl implements PartenaireService{
 		  partenaire.setDateBlocage(date1re);
 		/*if(critereModalite.equals("Specifique")) {
 			convention.getModalite().setNatureDemande(TypeDemande.GPP);
-			
+
 		}*/
 		  partenaireRepository.save(partenaire);
 		return convention.getIdConvention();
@@ -160,6 +160,6 @@ public class PartenaireServiceImpl implements PartenaireService{
 		// TODO Auto-generated method stub
 		return partenaireRepository.findAll();
 	}
-	
+
 
 }

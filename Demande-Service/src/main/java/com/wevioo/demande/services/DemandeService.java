@@ -9,8 +9,9 @@ import com.wevioo.demande.entities.Demande;
 
 public interface DemandeService {
 
-	
+	public List<Demande> getDemandes();
 	public boolean Verifmatriculefiscal(String matricule);
 	public String VerifCritereEligibilite(DemandePreliminaireDTO demandePreliminaire);
 	public  Page <Demande>  getDemandePreliminaire(int page, int size);
+	Demande createDemande(Demande demande);
 }

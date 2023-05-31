@@ -7,6 +7,5 @@ import com.wevioo.demande.entities.Demande;
 
 public interface CreditRepository  extends JpaRepository<Credit, Long>
 {
-	
-}
 
+}
