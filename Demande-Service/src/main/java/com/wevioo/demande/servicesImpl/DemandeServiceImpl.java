@@ -78,10 +78,9 @@ public class DemandeServiceImpl implements DemandeService{
         Modalite mod = null ;
 	    for (Fond fond : this.fonds) {
 	        if (fond.getIdFond().toString().equals(demandePreliminaire.getFond())) {
-	            if (!fond.getStatut().toString().equals("ACTIF")) {
+	            if (!fond.getStatut().toString().equals("ACTIF") && estEligible==true) {
 	                estEligible = false;
 	                message = "Le fond choisi n'est pas actif";
-	                break;
 	            }
 
 	            boolean modaliteTrouvee = false;
@@ -89,15 +88,16 @@ public class DemandeServiceImpl implements DemandeService{
 
 	            for (Modalite modalite : fond.getModalites()) {
 	                modalites = modalites + " " + modalite.getTypeModalite().name();
-	                if (modalite.getTypeModalite().toString().equals(demandePreliminaire.getModalite())) {
+	                if (modalite.getTypeModalite().toString().equals(demandePreliminaire.getModalite()) && modaliteTrouvee==false) {
+	                	System.out.println("mod est choisi");
 	                    modaliteTrouvee = true;
 	                    mod= modalite;
 	                    if (modalite.getStatut().toString().equals("NONACTIF")) {
 	                        estEligible = false;
 	                        message = "La modalité choisie n'est pas active";
 	                    }
-	                    break;
-	                }
+	                 
+	                }  
 	            }
 
 	            if (!modaliteTrouvee) {
@@ -113,10 +113,10 @@ public class DemandeServiceImpl implements DemandeService{
 	    if (estEligible) {
 	        for (Partenaire partenaire : this.partenaires) {
 	            if (demandePreliminaire.getNomCompletPartenaire().equals(partenaire.getNomCompletPartenaire())) {
-	                if (!partenaire.getStatut().toString().equals("ACTIF")) {
+	                if (!partenaire.getStatut().toString().equals("ACTIF") && estEligible==true ) {
 	                    estEligible = false;
 	                    message = "Le partenaire choisi n'est pas actif";
-	                    break;
+
 	                }
 
 	                boolean conventionTrouvee = false;
@@ -174,20 +174,20 @@ public class DemandeServiceImpl implements DemandeService{
 									demande.setBeneficiare(beneficiaresaved);
 								}
 								demandeRepository.save(demande);
-								break;
+					
 							}
 							else {
 								message = "Le montant mis dépasse le taux du partenaire choisis sur ce fond" ;
-		                        break;
+
 							}
 	                    }
 	                }
 
-	                if (!conventionTrouvee) {
+	                if (!conventionTrouvee && estEligible==true) {
 	                    estEligible = false;
 	                    message = "Le partenaire choisi n'a pas signé un contrat " + demandePreliminaire.getModalite() +
 	                              ". Vous pouvez choisir l'une des modalités suivantes signées par ce partenaire : " + conventions;
-	                    break;
+
 	                }
 	            }
 	        }
