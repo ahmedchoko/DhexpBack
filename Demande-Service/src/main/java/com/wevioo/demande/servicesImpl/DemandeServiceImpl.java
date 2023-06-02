@@ -1,8 +1,11 @@
 package com.wevioo.demande.servicesImpl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
+import com.wevioo.demande.dto.DemandeDto;
+import com.wevioo.demande.enums.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,12 +18,9 @@ import com.wevioo.demande.dto.DemandePreliminaireDTO;
 import com.wevioo.demande.entities.Beneficiaire;
 import com.wevioo.demande.entities.Credit;
 import com.wevioo.demande.entities.Demande;
-import com.wevioo.demande.entities.Personne;
 import com.wevioo.demande.entities.PersonneMorale;
 import com.wevioo.demande.entities.PersonnePhysique;
 import com.wevioo.demande.entities.Projet;
-import com.wevioo.demande.enums.TYPEPERSONNE;
-import com.wevioo.demande.enums.TypeCredit;
 import com.wevioo.demande.repository.BeneficiaireRepository;
 import com.wevioo.demande.repository.CreditRepository;
 import com.wevioo.demande.repository.DemandeRepository;
@@ -33,8 +33,6 @@ import com.wevioo.parametrage.entities.Fond;
 import com.wevioo.parametrage.entities.Modalite;
 import com.wevioo.parametrage.entities.ParametrageEvent;
 import com.wevioo.parametrage.entities.Partenaire;
-import com.wevioo.parametrage.entities.Quotite;
-import com.wevioo.parametrage.entities.StopLoss;
 import com.wevioo.parametrage.entities.StoplossPartenaire;
 
 
@@ -138,6 +136,7 @@ public class DemandeServiceImpl implements DemandeService{
 							if(montant< res) {
 								message = "Parfait demande preliminaire est accepte";
 								Demande demande = new Demande();
+								demande.setStatut("ENCOURS");
 								demande.setReferenceDemande(demandePreliminaire.getReferencedossierpartenaire());
 								demande.setPartenaire(partenaire);
 								demande.setNouveauPromoteur(demandePreliminaire.getNouvPromo());
@@ -199,7 +198,97 @@ public class DemandeServiceImpl implements DemandeService{
 	@Override
 	public Page <Demande> getDemandePreliminaire(int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
-		return demandeRepository.findAll(pageable);
+		return demandeRepository.getDemandesEncours(pageable);
+	}
+
+	@Override
+	public Demande createDemande(DemandePreliminaireDTO demande) {
+		return null;
+	}
+
+	@Override
+	public Demande updateDemande(DemandeDto demande) throws ParseException {
+	Demande updatedDemande = demandeRepository.findById(Long.valueOf(demande.getIdDemande()))
+			.orElseThrow(() -> new NoSuchElementException("Resource with id "+" not found"));
+
+		/////Beneficiaire
+		updatedDemande.getBeneficiare().setAdresse(demande.getAddresse());
+		updatedDemande.getBeneficiare().setNatureActivite(demande.getNatureActivite());
+		//updatedDemande.getBeneficiare().setCodeActivite(demande.getActivites().getIdAct());
+		updatedDemande.getBeneficiare().setCodePostal(Integer.getInteger(demande.getCodePostal()));
+		updatedDemande.getBeneficiare().setDelegation(demande.getDelegation());
+		updatedDemande.getBeneficiare().setRegion(demande.getRegion());
+		updatedDemande.getBeneficiare().setGouvernorat(demande.getDelegation().getGouvernorat());
+		updatedDemande.getBeneficiare().setSecteur(demande.getActivites().getSousSecteur().getSecteur());
+		updatedDemande.getBeneficiare().setNumeroRib(demande.getNumerocompte());
+		if (demande.getBeneficiaire().equals(TYPEPERSONNE.PHYSIQUE)) {
+			updatedDemande.getBeneficiare().getPersonnePhysique().setNumPieceIdentification(demande.getNumPieceIdentification());
+			updatedDemande.getBeneficiare().getPersonnePhysique().setTelephonefixe(demande.getTelephonefixe());
+			updatedDemande.getBeneficiare().getPersonnePhysique().setTelephoneMobile1(demande.getTelephoneMobile1());
+			updatedDemande.getBeneficiare().getPersonnePhysique().setTelephoneMobile2(demande.getTelephoneMobile2());
+			updatedDemande.getBeneficiare().getPersonnePhysique().setGenre(demande.getGenre());
+			updatedDemande.getBeneficiare().getPersonnePhysique().setMail(demande.getMail());
+			updatedDemande.getBeneficiare().getPersonnePhysique().setNomCompletBenificiaire(demande.getNomCompletBenificiare());
+			updatedDemande.getBeneficiare().getPersonnePhysique().setTypePieceIdentification(PieceIdentification.valueOf(demande.getTypePieceIdentification()));
+		}
+		if( demande.getBeneficiaire().equals(TYPEPERSONNE.MORALE) ) {
+			updatedDemande.getBeneficiare().getPersonneMorale().setFormeJuridique(FormeJuridique.valueOf(demande.getFormeJuridique()));
+			updatedDemande.getBeneficiare().getPersonneMorale().setRaisonSociale(demande.getRaisonSociale());
+		}
+
+		//////Credit
+		//updatedDemande.getCredit().getCapitalSocial(demande);
+		updatedDemande.getCredit().setCofinancement(Choix.valueOf(demande.getCofinancement()));
+		SimpleDateFormat f = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+		Date DateBlocage = f.parse(demande.getDateDeblocage());
+		updatedDemande.getCredit().setDateDeblocage(DateBlocage);
+		Date DateDerniereTombeePrincipale = f.parse(demande.getDateDerniereTombeePrincipale());
+		updatedDemande.getCredit().setDateDerniereTombePrincipale(DateDerniereTombeePrincipale);
+		Date DateEntreeProduction = f.parse(demande.getDateEntreeProduction());
+		updatedDemande.getCredit().setDateEntreeProduction(DateEntreeProduction);
+		Date DatePremiereTombeePrincipale = f.parse(demande.getDatePremiereTombeePrincipale());
+		updatedDemande.getCredit().setDatePremiereTombePrincipale(DatePremiereTombeePrincipale);
+		Date DateAutorisation = f.parse(demande.getDateDeclaration());
+		updatedDemande.getCredit().setDateAutorisation(DateAutorisation);
+		updatedDemande.getCredit().setDureeCredit(Long.valueOf(demande.getDureeCredit()));
+		updatedDemande.getCredit().setEligibleRITI(Choix.valueOf(demande.getRitic()));
+		updatedDemande.getCredit().setFormeRomboursement(FormeRomboursement.valueOf(demande.getFormeRomboursement()));
+		updatedDemande.getCredit().setPeriodicite(Periodicite.valueOf(demande.getPeriodicite()));
+		//updatedDemande.getCredit().setImmobilisationNettesAvantNouvelInvestissement();
+		updatedDemande.getCredit().setMontantCredit(Long.valueOf(demande.getMontantCredit()));
+		updatedDemande.getCredit().setMontantrisque(Long.valueOf(demande.getMontantRisque()));
+		updatedDemande.getCredit().setMontantCreditDebloquee(Long.valueOf(demande.getMontantGarantieDebloque()));
+
+
+		/////Projet
+		updatedDemande.getProjet().setDelegation(demande.getDelegationProjet().getDelegation());
+		updatedDemande.getProjet().setCodePostal(Integer.getInteger(demande.getCodePostal()));
+		updatedDemande.getProjet().setSite(demande.getZoneImplementation());
+		updatedDemande.getProjet().setCodePostal(demande.getDelegationProjet().getCodePostal());
+
+
+		////Demande
+		updatedDemande.setNouveauPromoteur(demande.getNouveauPromoteur());
+		updatedDemande.setReferenceDemande(demande.getReferenceDemande());
+		updatedDemande.setUtilisateur(demande.getUtilisateur());
+		updatedDemande.setCodeCentraleRisque(demande.getCodecentralerisques());
+		Date DateDeclaration = f.parse(demande.getDateDeclaration());
+		updatedDemande.setDateDeclaration(DateDeclaration);
+		updatedDemande.setStatut(demande.getStatut());
+		//updatedDemande.setNumeroPret(demande);
+		//updatedDemande.setCodedouane();
+
+
+
+		//updatedDemande.getBeneficiare().setNomDeleg(nomDeleg);
+		//updatedDemande.setNomDelegProjet(nomDelegProjet);
+
+		//updatedDemande.setSousSecteur(sousSecteur);
+
+		//updatedDemande.getProjet().setZone(demande.getZoneImplementation()).setNomZone(demande.getZoneImplementation());
+
+		demandeRepository.save(updatedDemande);
+		return updatedDemande;
 	}
 
 
@@ -228,8 +317,10 @@ public class DemandeServiceImpl implements DemandeService{
 	}
 
 	@Override
-	public List<Demande> getDemandes() {
-		return demandeRepository.findAll();
+	public Page<Demande> getDemandes(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size, Sort.by("idDemande"));
+		Page<Demande> myDataPage = demandeRepository.getDemandesValidees(pageable);
+		return myDataPage;
 	}
 
 }

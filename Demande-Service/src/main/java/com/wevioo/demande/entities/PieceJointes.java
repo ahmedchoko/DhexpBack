@@ -1,10 +1,6 @@
 package com.wevioo.demande.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -20,17 +16,28 @@ public class PieceJointes {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idPieceJointes;
-	private String etatFinancierDernierExercice;
-	private String rapportCommisaireCompte ;
-	private String dossierJuridique  ;
-	private String planFinancementInvestissement  ;
-	private String planFinancement   ;
-	private String comptesRésultatsPrévisionnels;
-	private String contratPret;
-	private String titreCredit;
-	private String nouveauPromoteur;
-	private String tabAmortissement;
-	private String contratOuvRenouvCredit;
+	@Lob
+	private byte[] etatFinancierDernierExercice;
+	@Lob
+	private byte[] rapportCommisaireCompte ;
+	@Lob
+	private byte[] dossierJuridique  ;
+	@Lob
+	private byte[] planFinancementInvestissement  ;
+	@Lob
+	private byte[] planFinancement   ;
+	@Lob
+	private byte[] comptesRésultatsPrévisionnels;
+	@Lob
+	private byte[] contratPret;
+	@Lob
+	private byte[] titreCredit;
+	@Lob
+	private byte[] nouveauPromoteur;
+	@Lob
+	private byte[] tabAmortissement;
+	@Lob
+	private byte[] contratOuvRenouvCredit;
     @JsonIgnore
 	@OneToOne(mappedBy="pieceJointes")
 	public Demande demande  ;

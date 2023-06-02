@@ -15,6 +15,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 
 @Entity
@@ -39,8 +41,9 @@ public class Partenaire {
 	private Date dateBlocage ; 
 	@Enumerated(EnumType.STRING)
 	private Fondstatut statut ;
-	 @JsonIgnoreProperties("partenaire")
-	@OneToMany(mappedBy="partenaire",fetch = FetchType.EAGER)
+	@JsonIgnoreProperties("partenaire")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy="partenaire")
 	private List<Convention> conventions ;
 	@JsonIgnoreProperties("partenaire")
 	@OneToMany(mappedBy="stopLoss", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)

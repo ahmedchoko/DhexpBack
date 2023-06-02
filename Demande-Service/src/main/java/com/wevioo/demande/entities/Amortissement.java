@@ -26,7 +26,6 @@ public class Amortissement {
     @Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idAmortissement;
-    
     private String numeroEcheance ;
     private Date dateEcheance;
 	private Long montantAmortissement;

@@ -21,7 +21,6 @@ import lombok.NoArgsConstructor;
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class DemandePreliminaireDTO {
 
-	
 	private String codecentralerisques;
 	private String codedouane;
 	private String codeprofession;
@@ -33,20 +32,16 @@ public class DemandePreliminaireDTO {
 	private Long montantinvestissement;
 	private String nomCompletPartenaire;
 	private String nouvPromo;
-	
-	private String numerocompte ; 
+	private String numerocompte ;
 	private String numerorne;
-	 
-    private ObjetCredit objetcredit;
+	private ObjetCredit objetcredit;
     private String referencedossierpartenaire;
-    
     private String ritic ; 
-    private String typePartenaire; 
-    
+    private String typePartenaire;
     private TYPEPERSONNE typebenificiaire;
     private TypeCredit typecredit;
-    
     private String typefinancement;
     private TypeProjet typeprojet ;
+	private String statut;
 	
 }
