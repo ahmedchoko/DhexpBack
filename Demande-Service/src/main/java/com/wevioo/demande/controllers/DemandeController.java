@@ -88,10 +88,8 @@ public class DemandeController {
 
           	}
             @PostMapping("/addDemandePreliminaire")
-          	public ResponseEntity AddDemandePreliminaire(@RequestBody DemandePreliminaireDTO demande) {
-          		
+          	public ResponseEntity AddDemandePreliminaire(@RequestBody DemandePreliminaireDTO demande) {     		
           		ParametrageEvent parametrageevent = new ParametrageEvent();
-
           		parametrageevent.setStatus("PENDING");
           		parametrageevent.setMessage("DEMANDE status is in pending , I NEED data");
           		demandeProducer.sendMessage(parametrageevent);

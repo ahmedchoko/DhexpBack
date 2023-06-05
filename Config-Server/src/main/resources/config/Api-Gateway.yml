@@ -35,6 +35,16 @@ spring:
         uri: forward:/demande-service-not-found
         predicates:
         - Path=/demande/**
+      - id: Camunda-Service
+        uri: http://${Camunda_SERVICE:localhost}:7001/
+        predicates:
+        - Path=/camunda/**
+      - id: Image-Service
+        uri: http://${PARAMETRAGE_SERVICE:localhost}:8090/
+        predicates:
+        - Path=/images/**
+        filters:
+        - RewritePath=/auth/(?<path>.*), /$\{path}
       globalcors:
         corsConfigurations:
           '[/**]':

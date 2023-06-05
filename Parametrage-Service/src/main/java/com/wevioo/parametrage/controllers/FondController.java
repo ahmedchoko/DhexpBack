@@ -26,6 +26,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.GroupResource;
+import org.keycloak.admin.client.resource.RoleResource;
+import org.keycloak.representations.idm.UserRepresentation;
 import org.modelmapper.ModelMapper;
 import com.wevioo.parametrage.dto.FondDTO;
 import com.wevioo.parametrage.entities.Activite;
@@ -136,4 +140,5 @@ public class FondController {
 	public float FondTotal() {
 		 return fondService.fondTotal();
 	}
+
 }

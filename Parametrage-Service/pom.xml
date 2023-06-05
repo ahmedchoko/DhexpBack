@@ -5,12 +5,14 @@
         <artifactId>dhexp</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+    
     <artifactId>Parametrage-Service</artifactId>
     <name>Parametrage</name>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <spring-cloud.version>2021.0.3</spring-cloud.version>
+            <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
@@ -29,6 +31,11 @@
 						<scope>test</scope>
 			<version>2.6.8</version>			
 		</dependency>
+				<dependency>
+    <groupId>org.keycloak</groupId>
+    <artifactId>keycloak-admin-client</artifactId>
+    <version>15.0.2</version>
+</dependency>
 		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		 <dependency>
     <groupId>junit</groupId>
@@ -42,6 +49,9 @@
    <version>5.3.9</version>
    <scope>test</scope>
 </dependency>
+
+
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
@@ -69,6 +79,17 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.30</version>
         </dependency>
+        <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-devtools</artifactId>
+    <optional>true</optional>
+    <version>2.6.2</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-webflux</artifactId>
+    <version>2.7.2</version>
+</dependency>
 
         <dependency>
             <groupId>org.modelmapper</groupId>
@@ -108,4 +129,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    
 </project>
