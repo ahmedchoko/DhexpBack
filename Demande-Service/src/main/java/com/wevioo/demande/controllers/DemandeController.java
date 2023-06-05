@@ -10,10 +10,12 @@ import com.wevioo.demande.repository.DemandeRepository;
 import com.wevioo.demande.servicesImpl.DemandeProducer;
 import com.wevioo.demande.servicesImpl.DemandeServiceImpl;
 import com.wevioo.parametrage.common.NotFoundException;
+import com.wevioo.parametrage.entities.Modalite;
 import com.wevioo.parametrage.entities.ParametrageEvent;
 import com.wevioo.parametrage.enums.Fondstatut;
 import com.wevioo.parametrage.enums.ModaliteStatut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -73,11 +75,7 @@ public class DemandeController {
         }*/
     
 }
-    @GetMapping("/demandes")
-    public List<Demande> getDemandes(){
 
-            return demandeServiceImpl.getDemandes();
-    }
             @GetMapping("/getDemandePreliminaire")
           	public ResponseEntity < ? > getDemandePreliminaire(@RequestParam(value = "page") int page,
           			@RequestParam(value = "size") int size) {
@@ -108,6 +106,27 @@ public class DemandeController {
           		    }
           		    return new ResponseEntity < > (data, HttpStatus.OK) ;
           }
-  
+		  @PostMapping("/updateDemande")
+	public ResponseEntity<Demande> updateDemande(@RequestBody DemandeDto demande) {
+		try {
+			Demande updateDemande = demandeServiceImpl.updateDemande(demande);
+			return  ResponseEntity.ok().body(updateDemande);
+
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			return ResponseEntity.badRequest().build();
+		}
+	};
+	@GetMapping("/getDemandes")
+	public ResponseEntity<Page<Demande>> updateDemande(@RequestParam(defaultValue = "0") int page,
+													   @RequestParam(defaultValue = "10") int size){
+
+			try { Page<Demande> demandes = demandeServiceImpl.getDemandes(page, size);
+				return ResponseEntity.ok().body(demandes) ;   }
+			catch(NotFoundException exception) { return ResponseEntity.notFound().build();  }
+
+	};
+
 
 }

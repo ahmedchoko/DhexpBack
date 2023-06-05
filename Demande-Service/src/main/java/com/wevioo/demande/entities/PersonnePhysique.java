@@ -27,7 +27,7 @@ public class PersonnePhysique extends Personne implements Serializable{
 	private Long idPersonnePhysique;
 	private String nomCompletBenificiare;
 	private PieceIdentification typePieceIdentification;
-	private Long numPieceIdentification;
+	private String numPieceIdentification;
 	private String genre ;
 	private String telephonefixe;
 	private String telephoneMobile1;
@@ -52,7 +52,7 @@ public class PersonnePhysique extends Personne implements Serializable{
 	public String getNomCompletBenificiare() {
 		return nomCompletBenificiare;
 	}
-	public void setNomCompletBenificiare(String nomCompletBenificiare) {
+	public void setNomCompletBenificiaire(String nomCompletBenificiare) {
 		this.nomCompletBenificiare = nomCompletBenificiare;
 	}
 	public PieceIdentification getTypePieceIdentification() {
@@ -61,10 +61,10 @@ public class PersonnePhysique extends Personne implements Serializable{
 	public void setTypePieceIdentification(PieceIdentification typePieceIdentification) {
 		this.typePieceIdentification = typePieceIdentification;
 	}
-	public Long getNumPieceIdentification() {
+	public String getNumPieceIdentification() {
 		return numPieceIdentification;
 	}
-	public void setNumPieceIdentification(Long numPieceIdentification) {
+	public void setNumPieceIdentification(String numPieceIdentification) {
 		this.numPieceIdentification = numPieceIdentification;
 	}
 	public String getGenre() {

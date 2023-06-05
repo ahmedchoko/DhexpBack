@@ -16,4 +16,5 @@ public class kafkaConfig {
 	public NewTopic topic() {
 		return TopicBuilder.name("topic1").build();
 	}
+
 }

@@ -5,7 +5,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:8080/auth/realms/banque-realm/protocol/openid-connect/certs
+          jwk-set-uri: http://localhost:8080/auth/realms/dhexp/protocol/openid-connect/certs
   application: #app discovery  config
     name: Api-Gateway
   main:

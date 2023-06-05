@@ -3,12 +3,7 @@ package com.wevioo.demande.entities;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 
 import lombok.AllArgsConstructor;
@@ -40,26 +35,16 @@ public class Demande implements Serializable{
 		private String statut;
 		private String utilisateur;
 		private Date dateDeclaration;
-		@OneToOne()
+		@OneToOne(cascade = {CascadeType.MERGE})
 		private Beneficiaire beneficiare;
-		@OneToOne()
+		@OneToOne(cascade = {CascadeType.MERGE})
 		private Projet projet;
-		@OneToOne()
+		@OneToOne(cascade = {CascadeType.MERGE})
 		private Credit credit ;
-		/*@OneToOne()
-        private Autorisation autorisation;*/
-		/*@OneToOne()
-        private Passifs passifs ;
-		@OneToOne()
-        private Actifs actifs ;*/
-		/*@OneToOne()
-		private MontantInvestissement montantInvestissement;*/
-		@OneToOne()
+		@OneToOne(cascade = {CascadeType.MERGE})
 		private PieceJointes pieceJointes;
 		@OneToOne()
 	    private Modalite modalite ;
-	/*	@OneToOne()
-	    private Fond fond ;*/
 		@OneToOne()
 		private Partenaire partenaire ;
 
