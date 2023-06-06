@@ -56,11 +56,7 @@ public class DemandeServiceImpl implements DemandeService{
 	private List<Fond> fonds = new ArrayList();
 	private List<Partenaire> partenaires=new ArrayList();
 	private List<StoplossPartenaire> stoplosspartenaires = new ArrayList();
-	@Override
-	public boolean Verifmatriculefiscal(String matricule) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 
 	@KafkaListener(topics="topic2",groupId="fond")
 	public void consumeMessage(ParametrageEvent event) {
@@ -138,7 +134,7 @@ public class DemandeServiceImpl implements DemandeService{
 								Demande demande = new Demande();
 								demande.setStatut("ENCOURS");
 								demande.setReferenceDemande(demandePreliminaire.getReferencedossierpartenaire());
-								demande.setPartenaire(partenaire);
+								demande.setPartenaire(partenaire.getIdPartenaire());
 								demande.setNouveauPromoteur(demandePreliminaire.getNouvPromo());
 								demande.setNumeroCompte(demandePreliminaire.getNumerocompte());
 								demande.setNumeroRne(demandePreliminaire.getNumerorne());
@@ -151,8 +147,8 @@ public class DemandeServiceImpl implements DemandeService{
 								Projet projet = new Projet();
 								projet.setTypeProjet(demandePreliminaire.getTypeprojet());
 								Projet projetsaved = projetRepository.save(projet);
-								demande.setPartenaire(partenaire);
-								demande.setModalite(mod);
+								demande.setPartenaire(partenaire.getIdPartenaire());
+								demande.setModalite(mod.getIdModalite());
 								demande.setProjet(projetsaved);
 								Beneficiaire beneficiare = new Beneficiaire();
 								beneficiare.setTypPersonne(demandePreliminaire.getTypebenificiaire());
