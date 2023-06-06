@@ -25,6 +25,5 @@ public class Activite {
 	//sous secteur de l'activité
 	@JsonIgnoreProperties("activites")
 	@ManyToOne(fetch = FetchType.EAGER)
-	@Column(name = "sousSecteur")
 	private SousSecteur sousSecteur ;
 }

@@ -41,12 +41,10 @@ public class Quotite {
 	@Column(name = "valeur_quotité", nullable = false)
 	private int valeurAppl;
 	//zone à laquelle s'applique la quotité
-	@Column(name = "zone")
 	@JsonIgnoreProperties("quotitee")
 	@OneToOne()
 	private Zone zone ;
 	//fond auquel s'applique la quotité
-	@Column(name = "fond")
 	@JsonIgnoreProperties("quotites")
 	@ManyToOne()
 	private Fond  fond  ;

@@ -18,7 +18,6 @@ public class BeneficiaireServiceImpl implements BeneficiaireService {
                 .natureActivite(BeneficiaireRequest.getNatureActivite())
                 .adresse(BeneficiaireRequest.getAdresse())
                 .codePostal(BeneficiaireRequest.getCodePostal())
-                .delegation(BeneficiaireRequest.getDelegation())
                 .region(BeneficiaireRequest.getRegion())
                 .typPersonne(BeneficiaireRequest.getTypPersonne())
                 .build();
@@ -38,7 +37,7 @@ public class BeneficiaireServiceImpl implements BeneficiaireService {
                 .orElseThrow(() -> new NoSuchElementException("Resource with id "+id+" not found"));
         beneficiaire.setActivite(BeneficiaireRequest.getActivite());
         beneficiaire.setAdresse(BeneficiaireRequest.getAdresse());
-        beneficiaire.setDelegation(BeneficiaireRequest.getDelegation());
+       /// beneficiaire.setDelegation(BeneficiaireRequest.getDelegation());
        // beneficiaire.setGouvernorat(BeneficiaireRequest.getGouvernorat());
         beneficiaire.setRegion(BeneficiaireRequest.getRegion());
        // beneficiaire.setSecteur(BeneficiaireRequest.getSecteur());

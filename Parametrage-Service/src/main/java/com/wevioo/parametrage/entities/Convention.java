@@ -29,10 +29,8 @@ public class Convention {
 	//partenaire conventionné
 	@JsonIgnoreProperties("conventions")
 	@ManyToOne()
-	@Column(name = "partenaire")
 	private Partenaire partenaire ;
 	//modalité conventionnée
-	@Column(name = "modalite")
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Modalite modalite ;
 	@Override

@@ -61,19 +61,19 @@ public class Fond {
 	@Column(name = "trésorerie", nullable = false, unique = false)
 	private Long tresorerieFond;
 	//modalités supportées par le fond
-	@Column(name = "modalites")
+
 	@JsonIgnoreProperties("fond")
 	@OneToMany(mappedBy="fond",fetch = FetchType.EAGER)
 	private Set<Modalite> modalites ;
 	//quotitées du fond
-	@Column(name = "quotites")
+
 	@JsonIgnoreProperties("fond")
 	@OneToMany(mappedBy="fond",fetch = FetchType.EAGER)
 	private Set<Quotite> quotites ;
-	@Column(name = "secteurs")
+
 	@ManyToMany(cascade={CascadeType.PERSIST,CascadeType.REMOVE},fetch = FetchType.EAGER)
 	private Set<Secteur> secteurs ;
-	@Column(name = "liste_stoploss")
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "fond")
 	@JsonIgnore
 	private Set<StopLoss> stoplosses ;

@@ -204,7 +204,7 @@ public class DemandeServiceImpl implements DemandeService{
 		updatedDemande.getBeneficiare().setCodePostal(Integer.getInteger(demande.getCodePostal()));
 		//updatedDemande.getBeneficiare().setDelegation(demande.getDelegation());
 		updatedDemande.getBeneficiare().setRegion(demande.getRegion());
-		updatedDemande.getBeneficiare().setActivite(demande.getActivites().getCodeActivite());
+		///updatedDemande.getBeneficiare().setActivite(demande.getActivites().getCodeActivite());
 		updatedDemande.getBeneficiare().setNumeroRib(demande.getNumerocompte());
 		if (demande.getBeneficiaire().equals(TYPEPERSONNE.PHYSIQUE)) {
 			updatedDemande.getBeneficiare().getPersonnePhysique().setNumPieceIdentification(demande.getNumPieceIdentification());
