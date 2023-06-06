@@ -14,5 +14,5 @@ public class Swaggerconfig {
 	return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build();
 
 	}
-
+//// Swagger rest API http://localhost:8090/swagger-ui/index.html
 }
