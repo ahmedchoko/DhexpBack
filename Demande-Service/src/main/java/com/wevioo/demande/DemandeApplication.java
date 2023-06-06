@@ -14,9 +14,7 @@ import org.springframework.stereotype.Component;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = {"com.wevioo.parametrage.*","com.wevioo.demande.*"})
-@ComponentScan(basePackages = {"com.wevioo.parametrage.*","com.wevioo.demande.*"})
-@EntityScan(basePackages = {"com.wevioo.parametrage.*","com.wevioo.demande.*"})
+
 public class DemandeApplication {
 
 	public static void main(final String[] args) {

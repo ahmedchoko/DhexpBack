@@ -49,11 +49,10 @@ public class Beneficiaire {
     @Size(max = 255)
     private String region;
 
-
     @Column(name = "delegation_id")
     @NotNull
-    private Long delegationId;
-    
+    private Long delegation;
+
     @Column(name = "adresse")
     @NotNull
     @Size(max = 255)

@@ -57,15 +57,15 @@ public class Demande implements Serializable{
 		@Column(name = "date_déclaration", nullable = false)
 		private Date dateDeclaration;
 		//bénéficiaire
-
+		@JoinColumn(name = "bénéficiaire")
 		@OneToOne(cascade = {CascadeType.MERGE})
-		private Beneficiaire beneficiare;
+		private Beneficiaire beneficiaire;
 		//projet faisant objet de la demande
-
+		@JoinColumn(name = "projet")
 		@OneToOne(cascade = {CascadeType.MERGE})
 		private Projet projet;
 		// crédit demandé
-
+		@JoinColumn(name = "crédit")
 		@OneToOne(cascade = {CascadeType.MERGE})
 		private Credit credit ;
 		//modalité de la demande

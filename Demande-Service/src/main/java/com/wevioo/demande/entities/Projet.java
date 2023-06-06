@@ -61,8 +61,9 @@ public class Projet {
     @Column(name = "prod_ou_serv", nullable = true)
     private String prodOuServices;
     //demande associée au projet
+    @JoinColumn(name = "demande")
     @JsonIgnore
-	@OneToOne(mappedBy="projet")
+	@OneToOne()
     private Demande demande;
     //délégation du projet
     @Column(name="délégation", nullable = false)

@@ -23,9 +23,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableDiscoveryClient
 @SpringBootApplication
 @EnableWebFlux
-@EnableJpaRepositories(basePackages = {"com.wevioo.parametrage.*","com.wevioo.demande.*"})
-@ComponentScan(basePackages = {"com.wevioo.parametrage.*","com.wevioo.demande.*"})
-@EntityScan(basePackages = {"com.wevioo.parametrage.*","com.wevioo.demande.*"})
 public class ParametrageApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ParametrageApplication.class, args);

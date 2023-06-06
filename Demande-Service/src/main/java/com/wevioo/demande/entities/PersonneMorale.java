@@ -32,7 +32,7 @@ public class PersonneMorale extends Personne implements Serializable{
 	@Enumerated(EnumType.STRING)
 	private FormeJuridique formeJuridique;
 	//bénéficiaire
-
+	@JoinColumn(name = "bénéficiaire")
 	@JsonIgnore
 	@OneToOne()
 	private Beneficiaire beneficiaire ;

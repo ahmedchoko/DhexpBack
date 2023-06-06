@@ -155,14 +155,14 @@ public class DemandeServiceImpl implements DemandeService{
 									PersonneMorale personnemorale = new PersonneMorale();
 									personnemorale.setBeneficiaire(beneficiaresaved);
 									PersonneMorale personnemoralesaved = personneMoraleRepository.save(personnemorale);
-									demande.setBeneficiare(beneficiaresaved);
+									demande.setBeneficiaire(beneficiaresaved);
 								}
 								else {
 									Beneficiaire beneficiaresaved = beneficiaireRepository.save(beneficiare);
 									PersonnePhysique personnephysique = new PersonnePhysique();
 									personnephysique.setBeneficiaire(beneficiaresaved);
 									PersonnePhysique personnephysiquesaved = personnePhysiqueRepository.save(personnephysique);
-									demande.setBeneficiare(beneficiaresaved);
+									demande.setBeneficiaire(beneficiaresaved);
 								}
 								demandeRepository.save(demande);
 							}
@@ -198,27 +198,27 @@ public class DemandeServiceImpl implements DemandeService{
 			.orElseThrow(() -> new NoSuchElementException("Resource with id "+" not found"));
 
 		/////Beneficiaire
-		updatedDemande.getBeneficiare().setAdresse(demande.getAddresse());
-		updatedDemande.getBeneficiare().setNatureActivite(demande.getNatureActivite());
+		updatedDemande.getBeneficiaire().setAdresse(demande.getAddresse());
+		updatedDemande.getBeneficiaire().setNatureActivite(demande.getNatureActivite());
 		//updatedDemande.getBeneficiare().setCodeActivite(demande.getActivites().getIdAct());
-		updatedDemande.getBeneficiare().setCodePostal(Integer.getInteger(demande.getCodePostal()));
+		updatedDemande.getBeneficiaire().setCodePostal(Integer.getInteger(demande.getCodePostal()));
 		//updatedDemande.getBeneficiare().setDelegation(demande.getDelegation());
-		updatedDemande.getBeneficiare().setRegion(demande.getRegion());
+		updatedDemande.getBeneficiaire().setRegion(demande.getRegion());
 		///updatedDemande.getBeneficiare().setActivite(demande.getActivites().getCodeActivite());
-		updatedDemande.getBeneficiare().setNumeroRib(demande.getNumerocompte());
+		updatedDemande.getBeneficiaire().setNumeroRib(demande.getNumerocompte());
 		if (demande.getBeneficiaire().equals(TYPEPERSONNE.PHYSIQUE)) {
-			updatedDemande.getBeneficiare().getPersonnePhysique().setNumPieceIdentification(demande.getNumPieceIdentification());
-			updatedDemande.getBeneficiare().getPersonnePhysique().setTelephonefixe(demande.getTelephonefixe());
-			updatedDemande.getBeneficiare().getPersonnePhysique().setTelephoneMobile1(demande.getTelephoneMobile1());
-			updatedDemande.getBeneficiare().getPersonnePhysique().setTelephoneMobile2(demande.getTelephoneMobile2());
-			updatedDemande.getBeneficiare().getPersonnePhysique().setGenre(demande.getGenre());
-			updatedDemande.getBeneficiare().getPersonnePhysique().setMail(demande.getMail());
-			updatedDemande.getBeneficiare().getPersonnePhysique().setNomCompletBenificiaire(demande.getNomCompletBenificiare());
-			updatedDemande.getBeneficiare().getPersonnePhysique().setTypePieceIdentification(PieceIdentification.valueOf(demande.getTypePieceIdentification()));
+			updatedDemande.getBeneficiaire().getPersonnePhysique().setNumPieceIdentification(demande.getNumPieceIdentification());
+			updatedDemande.getBeneficiaire().getPersonnePhysique().setTelephonefixe(demande.getTelephonefixe());
+			updatedDemande.getBeneficiaire().getPersonnePhysique().setTelephoneMobile1(demande.getTelephoneMobile1());
+			updatedDemande.getBeneficiaire().getPersonnePhysique().setTelephoneMobile2(demande.getTelephoneMobile2());
+			updatedDemande.getBeneficiaire().getPersonnePhysique().setGenre(demande.getGenre());
+			updatedDemande.getBeneficiaire().getPersonnePhysique().setMail(demande.getMail());
+			updatedDemande.getBeneficiaire().getPersonnePhysique().setNomCompletBenificiaire(demande.getNomCompletBenificiare());
+			updatedDemande.getBeneficiaire().getPersonnePhysique().setTypePieceIdentification(PieceIdentification.valueOf(demande.getTypePieceIdentification()));
 		}
 		if( demande.getBeneficiaire().equals(TYPEPERSONNE.MORALE) ) {
-			updatedDemande.getBeneficiare().getPersonneMorale().setFormeJuridique(FormeJuridique.valueOf(demande.getFormeJuridique()));
-			updatedDemande.getBeneficiare().getPersonneMorale().setRaisonSociale(demande.getRaisonSociale());
+			updatedDemande.getBeneficiaire().getPersonneMorale().setFormeJuridique(FormeJuridique.valueOf(demande.getFormeJuridique()));
+			updatedDemande.getBeneficiaire().getPersonneMorale().setRaisonSociale(demande.getRaisonSociale());
 		}
 
 		//////Credit
