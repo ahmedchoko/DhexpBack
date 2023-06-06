@@ -38,8 +38,5 @@ public class Projet {
     @JsonIgnore
 	@OneToOne(mappedBy="projet")
     private Demande demande;
-    @OneToOne
-	private Zone zone;
-    @OneToOne
-	private Delegation delegation;
+	private String delegation;
 }

@@ -1,33 +1,12 @@
 package com.wevioo.demande.dto;
 
 import com.wevioo.demande.entities.Projet;
-import com.wevioo.demande.enums.*;
 import com.wevioo.parametrage.entities.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-/*interface Projet {
-     String idDeleg = new String();
-     String nomDeleg = new String();
-}
-interface Delegation {
-    String idDeleg = new String();
-    String nomDeleg = new String();
 
-}
-interface Activites {
-    String idAct = new String();
-    String name = new String();
-    Object sousSecteur  = new Object() {
-        String idSousSecteur = new String();
-        String sousSecteur = new String();
-        Object secteur =  new Object(){
-            String idSec = new String();
-            String name = new String();
-        };
-    };
-  }*/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

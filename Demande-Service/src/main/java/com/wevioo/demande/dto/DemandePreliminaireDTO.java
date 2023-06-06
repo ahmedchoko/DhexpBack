@@ -1,18 +1,10 @@
 package com.wevioo.demande.dto;
 
 import java.util.Date;
-import java.util.List;
-
-import com.wevioo.demande.entities.Demande;
 import com.wevioo.demande.enums.ObjetCredit;
 import com.wevioo.demande.enums.TYPEPERSONNE;
 import com.wevioo.demande.enums.TypeCredit;
 import com.wevioo.demande.enums.TypeProjet;
-import com.wevioo.parametrage.dto.ConventionDTO;
-import com.wevioo.parametrage.dto.ModaliteDto;
-import com.wevioo.parametrage.entities.Delegation;
-import com.wevioo.parametrage.entities.Zone;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

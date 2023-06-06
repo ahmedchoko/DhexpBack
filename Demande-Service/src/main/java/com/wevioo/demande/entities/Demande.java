@@ -35,18 +35,16 @@ public class Demande implements Serializable{
 		private String statut;
 		private String utilisateur;
 		private Date dateDeclaration;
+		@Lob
+		private byte[] tabAmortissement;
 		@OneToOne(cascade = {CascadeType.MERGE})
 		private Beneficiaire beneficiare;
 		@OneToOne(cascade = {CascadeType.MERGE})
 		private Projet projet;
 		@OneToOne(cascade = {CascadeType.MERGE})
 		private Credit credit ;
-		@OneToOne(cascade = {CascadeType.MERGE})
-		private PieceJointes pieceJointes;
-		@OneToOne()
-	    private Modalite modalite ;
-		@OneToOne()
-		private Partenaire partenaire ;
+	    private Long modalite ;
+		private Long partenaire ;
 
 
 }

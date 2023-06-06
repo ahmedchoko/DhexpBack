@@ -7,10 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+/**
+ * Implémentation du service pour la gestion des délégations.
+ */
 @Service
 public class DelegationServiceImpl implements DelegationService {
+
     @Autowired
-    DelegationRepository delegationRepository;
+    private DelegationRepository delegationRepository;
+
+    /**
+     * Avoir la liste de toutes les délégations.
+     *
+     * @return Liste des délégations.
+     */
     @Override
     public List<Delegation> getAllDelegations() {
         return delegationRepository.findAll();

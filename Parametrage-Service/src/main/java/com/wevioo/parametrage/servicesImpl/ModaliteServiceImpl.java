@@ -1,7 +1,5 @@
 package com.wevioo.parametrage.servicesImpl;
 
-
-
 import com.wevioo.parametrage.dto.ModaliteDto;
 import com.wevioo.parametrage.entities.Fond;
 import com.wevioo.parametrage.entities.Modalite;
@@ -23,40 +21,44 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-
+/**
+ * Implémentation du service pour la gestion des modalités.
+ */
 @Service
 public class ModaliteServiceImpl implements ModaliteService {
+
     @Autowired
-    private  ModaliteRepository modaliteRepository;
+    private ModaliteRepository modaliteRepository;
+
     @Autowired
-    private  FondService fondService;
+    private FondService fondService;
+
     @Autowired
+    private FondRepository fondRepository;
 
-    private  FondRepository fondRepository;
-
-  /*  public ModaliteServiceImpl(ModaliteRepository modaliteRepository, FondRepository fondRepository, FondService fondService) {
-        super();
-        this.modaliteRepository = modaliteRepository;
-        this.fondService = fondService;
-        this.fondRepository = fondRepository;
-    }*/
-
-
+    /**
+     * Avoir la liste de toutes les modalités avec pagination.
+     *
+     * @param page Le numéro de page.
+     * @param size Le nombre d'éléments par page.
+     * @return Page des modalités.
+     */
     @Override
     public Page<Modalite> getAllModalite(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("idModalite"));
-        Page<Modalite> myDataPage = modaliteRepository.findAll(pageable);
-        return myDataPage;
+        return modaliteRepository.findAll(pageable);
     }
 
+    /**
+     * Créer une nouvelle modalité.
+     *
+     * @param modaliteRequest Les informations de la modalité à créer.
+     * @return La modalité créée.
+     */
     @Override
     @Transactional
     public Modalite createModalite(ModaliteDto modaliteRequest) {
-
-        Fond fond = fondService.
-                getFondById(modaliteRequest
-                        .getFond()
-                        .getIdFond());
+        Fond fond = fondService.getFondById(modaliteRequest.getFond().getIdFond());
 
         Modalite modalite = Modalite.builder()
                 .nomCompletModalite(modaliteRequest.getNomCompletModalite())
@@ -70,20 +72,35 @@ public class ModaliteServiceImpl implements ModaliteService {
                 .natureDemande(modaliteRequest.getNatureDemande())
                 .build();
 
-            return modaliteRepository.save(modalite);
-
+        return modaliteRepository.save(modalite);
     }
+
+    /**
+     * Obtenir une modalité par son ID.
+     *
+     * @param id L'ID de la modalité.
+     * @return La modalité correspondante.
+     * @throws NoSuchElementException si la modalité n'existe pas.
+     */
     @Override
     public Modalite getModaliteById(Long id) {
-        Modalite modalite = modaliteRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Resource with id "+id+" not found"));
-        return modalite;
+        return modaliteRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Resource with id " + id + " not found"));
     }
+
+    /**
+     * Mettre à jour une modalité existante.
+     *
+     * @param id               L'ID de la modalité à mettre à jour.
+     * @param modaliteRequest Les nouvelles informations de la modalité.
+     * @return La modalité mise à jour.
+     * @throws NoSuchElementException si la modalité n'existe pas.
+     */
     @Override
     @Transactional
     public Modalite updateModalite(Long id, ModaliteDto modaliteRequest) {
         Modalite modalite = modaliteRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Resource with id "+id+" not found"));
+                .orElseThrow(() -> new NoSuchElementException("Resource with id " + id + " not found"));
 
         modalite.setNomCompletModalite(modaliteRequest.getNomCompletModalite());
         modalite.setNomArabeModalite(modaliteRequest.getNomArabeModalite());
@@ -98,19 +115,33 @@ public class ModaliteServiceImpl implements ModaliteService {
         return modaliteRepository.save(modalite);
     }
 
+    /**
+     * Supprimer une modalité par son ID.
+     *
+     * @param id L'ID de la modalité à supprimer.
+     * @return La modalité supprimée.
+     * @throws NoSuchElementException si la modalité n'existe pas.
+     */
     @Override
     public Modalite deleteModalite(Long id) {
         Modalite modalite = modaliteRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Resource with id "+id+" not found"));
+                .orElseThrow(() -> new NoSuchElementException("Resource with id " + id + " not found"));
+
         modaliteRepository.deleteById(id);
         return modalite;
     }
+
+    /**
+     * Obtenir le nombre de modalités par type de demande et par trésorerie.
+     *
+     * @return Les données contenant le nombre de modalités par type de demande et par trésorerie.
+     */
     @Override
     public List nobreModaliteParType() {
         List<Object[]> resultList = modaliteRepository.findModaliteSummaryByDemandeTypeAndTresorie();
         Map<Object, Map<Object, List<Integer>>> tresorieByDemandeTypeAndMonth = new HashMap<>();
         for (Object[] result : resultList) {
-            Object demandeType =result[1];
+            Object demandeType = result[1];
             Integer tresorie = ((Number) result[2]).intValue();
             Object month = result[0];
             if (tresorieByDemandeTypeAndMonth.containsKey(month)) {
@@ -134,5 +165,4 @@ public class ModaliteServiceImpl implements ModaliteService {
         datasend.add(tresorieByDemandeTypeAndMonth);
         return datasend;
     }
-
 }

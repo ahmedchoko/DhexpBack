@@ -36,7 +36,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-
 public class Fond {
 
 	@Id

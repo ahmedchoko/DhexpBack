@@ -33,6 +33,7 @@ import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -60,7 +61,7 @@ import java.nio.file.Paths;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/parametrage/api/v1/utilisateur")
+@RequestMapping("/parametrage/api/v1/utilisateurs")
 public class UtilisateurController {
 	
 	private final ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
@@ -73,17 +74,37 @@ public class UtilisateurController {
 	
 	@Autowired
 	private UtilisateurRepository utilisateurRepository;
-	@GetMapping("/getUtilisateur")
-	public Utilisateur getUtilisateurById(@RequestParam() String id) {
+	
+	   /**
+     * Get the user .
+     *
+     * @param id of the user
+     * @return the user based on its id
+     */
+	@GetMapping("/{id}")
+	public Utilisateur getUtilisateurById(@PathVariable(name = "id") String id) {
 		return utilisateurservice.getUtilisateur(id) ;
 	}
-	@PostMapping("/createUserWithoutImage")
+	   /**
+     * add the user .
+     *
+     * @param utilisateur the user data
+     * @return  the created user
+     */
+	@PostMapping()
 public Utilisateur addUtilisateurWithoutImage(@RequestBody Utilisateur utilisateur) {
 		
 	return utilisateurservice.addUtilisateur(utilisateur);
 		
 	}
-	@PostMapping("/createUser")
+	   /**
+     * add the user .
+     *
+     * @param utilisateurPartMono the user data
+     * @param file the image data
+     * @return  the created user
+     */
+	@PostMapping("/image")
 public Mono<Utilisateur> addUtilisateur(@RequestPart("utilisateur") Mono<FormFieldPart> utilisateurPartMono,
                                         @RequestPart("file") FilePart file) throws IOException {
     return utilisateurPartMono.flatMap(utilisateurPart -> {
@@ -124,16 +145,23 @@ public Mono<Utilisateur> addUtilisateur(@RequestPart("utilisateur") Mono<FormFie
         return Mono.just(savedUtilisateur);
     });
 }
-
-	/*@PostMapping("/modifyUtilisateur")
-	public Utilisateur  AddUtilisateur(@RequestParam() String id ,@RequestBody Utilisateur utilisateur ) {
-		return utilisateurservice.modifyUtilisateur(utilisateur) ;
-	}*/
-	@GetMapping("/setActivatedUtilisateur")
+	   /**
+  * set the user activated.
+  *
+  * @param id the user id
+  */
+	@PutMapping()
 	public void SetActivatedUtilisateur(@RequestParam() Long id) {
 		 utilisateurservice.setActivatedUtilisateur(id) ;
 	}
-	@GetMapping("/utilisateurs")
+	 /**
+     * Get all users .
+     *
+     * @param page the page number
+     * @param size the number of items per page
+     * @return the paginated list of users
+     */
+	@GetMapping()
 	public ResponseEntity < ? > getUtilisateurs(
 			@RequestParam(value = "page") int page,
 			@RequestParam(value = "size") int size) throws ParseException {

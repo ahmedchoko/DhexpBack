@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.wevioo.parametrage.entities.Fond;
+
 import com.wevioo.parametrage.entities.Utilisateur;
 import com.wevioo.parametrage.repository.UtilisateurRepository;
 import com.wevioo.parametrage.services.UtilisateurService;

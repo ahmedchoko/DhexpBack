@@ -56,19 +56,21 @@ public class DemandeServiceImpl implements DemandeService{
 	private List<Fond> fonds = new ArrayList();
 	private List<Partenaire> partenaires=new ArrayList();
 	private List<StoplossPartenaire> stoplosspartenaires = new ArrayList();
-	@Override
-	public boolean Verifmatriculefiscal(String matricule) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
-	@KafkaListener(topics="topic2",groupId="fond")
-	public void consumeMessage(ParametrageEvent event) {
-		System.out.println("fff" +event.getFond());
-   	    this.fonds =event.getFond() ;
-   	    this.partenaires = event.getPartenaire();
-   	    this.stoplosspartenaires = event.getStpparteanire();
-}
+
+	  /**
+     * Kafka message consumer method.
+     * Listens to the "topic2" topic and receives ParametrageEvent messages.
+     * Updates the local lists of funds, partners, and stop loss partners.
+     *
+     * @param event The ParametrageEvent message received from Kafka.
+     */
+    @KafkaListener(topics = "topic2", groupId = "fond")
+    public void consumeMessage(ParametrageEvent event) {
+        this.fonds = event.getFond();
+        this.partenaires = event.getPartenaire();
+        this.stoplosspartenaires = event.getStpparteanire();
+    }
 	@Override
 	public String VerifCritereEligibilite(DemandePreliminaireDTO demandePreliminaire) {
 	    boolean estEligible = true;
@@ -80,14 +82,11 @@ public class DemandeServiceImpl implements DemandeService{
 	                estEligible = false;
 	                message = "Le fond choisi n'est pas actif";
 	            }
-
 	            boolean modaliteTrouvee = false;
 	            String modalites = "";
-
 	            for (Modalite modalite : fond.getModalites()) {
 	                modalites = modalites + " " + modalite.getTypeModalite().name();
 	                if (modalite.getTypeModalite().toString().equals(demandePreliminaire.getModalite()) && modaliteTrouvee==false) {
-	                	System.out.println("mod est choisi");
 	                    modaliteTrouvee = true;
 	                    mod= modalite;
 	                    if (modalite.getStatut().toString().equals("NONACTIF")) {
@@ -97,17 +96,14 @@ public class DemandeServiceImpl implements DemandeService{
 	                 
 	                }  
 	            }
-
 	            if (!modaliteTrouvee) {
 	                estEligible = false;
 	                message = "La modalité choisie n'est pas affectée au fond " + fond.getNomCompletFond() +
 	                          ". Vous pouvez choisir l'une des modalités suivantes : " + modalites;
 	            }
-
 	            break; // Sortir de la boucle une fois le fond correspondant trouvé
 	        }
 	    }
-
 	    if (estEligible) {
 	        for (Partenaire partenaire : this.partenaires) {
 	            if (demandePreliminaire.getNomCompletPartenaire().equals(partenaire.getNomCompletPartenaire())) {
@@ -116,10 +112,8 @@ public class DemandeServiceImpl implements DemandeService{
 	                    message = "Le partenaire choisi n'est pas actif";
 
 	                }
-
 	                boolean conventionTrouvee = false;
 	                String conventions = "";
-
 	                for (Convention convention : partenaire.getConventions()) {
 	                    conventions = conventions + " " + convention.getModalite().getTypeModalite();
 	                    if (convention.getModalite().getTypeModalite().toString().equals(demandePreliminaire.getModalite())) {
@@ -138,7 +132,7 @@ public class DemandeServiceImpl implements DemandeService{
 								Demande demande = new Demande();
 								demande.setStatut("ENCOURS");
 								demande.setReferenceDemande(demandePreliminaire.getReferencedossierpartenaire());
-								demande.setPartenaire(partenaire);
+								//demande.setPartenaire(partenaire);
 								demande.setNouveauPromoteur(demandePreliminaire.getNouvPromo());
 								demande.setNumeroCompte(demandePreliminaire.getNumerocompte());
 								demande.setNumeroRne(demandePreliminaire.getNumerorne());
@@ -151,8 +145,8 @@ public class DemandeServiceImpl implements DemandeService{
 								Projet projet = new Projet();
 								projet.setTypeProjet(demandePreliminaire.getTypeprojet());
 								Projet projetsaved = projetRepository.save(projet);
-								demande.setPartenaire(partenaire);
-								demande.setModalite(mod);
+								//demande.setPartenaire(partenaire);
+								//demande.setModalite(mod);
 								demande.setProjet(projetsaved);
 								Beneficiaire beneficiare = new Beneficiaire();
 								beneficiare.setTypPersonne(demandePreliminaire.getTypebenificiaire());
@@ -161,9 +155,7 @@ public class DemandeServiceImpl implements DemandeService{
 									PersonneMorale personnemorale = new PersonneMorale();
 									personnemorale.setBeneficiaire(beneficiaresaved);
 									PersonneMorale personnemoralesaved = personneMoraleRepository.save(personnemorale);
-
 									demande.setBeneficiare(beneficiaresaved);
-
 								}
 								else {
 									Beneficiaire beneficiaresaved = beneficiaireRepository.save(beneficiare);
@@ -172,16 +164,13 @@ public class DemandeServiceImpl implements DemandeService{
 									PersonnePhysique personnephysiquesaved = personnePhysiqueRepository.save(personnephysique);
 									demande.setBeneficiare(beneficiaresaved);
 								}
-								demandeRepository.save(demande);
-					
+								demandeRepository.save(demande);				
 							}
 							else {
 								message = "Le montant mis dépasse le taux du partenaire choisis sur ce fond" ;
-
 							}
 	                    }
 	                }
-
 	                if (!conventionTrouvee && estEligible==true) {
 	                    estEligible = false;
 	                    message = "Le partenaire choisi n'a pas signé un contrat " + demandePreliminaire.getModalite() +
@@ -202,11 +191,6 @@ public class DemandeServiceImpl implements DemandeService{
 	}
 
 	@Override
-	public Demande createDemande(DemandePreliminaireDTO demande) {
-		return null;
-	}
-
-	@Override
 	public Demande updateDemande(DemandeDto demande) throws ParseException {
 	Demande updatedDemande = demandeRepository.findById(Long.valueOf(demande.getIdDemande()))
 			.orElseThrow(() -> new NoSuchElementException("Resource with id "+" not found"));
@@ -216,10 +200,10 @@ public class DemandeServiceImpl implements DemandeService{
 		updatedDemande.getBeneficiare().setNatureActivite(demande.getNatureActivite());
 		//updatedDemande.getBeneficiare().setCodeActivite(demande.getActivites().getIdAct());
 		updatedDemande.getBeneficiare().setCodePostal(Integer.getInteger(demande.getCodePostal()));
-		updatedDemande.getBeneficiare().setDelegation(demande.getDelegation());
+		//updatedDemande.getBeneficiare().setDelegation(demande.getDelegation());
 		updatedDemande.getBeneficiare().setRegion(demande.getRegion());
-		updatedDemande.getBeneficiare().setGouvernorat(demande.getDelegation().getGouvernorat());
-		updatedDemande.getBeneficiare().setSecteur(demande.getActivites().getSousSecteur().getSecteur());
+		//updatedDemande.getBeneficiare().setGouvernorat(demande.getDelegation().getGouvernorat());
+	//	updatedDemande.getBeneficiare().setSecteur(demande.getActivites().getSousSecteur().getSecteur());
 		updatedDemande.getBeneficiare().setNumeroRib(demande.getNumerocompte());
 		if (demande.getBeneficiaire().equals(TYPEPERSONNE.PHYSIQUE)) {
 			updatedDemande.getBeneficiare().getPersonnePhysique().setNumPieceIdentification(demande.getNumPieceIdentification());
@@ -310,7 +294,6 @@ public class DemandeServiceImpl implements DemandeService{
 				.numeroCompte(demande.getNumeroCompte())
 				.utilisateur(demande.getUtilisateur())
 				.nouveauPromoteur(demande.getNouveauPromoteur())
-				.pieceJointes(demande.getPieceJointes())
 				.modalite(demande.getModalite())
 				.build();
 		return demandeRepository.save(nouvDemande);

@@ -16,13 +16,20 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("parametrage/api/v1/delegation")
+@RequestMapping("parametrage/api/v1/delegations")
 public class DelegationController {
-    @Autowired
-    DelegationRepository delegationRepository;
-    @GetMapping
-    public List<Delegation> getAllDelegations(){
+	@Autowired
+	DelegationRepository delegationRepository;
 
-         return delegationRepository.findAll();   }
+	/**
+	 * Get the list of all Delegations.
+	 *
+	 * @return List of Delegations.
+	 */
+	@GetMapping
+	public List<Delegation> getAllDelegations(){
+	    return delegationRepository.findAll();
+	}
+
 
 }

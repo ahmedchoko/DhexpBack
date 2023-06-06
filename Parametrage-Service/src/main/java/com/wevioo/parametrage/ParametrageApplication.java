@@ -17,7 +17,9 @@ import org.springframework.web.reactive.config.ResourceHandlerRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 import org.springframework.web.reactive.resource.PathResourceResolver;
 
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+@EnableSwagger2
 @EnableDiscoveryClient
 @SpringBootApplication
 @EnableWebFlux
@@ -32,7 +34,17 @@ public class ParametrageApplication {
 	public ModelMapper modelMapper() {
 	   return new ModelMapper();
 	}
-	 @Configuration
+	 
+	 
+	 
+	 /**
+	  * Configuration class for WebFlux.
+	  * Registers a resource handler to serve static images from the "classpath:/static/" directory.
+	  * The resource handler is mapped to "/images/**" URL pattern.
+	  * Enables resource chaining and adds a PathResourceResolver to resolve the resource path.
+	  */
+
+	    @Configuration
 	    @EnableWebFlux
 	    public static class WebConfig implements WebFluxConfigurer {
 
@@ -40,7 +52,6 @@ public class ParametrageApplication {
 	        public void addResourceHandlers(ResourceHandlerRegistry registry) {
 	            registry.addResourceHandler("/images/**")
 	                    .addResourceLocations("classpath:/static/")
-	                    .setCacheControl(CacheControl.maxAge(Duration.ofDays(1)))
 	                    .resourceChain(true)
 	                    .addResolver(new PathResourceResolver());
 	        }
