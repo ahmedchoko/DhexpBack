@@ -3,14 +3,7 @@ package com.wevioo.demande.entities;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wevioo.demande.enums.TypeProjet;
@@ -32,11 +25,16 @@ public class Tranche {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "idTranche")
 	private Long idTranche;
+    //numéro de la tranche
+    @Column(name = "numéro_tranche", nullable = false)
     private Integer numeroTranche ;
+    //liste des amortissements de la tranche
+    @Column(name = "liste_amortissements", nullable = false)
     @OneToMany(mappedBy="tranche",fetch = FetchType.EAGER)
     private Set<Amortissement> amortissement;
-    
+    @Column(name = "crédit_associé")
 	@ManyToOne()
     private Credit credit;
 }

@@ -63,7 +63,7 @@ eureka:
     serviceUrl:
       defaultZone: http://${DISCOVERY_SERVICE:localhost}:${DISCOVERY_PORT:8761}/eureka/
 management:
-  endpoints: 
-    web: 
+  endpoints:
+    web:
       exposure:
          include: "*"

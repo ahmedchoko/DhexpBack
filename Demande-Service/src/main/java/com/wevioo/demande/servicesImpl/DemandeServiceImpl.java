@@ -93,8 +93,8 @@ public class DemandeServiceImpl implements DemandeService{
 	                        estEligible = false;
 	                        message = "La modalité choisie n'est pas active";
 	                    }
-	                 
-	                }  
+
+	                }
 	            }
 	            if (!modaliteTrouvee) {
 	                estEligible = false;
@@ -164,7 +164,7 @@ public class DemandeServiceImpl implements DemandeService{
 									PersonnePhysique personnephysiquesaved = personnePhysiqueRepository.save(personnephysique);
 									demande.setBeneficiare(beneficiaresaved);
 								}
-								demandeRepository.save(demande);				
+								demandeRepository.save(demande);
 							}
 							else {
 								message = "Le montant mis dépasse le taux du partenaire choisis sur ce fond" ;
@@ -190,6 +190,8 @@ public class DemandeServiceImpl implements DemandeService{
 		return demandeRepository.getDemandesEncours(pageable);
 	}
 
+
+
 	@Override
 	public Demande updateDemande(DemandeDto demande) throws ParseException {
 	Demande updatedDemande = demandeRepository.findById(Long.valueOf(demande.getIdDemande()))
@@ -202,8 +204,7 @@ public class DemandeServiceImpl implements DemandeService{
 		updatedDemande.getBeneficiare().setCodePostal(Integer.getInteger(demande.getCodePostal()));
 		//updatedDemande.getBeneficiare().setDelegation(demande.getDelegation());
 		updatedDemande.getBeneficiare().setRegion(demande.getRegion());
-		//updatedDemande.getBeneficiare().setGouvernorat(demande.getDelegation().getGouvernorat());
-	//	updatedDemande.getBeneficiare().setSecteur(demande.getActivites().getSousSecteur().getSecteur());
+		updatedDemande.getBeneficiare().setActivite(demande.getActivites().getCodeActivite());
 		updatedDemande.getBeneficiare().setNumeroRib(demande.getNumerocompte());
 		if (demande.getBeneficiaire().equals(TYPEPERSONNE.PHYSIQUE)) {
 			updatedDemande.getBeneficiare().getPersonnePhysique().setNumPieceIdentification(demande.getNumPieceIdentification());
@@ -259,45 +260,11 @@ public class DemandeServiceImpl implements DemandeService{
 		Date DateDeclaration = f.parse(demande.getDateDeclaration());
 		updatedDemande.setDateDeclaration(DateDeclaration);
 		updatedDemande.setStatut(demande.getStatut());
-		//updatedDemande.setNumeroPret(demande);
-		//updatedDemande.setCodedouane();
-
-
-
-		//updatedDemande.getBeneficiare().setNomDeleg(nomDeleg);
-		//updatedDemande.setNomDelegProjet(nomDelegProjet);
-
-		//updatedDemande.setSousSecteur(sousSecteur);
-
-		//updatedDemande.getProjet().setZone(demande.getZoneImplementation()).setNomZone(demande.getZoneImplementation());
 
 		demandeRepository.save(updatedDemande);
 		return updatedDemande;
 	}
 
-
-	@Override
-	public Demande createDemande(Demande demande) {
-
-		Demande nouvDemande = Demande.builder()
-				.beneficiare(demande.getBeneficiare())
-				.codeCentraleRisque(demande.getCodeCentraleRisque())
-				.codedouane(demande.getCodedouane())
-				.credit(demande.getCredit())
-				.dateDeclaration(demande.getDateDeclaration())
-				.referenceDemande(demande.getReferenceDemande())
-				.numeroPret(demande.getNumeroPret())
-				.numeroRne(demande.getNumeroRne())
-				.partenaire(demande.getPartenaire())
-				.projet(demande.getProjet())
-				.statut(demande.getStatut())
-				.numeroCompte(demande.getNumeroCompte())
-				.utilisateur(demande.getUtilisateur())
-				.nouveauPromoteur(demande.getNouveauPromoteur())
-				.modalite(demande.getModalite())
-				.build();
-		return demandeRepository.save(nouvDemande);
-	}
 
 	@Override
 	public Page<Demande> getDemandes(int page, int size) {

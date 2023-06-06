@@ -4,14 +4,7 @@ package com.wevioo.parametrage.entities;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -27,11 +20,18 @@ public class SousSecteur {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "idSousSecteur")
 	private Long idSousSecteur;
+	//nom du sous secteur
+	@Column(name="nom_ssec", nullable = false, unique = true)
 	private String name;
-	 @JsonIgnoreProperties("sousSecteurs")
+	//nom du secteur
+	@Column(name = "nom_sec")
+	@JsonIgnoreProperties("sousSecteurs")
 	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	private Secteur secteur ; 
+	private Secteur secteur ;
+	//liste des activites du secteur
+	@Column(name = "Liste_activites")
     @JsonIgnoreProperties("sousSecteur")
 	@OneToMany(mappedBy="sousSecteur",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	  private Set<Activite> activites;

@@ -52,7 +52,6 @@ public class Beneficiaire {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "delegation_id")
     @NotNull
-    private Delegation delegation;
 
     @Column(name = "adresse")
     @NotNull

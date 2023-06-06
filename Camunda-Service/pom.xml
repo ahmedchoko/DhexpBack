@@ -9,7 +9,7 @@
    <properties>
 	  <maven-jar-plugin.version>2.3.2</maven-jar-plugin.version>
 		<spring-cloud.version>2021.0.5</spring-cloud.version>
-      
+
   </properties>
    <dependencyManagement>
     <dependencies>

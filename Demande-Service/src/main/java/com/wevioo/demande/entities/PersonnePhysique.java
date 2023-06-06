@@ -24,14 +24,31 @@ public class PersonnePhysique extends Personne implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idPersonne")
 	private Long idPersonnePhysique;
+	//nom complet du bénéficiaire physique
+	@Column(name = "nom_complet", nullable = false)
 	private String nomCompletBenificiare;
+	//type de la pièce d'identification
+	@Column(name = "pièce_identification", nullable = false)
 	private PieceIdentification typePieceIdentification;
+	//numéro de la pièce d'identification
+	@Column(name = "numéro_identification", nullable = false, unique = true)
 	private String numPieceIdentification;
+	//sexe du bénéficiare physique
+	@Column(name = "genre", nullable = false)
 	private String genre ;
+	//téléphone du bénéficiaire
+	@Column(name = "téléphone_fixe", nullable = true)
 	private String telephonefixe;
+	//téléphone mobile du bénéficiaire
+	@Column(name = "téléphone_mobile1", nullable = false, unique = true)
 	private String telephoneMobile1;
+	//Autre téléphone mobile du bénéficiaire
+	@Column(name = "téléphone_mobile2", nullable = false)
 	private String telephoneMobile2;
+	//adresse email du bénéficiaire
+	@Column(name = "email", nullable = false, unique = true)
 	private String mail;
 
 	@JsonIgnore
