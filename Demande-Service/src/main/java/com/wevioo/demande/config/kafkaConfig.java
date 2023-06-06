@@ -1,4 +1,4 @@
-package com.wevioo.demande;
+package com.wevioo.demande.config;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Value;
