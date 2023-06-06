@@ -5,7 +5,7 @@ HELP.md
 /Discovery-Server/target/
 /Demande-Service/target/
 /Parametrage-Service/target/
-/Demande-Service/target/
+/Camunda-Service
 /Test-Service
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -38,3 +38,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/Camunda-Service/
