@@ -72,7 +72,7 @@ public class DemandeServiceImpl implements DemandeService{
         this.stoplosspartenaires = event.getStpparteanire();
     }
 	@Override
-	public String VerifCritereEligibilite(DemandePreliminaireDTO demandePreliminaire) {
+	public String verifCritereEligibilite(DemandePreliminaireDTO demandePreliminaire) {
 	    boolean estEligible = true;
 	    String message = "";
         Modalite mod = null ;

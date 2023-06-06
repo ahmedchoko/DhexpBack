@@ -14,7 +14,7 @@ public interface DemandeService {
 
 
 	public Page<Demande> getDemandes(int page, int size);
-	public String VerifCritereEligibilite(DemandePreliminaireDTO demandePreliminaire);
+	public String verifCritereEligibilite(DemandePreliminaireDTO demandePreliminaire);
 	public  Page <Demande>  getDemandePreliminaire(int page, int size);
 	public Demande updateDemande(DemandeDto demande) throws ParseException;
 }

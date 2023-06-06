@@ -46,14 +46,14 @@ public class PartenaireServiceImpl implements PartenaireService {
 	 * @throws ParseException if there's an error parsing the search criteria
 	 */
 	@Override
-	public Page<Partenaire> getAllPartenaire(String fond, String modalite, String MontantMinsearchTerm,
-			String MontantMaxsearchTerm, String StatutsearchTerm, int page, int size) throws ParseException {
+	public Page<Partenaire> getAllPartenaire(String fond, String modalite, String montantMinsearchTerm,
+			String montantMaxsearchTerm, String statutsearchTerm, int page, int size) throws ParseException {
 
 		Pageable pageable = PageRequest.of(page, size);
 
-		PartenaireSpecification specif = new PartenaireSpecification();
-		Specification<Partenaire> spec = specif.getPartenaireWithSpec(fond, modalite, MontantMinsearchTerm,
-				MontantMaxsearchTerm, StatutsearchTerm);
+		PartenaireSpecification specif = null ;
+		Specification<Partenaire> spec = specif.getPartenaireWithSpec(fond, modalite, montantMinsearchTerm,
+				montantMaxsearchTerm, statutsearchTerm);
 		Page<Partenaire> pats = partenaireRepository.findAll(spec, pageable);
 		for (Partenaire p : pats.getContent()) {
 			p.getConventions().size();

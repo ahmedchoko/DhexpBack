@@ -52,7 +52,7 @@ public class DemandeController {
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            data = objectMapper.writeValueAsString(demandeServiceImpl.VerifCritereEligibilite(demande));
+            data = objectMapper.writeValueAsString(demandeServiceImpl.verifCritereEligibilite(demande));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             return null;
