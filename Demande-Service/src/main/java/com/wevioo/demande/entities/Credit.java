@@ -8,62 +8,144 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
-
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Credit {
     @Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long idCredit;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_credit")
+    private Long idCredit;
+
     @Enumerated(EnumType.STRING)
-	private TypeCredit typeCredit ;
+    @NotNull
+    @Column(name = "type_credit")
+    private TypeCredit typeCredit;
+
     @Enumerated(EnumType.STRING)
-	private NatureCredit natureCredit ;
+    @NotNull
+    @Column(name = "nature_credit")
+    private NatureCredit natureCredit;
+
     @Enumerated(EnumType.STRING)
-	private ObjetCredit objetCredit ;
-	private Long montantCredit;
-	private Long dureeCredit ; 
-	private Integer solde ;
-	private Integer montantCreditExige ;
-	private Integer montantContributionPaye;
-	private String sureteReel ;
-	private Integer marge ;
-	private Integer tauxInteret;
+    @NotNull
+    @Column(name = "objet_credit")
+    private ObjetCredit objetCredit;
+
+    @NotNull
+    @Column(name = "montant_credit")
+    private Long montantCredit;
+
+    @NotNull
+    @Column(name = "duree_credit")
+    private Long dureeCredit;
+
+    @Column(name = "solde")
+    private Integer solde;
+
+    @Column(name = "montant_credit_exige")
+    private Integer montantCreditExige;
+
+    @Column(name = "montant_contribution_paye")
+    private Integer montantContributionPaye;
+
+    @Column(name = "surete_reel")
+    @Size(max = 255)
+    private String sureteReel;
+
+    @Column(name = "marge")
+    private Integer marge;
+
+    @Column(name = "taux_interet")
+    private Integer tauxInteret;
+
     @Enumerated(EnumType.STRING)
-	private NatureTauxInteret natureTauxInteret ;
-    private Date dateEcheance ;
-    private Date dateAutorisation ; 
-    private Date dateDerniereTombePrincipale ; 
-    private Date datePremiereTombePrincipale ;
+    @NotNull
+    @Column(name = "nature_taux_interet")
+    private NatureTauxInteret natureTauxInteret;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date_echeance")
+    private Date dateEcheance;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date_autorisation")
+    private Date dateAutorisation;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date_derniere_tombe_principale")
+    private Date dateDerniereTombePrincipale;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date_premiere_tombe_principale")
+    private Date datePremiereTombePrincipale;
+
     @Enumerated(EnumType.STRING)
+    @NotNull
+    @Column(name = "forme_remboursement")
     private FormeRomboursement formeRomboursement;
+
     @Enumerated(EnumType.STRING)
-    private Periodicite periodicite ;
+    @NotNull
+    @Column(name = "periodicite")
+    private Periodicite periodicite;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date_deblocage")
     private Date dateDeblocage;
+
+    @Column(name = "montant_credit_debloquee")
     private Long montantCreditDebloquee;
-    private Long capitalSocial ;
-    private Long montantCreditAutorise ;
+
+    @Column(name = "capital_social")
+    private Long capitalSocial;
+
+    @Column(name = "montant_credit_autorise")
+    private Long montantCreditAutorise;
+
     @Enumerated(EnumType.STRING)
-    private Choix eligibleRITI ;
-    private String schemaCofinancementPoolBancaire ;
+    @NotNull
+    @Column(name = "eligible_riti")
+    private Choix eligibleRITI;
+
+    @Column(name = "schema_cofinancement_pool_bancaire")
+    @Size(max = 255)
+    private String schemaCofinancementPoolBancaire;
+
     @Enumerated(EnumType.STRING)
-    private Choix cofinancement ;
-    private Long immobilisationNettesAvantNouvelInvestissement ;
-    private Long montantInvestissement ;
-    private Long montantrisque ;
+    @NotNull
+    @Column(name = "cofinancement")
+    private Choix cofinancement;
+
+    @Column(name = "immobilisation_nettes_avant_nouvel_investissement")
+    private Long immobilisationNettesAvantNouvelInvestissement;
+
+    @Column(name = "montant_investissement")
+    private Long montantInvestissement;
+
+    @Column(name = "montantrisque")
+    private Long montantrisque;
+
     @Enumerated(EnumType.STRING)
-    private Choix nouveauPrometeur ;
-    private Date dateEntreeProduction ;
+    @NotNull
+    @Column(name = "nouveau_prometeur")
+    private Choix nouveauPrometeur;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date_entree_production")
+    private Date dateEntreeProduction;
 
     @JsonIgnore
-	@OneToOne(mappedBy="credit")
+    @OneToOne(mappedBy = "credit")
     private Demande demande;
-    
-	@OneToMany(fetch = FetchType.EAGER)
-    private List<Tranche> tranches;
-    
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Tranche> tranches;
 }

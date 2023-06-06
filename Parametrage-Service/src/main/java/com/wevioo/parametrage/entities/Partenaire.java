@@ -69,13 +69,13 @@ public class Partenaire {
 	@Enumerated(EnumType.STRING)
 	private Fondstatut statut ;
 	//liste des conventions du partenaire
-	@Column(name = "liste_conventions")
+
 	@JsonIgnoreProperties("partenaire")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy="partenaire")
 	private List<Convention> conventions ;
 	///liste des stoploss
-	@Column(name = "liste_stoploss")
+
 	@JsonIgnoreProperties("partenaire")
 	@OneToMany(mappedBy="stopLoss", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	@Transient

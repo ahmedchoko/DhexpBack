@@ -30,12 +30,10 @@ public class Secteur {
 	@Column(name = "nom", nullable = false, unique = true)
 	private String name;
 	//fonds du secteur
-	@Column(name = "fonds")
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL,mappedBy="secteurs")
 	//liste des sous secteurs du secteur
 	private Set<Fond> fonds;
-	@Column(name = "sous_secteurs")
 	@JsonIgnoreProperties("secteur")
 	@OneToMany(mappedBy="secteur",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@Fetch(value=FetchMode.SELECT)

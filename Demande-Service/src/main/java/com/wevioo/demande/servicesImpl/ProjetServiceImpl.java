@@ -23,7 +23,7 @@ public class ProjetServiceImpl implements ProjetService{
                 .garanties(ProjetRequest.getGaranties())
                 .typeProjet(ProjetRequest.getTypeProjet())
                 .norme(ProjetRequest.getNorme())
-                .zone(ProjetRequest.getZone())
+             //   .zone(ProjetRequest.getZone())
                 .site(ProjetRequest.getSite())
                 .moyenProduction(ProjetRequest.getMoyenProduction())
                 .prodOuServices(ProjetRequest.getProdOuServices())
@@ -54,7 +54,7 @@ public class ProjetServiceImpl implements ProjetService{
         projet.setGaranties(ProjetRequest.getGaranties());
         projet.setTypeProjet(ProjetRequest.getTypeProjet());
         projet.setNorme(ProjetRequest.getNorme());
-        projet.setZone(ProjetRequest.getZone());
+      ///  projet.setZone(ProjetRequest.getZone());
         projet.setSite(ProjetRequest.getSite());
         projet.setMoyenProduction(ProjetRequest.getMoyenProduction());
         projet.setProdOuServices(ProjetRequest.getProdOuServices());

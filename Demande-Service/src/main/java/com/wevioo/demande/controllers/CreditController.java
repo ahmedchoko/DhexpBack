@@ -18,22 +18,6 @@ import com.wevioo.parametrage.entities.ParametrageEvent;
 
 
 @RestController
-@RequestMapping("demande/api/v1/credit")
+@RequestMapping("demande/api/v1/credits")
 public class CreditController {
-	
-	
-	    @Autowired
-		private DemandeProducer parametrageProducer;
-
-
-	/*
-	@GetMapping("/test")
-	public ResponseEntity test() {
-		ParametrageEvent parametrageevent = new ParametrageEvent();
-		parametrageevent.setStatus("PENDING");
-		parametrageevent.setMessage("DEMANDE status is in pending , I NEED data");
-		parametrageProducer.sendMessage(parametrageevent);
-		
-		return new ResponseEntity < > ("dataa", HttpStatus.OK);
-	}*/
 }

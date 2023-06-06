@@ -1,34 +1,30 @@
 package com.wevioo.parametrage.repository;
 
-import java.util.List;
-
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
+import com.wevioo.parametrage.entities.Partenaire;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-
 import org.springframework.stereotype.Repository;
 
-
-import com.wevioo.parametrage.entities.Partenaire;
-
+import java.util.List;
 
 @Repository
-public interface PartenaireRepository  extends JpaRepository<Partenaire, Long>, JpaSpecificationExecutor<Partenaire>   {
+public interface PartenaireRepository extends JpaRepository<Partenaire, Long>, JpaSpecificationExecutor<Partenaire> {
 
-	
-	String FILTER_PARTENAIRE_ON_FIRST_NAME_QUERY = "select p from Partenaire p where UPPER(p.nomCompletPartenaire) like CONCAT('%',UPPER(?1),'%')";
-	 @Query(FILTER_PARTENAIRE_ON_FIRST_NAME_QUERY)
-	 Page <Partenaire> findByFirstNameLike(String firstNameFilter,Pageable pageable);
-	 
-	 @Query(" select p.typePartenaire,count(p) from Partenaire p group by p.typePartenaire")
-     List NobrePartenaireParType();
-	 
-	 @Query(" select count(p.idPartenaire) from Partenaire p")
-     int NombreTotalPartenaire();
+    /**
+     * Retrieves the number of partners by partner type.
+     *
+     * @return A list of Object arrays containing the partner type and the count of partners
+     */
+    @Query("SELECT p.typePartenaire, COUNT(p) FROM Partenaire p GROUP BY p.typePartenaire")
+    List<Object[]> getNobrePartenaireParType();
 
-	
+    /**
+     * Retrieves the total number of partners.
+     *
+     * @return The total number of partners
+     */
+    @Query("SELECT COUNT(p.idPartenaire) FROM Partenaire p")
+    int getNobreTotalPartenaire();
+
 }

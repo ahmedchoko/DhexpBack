@@ -26,12 +26,12 @@ public class SousSecteur {
 	@Column(name="nom_ssec", nullable = false, unique = true)
 	private String name;
 	//nom du secteur
-	@Column(name = "nom_sec")
+
 	@JsonIgnoreProperties("sousSecteurs")
 	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private Secteur secteur ;
 	//liste des activites du secteur
-	@Column(name = "Liste_activites")
+
     @JsonIgnoreProperties("sousSecteur")
 	@OneToMany(mappedBy="sousSecteur",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	  private Set<Activite> activites;

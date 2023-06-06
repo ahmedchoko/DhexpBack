@@ -29,7 +29,6 @@ public class Delegation {
     //gouvernorat de la délégation
     @JsonIgnore
     @ManyToOne
-    @Column(name="nomGouvernorat", nullable = false, unique = false)
     private Gouvernorat gouvernorat;
 
 

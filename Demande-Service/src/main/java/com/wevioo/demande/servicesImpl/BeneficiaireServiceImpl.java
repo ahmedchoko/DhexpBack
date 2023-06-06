@@ -15,17 +15,11 @@ public class BeneficiaireServiceImpl implements BeneficiaireService {
     public Beneficiaire createBeneficiaire(Beneficiaire BeneficiaireRequest) {
         Beneficiaire beneficiaire = Beneficiaire.builder()
                 .activite(BeneficiaireRequest.getActivite())
-                .codeActivite(BeneficiaireRequest.getCodeActivite())
                 .natureActivite(BeneficiaireRequest.getNatureActivite())
                 .adresse(BeneficiaireRequest.getAdresse())
                 .codePostal(BeneficiaireRequest.getCodePostal())
-                .delegation(BeneficiaireRequest.getDelegation())
-                .gouvernorat(BeneficiaireRequest.getGouvernorat())
                 .region(BeneficiaireRequest.getRegion())
-               .secteur(BeneficiaireRequest.getSecteur())
-                .sousSecteur(BeneficiaireRequest.getSousSecteur())
                 .typPersonne(BeneficiaireRequest.getTypPersonne())
-             //   .matriculeFiscale(BeneficiaireRequest.getMatriculeFiscale())
                 .build();
         return beneficiaireRepository.save(beneficiaire);
     }
@@ -43,13 +37,13 @@ public class BeneficiaireServiceImpl implements BeneficiaireService {
                 .orElseThrow(() -> new NoSuchElementException("Resource with id "+id+" not found"));
         beneficiaire.setActivite(BeneficiaireRequest.getActivite());
         beneficiaire.setAdresse(BeneficiaireRequest.getAdresse());
-        beneficiaire.setDelegation(BeneficiaireRequest.getDelegation());
-        beneficiaire.setGouvernorat(BeneficiaireRequest.getGouvernorat());
+       /// beneficiaire.setDelegation(BeneficiaireRequest.getDelegation());
+       // beneficiaire.setGouvernorat(BeneficiaireRequest.getGouvernorat());
         beneficiaire.setRegion(BeneficiaireRequest.getRegion());
-        beneficiaire.setSecteur(BeneficiaireRequest.getSecteur());
-        beneficiaire.setSousSecteur(BeneficiaireRequest.getSousSecteur());
+       // beneficiaire.setSecteur(BeneficiaireRequest.getSecteur());
+     //   beneficiaire.setSousSecteur(BeneficiaireRequest.getSousSecteur());
         beneficiaire.setNatureActivite(BeneficiaireRequest.getNatureActivite());
-        beneficiaire.setCodeActivite(BeneficiaireRequest.getCodeActivite());
+     //   beneficiaire.setCodeActivite(BeneficiaireRequest.getCodeActivite());
         beneficiaire.setCodePostal(BeneficiaireRequest.getCodePostal());
         beneficiaire.setTypPersonne(BeneficiaireRequest.getTypPersonne());
        // beneficiaire.setMatriculeFiscale(BeneficiaireRequest.getMatriculeFiscale());

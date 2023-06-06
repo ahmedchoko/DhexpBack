@@ -5,7 +5,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:8080/auth/realms/dhexp/protocol/openid-connect/certs
+          jwk-set-uri: http://localhost:8080/auth/realms/banque-realm/protocol/openid-connect/certs
   application: #app discovery  config
     name: Api-Gateway
   main:
@@ -36,11 +36,15 @@ spring:
         predicates:
         - Path=/demande/**
       - id: Camunda-Service
-        uri: http://${CAMUNDA_SERVICE:localhost}:8081/
+        uri: http://${Camunda_SERVICE:localhost}:7001/
         predicates:
-          - Path=/camunda/**
+        - Path=/camunda/**
+      - id: Image-Service
+        uri: http://${PARAMETRAGE_SERVICE:localhost}:8090/
+        predicates:
+        - Path=/images/**
         filters:
-          - RewritePath=/(?<path>.*), /$\{path}
+        - RewritePath=/auth/(?<path>.*), /$\{path}
       globalcors:
         corsConfigurations:
           '[/**]':
@@ -59,7 +63,7 @@ eureka:
     serviceUrl:
       defaultZone: http://${DISCOVERY_SERVICE:localhost}:${DISCOVERY_PORT:8761}/eureka/
 management:
-  endpoints: 
-    web: 
+  endpoints:
+    web:
       exposure:
          include: "*"

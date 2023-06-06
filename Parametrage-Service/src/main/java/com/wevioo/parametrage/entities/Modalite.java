@@ -28,13 +28,11 @@ public class Modalite {
 	private Long idModalite;
 	@JsonIgnoreProperties("modalites")
 	//fond auquel appartient la modalité
-	@Column(name = "fond")
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Fond fond ;
 	//liste des conventions
 	@JsonIgnore
 	@OneToMany(mappedBy="modalite")
-	@Column(name = "liste_conventions")
 	private List <Convention> conventions ;
 	//nom complet de la modalité
 	@Column(name = "nom_complet", nullable = false, unique = true)

@@ -22,7 +22,6 @@ public class StopLoss {
     @Column(name = "idSL")
     private Long idSL;
     //fond du stoploss
-    @Column(name = "fond")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fond_id")
     private Fond fond;
@@ -43,7 +42,7 @@ public class StopLoss {
     @Enumerated(EnumType.STRING)
     private Fondstatut statutSL;
     //partenaires du stoploss
-    @Column(name = "liste_partenaires")
+ 
     @JsonIgnoreProperties("stoplosses")
     @OneToMany(mappedBy = "partenaire",fetch = FetchType.EAGER,  cascade = CascadeType.ALL, orphanRemoval = true)
     @Transient

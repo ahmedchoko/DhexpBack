@@ -12,13 +12,19 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("parametrage/api/v1/gouvernorat")
+@RequestMapping("parametrage/api/v1/gouvernorats")
 public class GouvernoratController {
-    @Autowired
-    GouvernoratRepository gouvernoratRepository;
-    @GetMapping
-    public List<Gouvernorat> getAllGouvernorats(){
+	@Autowired
+	GouvernoratRepository gouvernoratRepository;
 
-        return gouvernoratRepository.findAll();   }
+	/**
+	 * Get the list of all Gouvernorats.
+	 *
+	 * @return List of Gouvernorats.
+	 */
+	@GetMapping
+	public List<Gouvernorat> getAllGouvernorats(){
+	    return gouvernoratRepository.findAll();
+	}
 
 }
