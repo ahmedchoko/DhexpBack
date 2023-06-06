@@ -24,27 +24,44 @@ public class Modalite {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="idModalite")
 	private Long idModalite;
 	@JsonIgnoreProperties("modalites")
-	//@JsonIgnore
+	//fond auquel appartient la modalité
+	@Column(name = "fond")
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Fond fond ;
+	//liste des conventions
 	@JsonIgnore
 	@OneToMany(mappedBy="modalite")
+	@Column(name = "liste_conventions")
 	private List <Convention> conventions ;
+	//nom complet de la modalité
+	@Column(name = "nom_complet", nullable = false, unique = true)
 	private String nomCompletModalite;
-
+	//nom en arabe de la modalité
+	@Column(name = "nom_arabe", nullable = true, unique = true)
 	private String nomArabeModalite;
+	@Column(name = "abréviation", nullable = true, unique = true)
+	//abréviation
 	private String abrevModalite ;
+	//Statut de la modalité
 	@Enumerated(EnumType.STRING)
+    @Column(name="statut", nullable = false, unique = false)
 	private ModaliteStatut statut ;
+	//montant minimum
+	@Column(name="montant_min", nullable = false, unique = false)
 	private Long montantMin;
+	//montant maximum
+	@Column(name="montant_max", nullable = false, unique = false)
 	private Long montantMax ;
+	//type de la modalité
 	@Enumerated(EnumType.STRING)
-	@Column(name = "modalite_type")
+	@Column(name = "type_modalité", nullable = false, unique = false)
 	private TypeModalite typeModalite;
+	//type de la demande
 	@Enumerated(EnumType.STRING)
-	@Column(name = "demande_type")
+	@Column(name = "demande_type", nullable = false, unique = false)
 	private TypeDemande natureDemande;
 	public Modalite(Long idModalite, String nomCompletModalite) {
 		super();

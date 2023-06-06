@@ -34,12 +34,7 @@ public class ModaliteServiceImpl implements ModaliteService {
 
     private  FondRepository fondRepository;
 
-  /*  public ModaliteServiceImpl(ModaliteRepository modaliteRepository, FondRepository fondRepository, FondService fondService) {
-        super();
-        this.modaliteRepository = modaliteRepository;
-        this.fondService = fondService;
-        this.fondRepository = fondRepository;
-    }*/
+
 
 
     @Override

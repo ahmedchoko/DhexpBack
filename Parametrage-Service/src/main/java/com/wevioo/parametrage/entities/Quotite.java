@@ -2,14 +2,8 @@ package com.wevioo.parametrage.entities;
 
 
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.wevioo.parametrage.enums.Choix;
 
@@ -25,24 +19,34 @@ public class Quotite {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "idQuotite")
 	private Long idQuotite;
-	
+	//quotité dépend de la zone ou non
+	@Column(name = "zonal", nullable = true)
 	@Enumerated(EnumType.STRING)
 	private Choix zonal;
-	
+	//quotité dépend du paramètre RITIC ou non
+	@Column(name = "ritic", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Choix ritic;
-	
+	//quotité dépend du promoteur nouveau ou non
+	@Column(name = "nouveau_promoteur", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Choix nouvPromo;
-	
+	//quotité dépend du crédit leasing ou non
+	@Column(name = "credit_leasing", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Choix creditLeas;
-	
+	//pourcentage de la quotité
+	@Column(name = "valeur_quotité", nullable = false)
 	private int valeurAppl;
+	//zone à laquelle s'applique la quotité
+	@Column(name = "zone")
 	@JsonIgnoreProperties("quotitee")
 	@OneToOne()
 	private Zone zone ;
+	//fond auquel s'applique la quotité
+	@Column(name = "fond")
 	@JsonIgnoreProperties("quotites")
 	@ManyToOne()
 	private Fond  fond  ;

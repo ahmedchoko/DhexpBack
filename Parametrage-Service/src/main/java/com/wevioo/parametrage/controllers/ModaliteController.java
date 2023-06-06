@@ -120,7 +120,6 @@ public class ModaliteController {
 
         }
 
-
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Modalite> deleteModalite(@PathVariable(name= "id") Long id) {

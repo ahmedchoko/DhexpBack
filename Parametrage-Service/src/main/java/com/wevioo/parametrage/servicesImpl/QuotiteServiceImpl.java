@@ -53,11 +53,6 @@ public class QuotiteServiceImpl implements QuotiteService{
     }
     
 	fondRepository.save(fond);
-	/*for(Zone zone : quotite.getZones() ) {
-		Zone zonesaved = zoneRepository.findById(zone.getIdZone()).get();
-	    zonesaved.setQuotitee(quotitesaved);
-	    zoneRepository.save(zonesaved);
-	}	*/	
 	quotiteRepository.save(quotitesaved);
 
 		
@@ -73,20 +68,11 @@ public class QuotiteServiceImpl implements QuotiteService{
 		Fond fond = fondRepository.findById(quotite.getFond().getIdFond()).get();
 	
 
-		///fond.getQuotites().add(quotitesaved);
 	    quotitesaved.setFond(fond);
 	    if(quotite.getZone()!=null) {	
 	    Zone zone = zoneRepository.findById(quotite.getZone().getIdZone()).get();
 	    quotitesaved.setZone(zone);
 	    }
-		///fondRepository.save(fond);
-	/*	for(Zone zone : quotite.getZones() ) {
-			Zone zonesaved = zoneRepository.findById(zone.getIdZone()).get();
-		    zonesaved.setQuotitee(quotitesaved);
-		    zoneRepository.save(zonesaved);
-		System.out.println("size of zone " + quotite.getZones().size());
-		//	quotitesaved.setZones(quotite.getZones());
-		}*/
 		quotiteRepository.save(quotitesaved);
 		return 	quotitesaved.getIdQuotite();
 	}

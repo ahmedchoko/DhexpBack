@@ -136,10 +136,6 @@ public class PartenaireServiceImpl implements PartenaireService{
 
 		  System.out.println(date1re);
 		  partenaire.setDateBlocage(date1re);
-		/*if(critereModalite.equals("Specifique")) {
-			convention.getModalite().setNatureDemande(TypeDemande.GPP);
-
-		}*/
 		  partenaireRepository.save(partenaire);
 		return convention.getIdConvention();
 	}

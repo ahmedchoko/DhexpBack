@@ -19,16 +19,25 @@ import lombok.NoArgsConstructor;
 public class Zone {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "idZone")
 	private Long idZone;
+	//nom de la zone
+	@Column(name = "nom", nullable = false, unique = true)
 	private String nomZone ;
+	//nom en Arabe
+	@Column(name = "nom_arabe", nullable = true)
 	private String nomArabeZone ;
-
+	//liste des gouvernorats dans la zone
+	@Column(name = "liste_gouvernorats")
 	@OneToMany(fetch = FetchType.EAGER)
 	@JsonIgnoreProperties("listeDelegations")
 	private Set<Gouvernorat> gouvernorats;
+	//liste des délégations dans la zone
+	@Column(name = "liste_délégations")
 	@OneToMany(fetch = FetchType.EAGER)
 	private Set<Delegation> delegations;
-
+	//quotité de la zone
+	@Column(name = "quotité_appliquée")
 	@JsonIgnoreProperties("zone")
 	@OneToOne(mappedBy="zone",fetch = FetchType.EAGER)
 	private Quotite quotitee ;

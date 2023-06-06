@@ -14,29 +14,36 @@ import java.util.Objects;
 
 @Entity
 @Data
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@Builder
+
 public class StoplossPartenaire implements Serializable {
-   /* public StoplossPartenaire( Partenaire partenaire, StopLoss stoploss){
-        this.partenaire = partenaire;
-        this.stoploss = stoploss;
-        this.idSLPartenaire = new StoplossPartenaireKey(partenaire.getIdPartenaire(), stoploss.getIdSL());
-    }*/
 
     @EmbeddedId
     StoplossPartenaireKey idSLPartenaire;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("idPartenaire")
-    //@JoinColumn(name = "partenaire_id")
     Partenaire partenaire;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("idSL")
-    //@JoinColumn(name = "stoploss_id")
     StopLoss stoploss;
-
+    //taux du stoploss
+    @Column(name = "taux_sl_partenaire",nullable = false, unique = false)
+    private Integer tauxSLPartenaire;
+    //date de démarrage du stoploss
+    @Column(name = "date_dém_sl_partenaire",nullable = false, unique = false)
+    private Date dateValiditeSLPArt ;
+    //date de fin du stoploss
+    @Column(name = "date_fin_sl_partenaire",nullable = false, unique = false)
+    private Date dateFinSLPart ;
+    //type du stoploss
+    @Column(name = "type_sl_partenaire",nullable = false, unique = false)
+    @Enumerated(EnumType.STRING)
+    private TypeStopLoss typeSLPart;
+    //statut du stoploss
+    @Column(name = "statut_sl_partenaire",nullable = false, unique = false)
+    @Enumerated(EnumType.STRING)
+    private Fondstatut statutSLPart;
     @Override
     public int hashCode() {
         return Objects.hash(partenaire, stoploss);
@@ -65,11 +72,5 @@ public class StoplossPartenaire implements Serializable {
         this.statutSLPart = statutSLPart;
         this.tauxSLPartenaire = tauxSLPartenaire;
     }
-    private Integer tauxSLPartenaire;
-    private Date dateValiditeSLPArt ;
-    private Date dateFinSLPart ;
-    @Enumerated(EnumType.STRING)
-    private TypeStopLoss typeSLPart;
-    @Enumerated(EnumType.STRING)
-    private Fondstatut statutSLPart;
+
 }

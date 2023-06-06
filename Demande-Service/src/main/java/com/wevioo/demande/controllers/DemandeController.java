@@ -37,44 +37,7 @@ public class DemandeController {
     @PostMapping("/createDemande")
     public ResponseEntity<Demande> createDemande(@RequestBody Demande demandeRequest) {
 		return null;
-      /*  if (! demandeRequest.getPartenaire().getStatut().equals( Fondstatut.ACTIF) )
-        { return ResponseEntity.badRequest().build();};
-        if (! (new Date()).before(demandeRequest.getPartenaire().getDateBlocage()))
-        { return ResponseEntity.badRequest().build();};
-        if (! demandeRequest.getFond().getStatut().equals( Fondstatut.ACTIF))
-        { return ResponseEntity.badRequest().build();};
-        if (! (demandeRequest.getMontantInvestissement().getMontant() <= demandeRequest.getFond().getMontantMax()) )
-        { return ResponseEntity.badRequest().build();};
-          if (! (demandeRequest.getMontantInvestissement().getMontant() >= demandeRequest.getFond().getMontantMin()) )
-        { return ResponseEntity.badRequest().build();};
-        if (! demandeRequest.getModalite().getStatut().equals(ModaliteStatut.ACTIF))
-        { return ResponseEntity.badRequest().build();};
-        if( ! (demandeRequest.getMontantInvestissement().getMontant() <= demandeRequest.getModalite().getMontantMax()) )
-        { return ResponseEntity.badRequest().build();};
-       if( ! (demandeRequest.getMontantInvestissement().getMontant() >= demandeRequest.getModalite().getMontantMin()) )
-        { return ResponseEntity.badRequest().build();};
-       if ( demandeRequest.getCredit().getObjetCredit().equals(ObjetCredit.CREATION)) {
-           if ( demandeRequest.getMontantInvestissement().getMontant() > 15000000) {
-               return ResponseEntity.badRequest().build();
-           };
-       };
-        if ( demandeRequest.getCredit().getObjetCredit().equals(ObjetCredit.EXTENSION)) {
-            if ( (demandeRequest.getCredit().getImmobilisationNettesAvantNouvelInvestissement()
-                    + demandeRequest.getMontantInvestissement().getMontant() ) > 15000000) {
-                return ResponseEntity.badRequest().build();
-            };
-        };
-
-        try {
-            Demande demande = demandeServiceImpl.createDemande(demandeRequest);
-            return  ResponseEntity.ok().body(demande);
-        }
-        catch(NotFoundException exception) {
-            return ResponseEntity.badRequest().build();
-
-        }*/
-    
-}
+	}
 
             @GetMapping("/getDemandePreliminaire")
           	public ResponseEntity < ? > getDemandePreliminaire(@RequestParam(value = "page") int page,

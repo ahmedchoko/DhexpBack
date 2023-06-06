@@ -5,20 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import com.wevioo.parametrage.enums.Fondstatut;
 import org.hibernate.annotations.Proxy;
@@ -41,27 +28,53 @@ public class Fond {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "idFond")
 	private Long idFond;
+	//nom du fond
+	@Column(name = "nom", nullable = false, unique = true)
 	private String nomFond ;
+	//nom Complet
+	@Column(name = "nom_Complet", nullable = true, unique = false)
 	private String nomCompletFond ;
+	//nom en Arabe
+	@Column(name = "nom_Arabe", nullable = true, unique = false)
 	private String nomArabeFond ;
+	//abréviation du fond
+	@Column(name = "abréviation", nullable = false, unique = true)
 	private String abrevFond ;
+	//statut du fond
+	@Column(name = "statut", nullable = false, unique = false)
 	@Enumerated(EnumType.STRING)
 	private Fondstatut statut ;
+	//montant maximum
+	@Column(name = "montant_max", nullable = false, unique = false)
 	private Long montantMax ;
+	//montant minimum
+	@Column(name = "montant_min", nullable = false, unique = false)
 	private Long montantMin ;
+	//date démaragge du fond
+	@Column(name = "date_démarrage", nullable = false, unique = false)
 	private Date dateDemarrageFond;
+	//date de clôture du fond
+	@Column(name = "date_clôture", nullable = false, unique = false)
 	private Date dateClotureFond;
+	//montant de la trésorerie
+	@Column(name = "trésorerie", nullable = false, unique = false)
 	private Long tresorerieFond;
-	private String codes ;
+	//modalités supportées par le fond
+	@Column(name = "modalites")
 	@JsonIgnoreProperties("fond")
 	@OneToMany(mappedBy="fond",fetch = FetchType.EAGER)
 	private Set<Modalite> modalites ;
+	//quotitées du fond
+	@Column(name = "quotites")
 	@JsonIgnoreProperties("fond")
 	@OneToMany(mappedBy="fond",fetch = FetchType.EAGER)
 	private Set<Quotite> quotites ;
+	@Column(name = "secteurs")
 	@ManyToMany(cascade={CascadeType.PERSIST,CascadeType.REMOVE},fetch = FetchType.EAGER)
 	private Set<Secteur> secteurs ;
+	@Column(name = "liste_stoploss")
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "fond")
 	@JsonIgnore
 	private Set<StopLoss> stoplosses ;
@@ -136,12 +149,6 @@ public class Fond {
 	}
 	public void setTresorerieFond(Long tresorerieFond) {
 		this.tresorerieFond = tresorerieFond;
-	}
-	public String getCodes() {
-		return codes;
-	}
-	public void setCodes(String codes) {
-		this.codes = codes;
 	}
 	public Set<Modalite> getModalites() {
 		return modalites;

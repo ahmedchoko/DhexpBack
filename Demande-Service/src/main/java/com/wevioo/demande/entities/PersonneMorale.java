@@ -22,10 +22,17 @@ public class PersonneMorale extends Personne implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_Personne")
 	private Long idPersonneMorale;
+	//raison social du bénéficiaire moral
+	@Column(name="raison_social", nullable = false)
 	private String raisonSociale ;
+	//forme juridique du bénéficiaire
+	@Column(name = "forme_juridique", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private FormeJuridique formeJuridique;
+	//bénéficiaire
+	@Column(name = "bénéficiaire")
 	@JsonIgnore
 	@OneToOne()
 	private Beneficiaire beneficiaire ;

@@ -33,8 +33,7 @@ public class StopLossServiceImpl implements StopLossService {
     @Autowired
     private StoplossPartenaireRepository stoplossPartenaireRepository ;
 
-    //public List<StopLoss> getAllStopLoss() {
-      //  return stopLossRepository.findAll();    }
+
     @Override
     public Page<StopLoss> getAllStopLoss( int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("idSL"));

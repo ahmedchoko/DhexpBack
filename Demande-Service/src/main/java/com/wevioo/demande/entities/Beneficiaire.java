@@ -24,15 +24,8 @@ public class Beneficiaire {
     private TYPEPERSONNE typPersonne;
     private String natureActivite;
 	private String numeroRib ;
-    private Integer codeActivite;
-    @OneToOne
-    private Secteur secteur;
-    @OneToOne
-    private SousSecteur sousSecteur;
     private String activite;
     private String region;
-    @OneToOne
-    private Gouvernorat gouvernorat;
     @OneToOne
     private Delegation delegation;
     private String adresse;

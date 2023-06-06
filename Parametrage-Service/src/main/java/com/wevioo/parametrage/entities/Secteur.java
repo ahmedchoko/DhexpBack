@@ -3,15 +3,7 @@ package com.wevioo.parametrage.entities;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 
 import org.hibernate.annotations.Fetch;
@@ -32,16 +24,22 @@ public class Secteur {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "idSecteur")
 	private Long idSec;
+	//nom du secteur
+	@Column(name = "nom", nullable = false, unique = true)
 	private String name;
-	
+	//fonds du secteur
+	@Column(name = "fonds")
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL,mappedBy="secteurs")
-	  private Set<Fond> fonds;
-	 @JsonIgnoreProperties("secteur")
+	//liste des sous secteurs du secteur
+	private Set<Fond> fonds;
+	@Column(name = "sous_secteurs")
+	@JsonIgnoreProperties("secteur")
 	@OneToMany(mappedBy="secteur",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@Fetch(value=FetchMode.SELECT)
-	  private Set<SousSecteur> sousSecteurs;
+	private Set<SousSecteur> sousSecteurs;
 	public Long getIdSec() {
 		return idSec;
 	}
