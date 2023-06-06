@@ -49,10 +49,11 @@ public class Beneficiaire {
     @Size(max = 255)
     private String region;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "delegation_id")
-    @NotNull
 
+    @Column(name = "delegation_id")
+    @NotNull
+    private Long delegationId;
+    
     @Column(name = "adresse")
     @NotNull
     @Size(max = 255)

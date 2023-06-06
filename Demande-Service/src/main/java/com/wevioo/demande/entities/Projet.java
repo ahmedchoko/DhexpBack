@@ -61,7 +61,6 @@ public class Projet {
     @Column(name = "prod_ou_serv", nullable = true)
     private String prodOuServices;
     //demande associée au projet
-    @Column(name = "demande")
     @JsonIgnore
 	@OneToOne(mappedBy="projet")
     private Demande demande;

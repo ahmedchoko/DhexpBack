@@ -31,10 +31,10 @@ public class Tranche {
     @Column(name = "numéro_tranche", nullable = false)
     private Integer numeroTranche ;
     //liste des amortissements de la tranche
-    @Column(name = "liste_amortissements", nullable = false)
+
     @OneToMany(mappedBy="tranche",fetch = FetchType.EAGER)
     private Set<Amortissement> amortissement;
-    @Column(name = "crédit_associé")
+
 	@ManyToOne()
     private Credit credit;
 }
