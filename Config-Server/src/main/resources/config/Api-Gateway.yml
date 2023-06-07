@@ -50,8 +50,8 @@ spring:
           '[/**]':
             allowedOrigins: "http://localhost:4200"
             allowedMethods:
-              - GET
               - PUT
+              - GET
               - POST
               - DELETE
             AllowedHeaders:

@@ -22,7 +22,7 @@ public class Quotite {
 	@Column(name = "idQuotite")
 	private Long idQuotite;
 	//quotité dépend de la zone ou non
-	@Column(name = "zonal", nullable = true)
+	@Column(name = "zonal", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Choix zonal;
 	//quotité dépend du paramètre RITIC ou non

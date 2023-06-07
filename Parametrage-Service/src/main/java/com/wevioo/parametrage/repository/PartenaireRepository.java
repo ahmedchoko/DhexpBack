@@ -26,5 +26,16 @@ public interface PartenaireRepository extends JpaRepository<Partenaire, Long>, J
      */
     @Query("SELECT COUNT(p.idPartenaire) FROM Partenaire p")
     int getNobreTotalPartenaire();
-
+    
+    // Add this method to perform the custom query
+    @Query("SELECT p FROM Partenaire p WHERE p.numFax = :numFax AND p.idPartenaire <> :id")
+    Partenaire findByNumFaxExceptId(String numFax, Long id);
+    // Add this method to perform the custom query
+    @Query("SELECT p FROM Partenaire p WHERE p.mail = :mail AND p.idPartenaire <> :id")
+    Partenaire findByMailExceptId(String mail, Long id);
+    // Add this method to perform the custom query
+    @Query("SELECT p FROM Partenaire p WHERE p.site = :site AND p.idPartenaire <> :id")
+	Partenaire findBySiteExceptId(String site, Long id);
+    @Query("SELECT p FROM Partenaire p WHERE p.numTelephone = :numTelephone AND p.id <> :id")
+	Partenaire findByNumTelephoneExceptId(String numTelephone, Long id);
 }

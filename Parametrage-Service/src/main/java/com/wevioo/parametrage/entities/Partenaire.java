@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
-
+import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.wevioo.parametrage.enums.Fondstatut;
@@ -41,23 +41,36 @@ public class Partenaire {
 	@Column(name ="abréviation" , nullable = false, unique = true)
 	private String abrevPartenaire ;
 	//adresse
-	@Column(name ="adresse" , nullable = false, unique = false)
+	@Column(name ="adresse" , nullable = false, unique = true)
 	private String adresse ;
-	//numéro téléphone
-	@Column(name ="téléphone" , nullable = false, unique = true)
-	private Long numTelephone ;
-	//numéro fax
-	@Column(name ="fax" , nullable = true, unique = true)
-	private Long numFax ;
-	//adresse email
-	@Column(name ="email" , nullable = false, unique = true)
-	private String mail ;
+	
+	
+	//mail
+	@Pattern(regexp = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b", message = "Invalid email format.")
+	@Column(name = "email", nullable = false, unique = true)
+	private String mail;
+
+	// site
+	@Pattern(regexp = "^(http://|https://)?([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$", message = "Invalid website format.")
+	@Column(name = "site_web", nullable = false, unique = true)
+	private String site;
+
+	// numero Telephone
+	@Pattern(regexp = "^(5[0-9]{7}|2[0-9]{7}|9[0-9]{7})$", message = "Invalid telephone number format.")
+	@Column(name = "téléphone", nullable = false, unique = true)
+	private String numTelephone;
+
+	// numero Fax
+	@Pattern(regexp = "^\\d{8}$", message = "Invalid fax number format.")
+	@Column(name = "fax", nullable = true, unique = true)
+	private String numFax;
+	
 	//code BIC
+    @Pattern(regexp = "^\\d{2}$", message = "Invalid code BIC format. It should contain exactly two digits.")
 	@Column(name ="code_bic" , nullable = false, unique = true)
 	private String codeBic ;
-	//Site web
-	@Column(name ="site_web" , nullable = false, unique = true)
-	private String site ;
+    
+    
 	//date d'activation du partenaire
 	@Column(name ="date_activation" , nullable = false, unique = false)
 	private Date dateActivation ;

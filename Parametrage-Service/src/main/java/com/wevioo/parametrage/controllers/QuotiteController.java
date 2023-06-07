@@ -34,8 +34,15 @@ public class QuotiteController {
      */
     @PostMapping()
     public void addQuotite(@RequestBody Quotite quotite) {
-        quotiteService.addQuotite(quotite);
+        try {
+            quotiteService.addQuotite(quotite);
+        } catch (Exception e) {
+            // Handle the exception
+            e.printStackTrace();
+            throw new RuntimeException("Failed to add quotite: " + e.getMessage());
+        }
     }
+
 
     /**
      * Get a Quotite by ID.
@@ -44,9 +51,17 @@ public class QuotiteController {
      * @return ResponseEntity containing the Quotite.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Quotite> getQuotiteById(@PathVariable() Long id) {
-        return ResponseEntity.ok(quotiteService.getQuotiteById(id));
+    public ResponseEntity<Quotite> getQuotiteById(@PathVariable Long id) {
+        try {
+            Quotite quotite = quotiteService.getQuotiteById(id);
+            return ResponseEntity.ok(quotite);
+        } catch (Exception e) {
+            // Handle the exception
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
     }
+
 
     /**
      * Modify a Quotite.
@@ -56,8 +71,16 @@ public class QuotiteController {
      */
     @PutMapping()
     public ResponseEntity<Long> modifyQuotite(@RequestBody Quotite quotite) {
-        return ResponseEntity.status(HttpStatus.OK).body(quotiteService.modifyQuotite(quotite));
+        try {
+            Long modifiedQuotiteId = quotiteService.modifyQuotite(quotite);
+            return ResponseEntity.status(HttpStatus.OK).body(modifiedQuotiteId);
+        } catch (Exception e) {
+            // Handle the exception
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
+
 
     /**
      * Get a list of filtered Quotites.
@@ -83,7 +106,7 @@ public class QuotiteController {
             @RequestParam(value = "creditLeasing", required = false) String creditLeasing,
             @RequestParam(value = "page") int page,
             @RequestParam(value = "size") int size) throws ParseException {
-        Map<String, Object> jsonResponseMap = new LinkedHashMap<>();
+    	try { Map<String, Object> jsonResponseMap = new LinkedHashMap<>();
 
         Page<Quotite> listofQuotite = quotiteService.getAllQuotite(
                 page, size, fondsearchTerm, zonesearchTerm, zonalsearchTerm, ritic, nouveauProm, creditLeasing);
@@ -106,6 +129,11 @@ public class QuotiteController {
             jsonResponseMap.put("data", listofQuotiteDto);
             jsonResponseMap.put("pagebale", listofQuotite1);
             return new ResponseEntity<>(jsonResponseMap, HttpStatus.OK);
+        }
+    	}
+    	catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

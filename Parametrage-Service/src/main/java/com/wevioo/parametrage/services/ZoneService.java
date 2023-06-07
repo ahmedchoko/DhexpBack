@@ -1,7 +1,7 @@
 package com.wevioo.parametrage.services;
 
 import java.util.List;
-
+import java.util.NoSuchElementException;
 
 import com.wevioo.parametrage.dto.ZoneDTO;
 import com.wevioo.parametrage.entities.Zone;
@@ -14,6 +14,15 @@ public interface ZoneService {
 
 	Zone getZoneById(Long id);
 
+
+    /**
+     * Updates a Zone.
+     *
+     * @param id           The ID of the Zone to update
+     * @param zoneRequest  The ZoneDTO object containing the updated details of the Zone
+     * @return The updated Zone object
+     * @throws NoSuchElementException if the Zone is not found
+     */
 	Zone updateZone(Long id, ZoneDTO zoneRequest);
 
 	Zone deleteZone(Long id);

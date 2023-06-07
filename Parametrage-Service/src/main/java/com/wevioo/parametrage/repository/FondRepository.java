@@ -43,4 +43,10 @@ public interface FondRepository extends JpaRepository<Fond, Long>, JpaSpecificat
      */
     @Query("SELECT Sum(f.tresorerieFond) FROM Fond f")
     float FondTotal();
+    // Add this method to perform the custom query
+    @Query("SELECT f FROM Fond f WHERE f.abrevFond = :abrevFond AND f.idFond <> :id")
+	Fond findByAbrevFondExceptId(String abrevFond , Long id);
+    // Add this method to perform the custom query
+    @Query("SELECT f FROM Fond f WHERE f.nomFond = :nomFond AND f.idFond <> :id")
+	Fond findByNomFondExceptId(String nomFond, Long id);
 }

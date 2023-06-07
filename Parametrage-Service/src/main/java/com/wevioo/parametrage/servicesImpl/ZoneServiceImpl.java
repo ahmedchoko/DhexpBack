@@ -66,15 +66,9 @@ public class ZoneServiceImpl implements ZoneService {
                 .orElseThrow(() -> new NoSuchElementException("Resource with id " + id + " not found"));
         return zone;
     }
-
-    /**
-     * Updates a Zone.
-     *
-     * @param id           The ID of the Zone to update
-     * @param zoneRequest  The ZoneDTO object containing the updated details of the Zone
-     * @return The updated Zone object
-     * @throws NoSuchElementException if the Zone is not found
-     */
+/**
+ * {@inheritDoc}
+ */
     @Override
     public Zone updateZone(Long id, ZoneDTO zoneRequest) {
         Zone zone = zoneRepository.findById(id)
