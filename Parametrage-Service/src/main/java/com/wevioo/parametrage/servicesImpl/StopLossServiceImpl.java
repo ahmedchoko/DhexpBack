@@ -46,8 +46,12 @@ public class StopLossServiceImpl implements StopLossService {
             erroMsg ="empty request body";
             throw new Exception(erroMsg) ;
         }
-        if((stopLossRequest.getNomSL() == null) || (stopLossRequest.getNomSL() == "")) {
+        if((stopLossRequest.getNomSL() == null) || (stopLossRequest.getNomSL().isEmpty())) {
             erroMsg ="empty nomSL field";
+            throw new Exception(erroMsg) ;
+        }
+        if(stopLossRequest.getNomSL().length() > 20) {
+            erroMsg ="le nom ne doit pas dépasser 20 caractères!";
             throw new Exception(erroMsg) ;
         }
         if(stopLossRequest.getStatutSL() == null ) {
@@ -64,6 +68,10 @@ public class StopLossServiceImpl implements StopLossService {
         }
         if(stopLossRequest.getDateValiditeSL() == null) {
             erroMsg ="empty dateValidite field";
+            throw new Exception(erroMsg) ;
+        }
+        if(stopLossRequest.getDateFinSL().before(stopLossRequest.getDateValiditeSL())){
+            erroMsg ="la date de fin précède la date de début!";
             throw new Exception(erroMsg) ;
         }
         if(fondRepository.findById(stopLossRequest.getFond().getIdFond()).isEmpty()) {
@@ -113,6 +121,10 @@ public class StopLossServiceImpl implements StopLossService {
         }
         if(slpartenaireRequest.getDateValiditeSLPArt() == null) {
             erroMsg ="empty Date Validité field";
+            throw new Exception(erroMsg) ;
+        }
+        if(slpartenaireRequest.getDateFinSLPart().before(slpartenaireRequest.getDateValiditeSLPArt())){
+            erroMsg ="la date de fin précède la date de début!";
             throw new Exception(erroMsg) ;
         }
         if(slpartenaireRequest.getTypeSLPart() == null) {

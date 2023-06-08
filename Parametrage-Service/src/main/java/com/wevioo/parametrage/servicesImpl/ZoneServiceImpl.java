@@ -29,15 +29,15 @@ public class ZoneServiceImpl implements ZoneService {
     private GouvernoratRepository gouvernoratRepository;
     private String errMsg;
     void Vérif(ZoneDTO zoneRequest) throws Exception{
-        if((zoneRequest.getNomZone() == null) || (zoneRequest.getNomZone() == "")){
+        if((zoneRequest.getNomZone() == null) || (zoneRequest.getNomZone().isEmpty())){
             errMsg = "empty nom field";
             throw new Exception(errMsg);
         }
-        if((zoneRequest.getNomArabeZone() == null) || (zoneRequest.getNomArabeZone() == "")){
+        if((zoneRequest.getNomArabeZone() == null) || (zoneRequest.getNomArabeZone().isEmpty())){
             errMsg = "empty nom Arabe field";
             throw new Exception(errMsg);
         }
-        if((zoneRequest.getCodeZone() == null) || (zoneRequest.getCodeZone() == "")){
+        if((zoneRequest.getCodeZone() == null) || (zoneRequest.getCodeZone().isEmpty())){
             errMsg = "empty code field";
             throw new Exception(errMsg);
         }

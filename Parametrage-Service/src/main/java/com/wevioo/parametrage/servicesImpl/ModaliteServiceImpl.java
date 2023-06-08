@@ -40,10 +40,20 @@ public class ModaliteServiceImpl implements ModaliteService {
             erroMsg ="empty request body";
             throw new Exception(erroMsg) ;
         }
-        if((modaliteRequest.getAbrevModalite() == null) || (modaliteRequest.getAbrevModalite() == "")) {
-            erroMsg ="empty abréviation field";
+        if((modaliteRequest.getAbrevModalite() == null) || (modaliteRequest.getAbrevModalite().isEmpty())
+        || (modaliteRequest.getAbrevModalite().length() > 10)) {
+            erroMsg ="champ abréviation invalide ou null, ne doit pas dépasser 10 caractères!";
             throw new Exception(erroMsg) ;
         }
+        if( modaliteRequest.getAbrevModalite().length() > 50) {
+            erroMsg ="champ nom complet ne doit pas dépasser 50 caractères";
+            throw new Exception(erroMsg) ;
+        }
+        if( modaliteRequest.getNomArabeModalite().length() > 50) {
+            erroMsg ="champ nom en arabe ne doit pas dépasser 50 caractères";
+            throw new Exception(erroMsg) ;
+        }
+
         if(modaliteRequest.getStatut() == null){
             erroMsg ="empty statut field";
             throw new Exception(erroMsg) ;
@@ -56,15 +66,15 @@ public class ModaliteServiceImpl implements ModaliteService {
             erroMsg ="empty montantMin field";
             throw new Exception(erroMsg) ;
         }
+        if(modaliteRequest.getMontantMax() <= modaliteRequest.getMontantMin()){
+            erroMsg ="le montant min ne peut pas dépasser le montant max!";
+            throw new Exception(erroMsg) ;
+        }
 
         if((modaliteRequest.getTypeModalite() == null)  ){
             erroMsg ="empty or invalid type modalité field";
             throw new Exception(erroMsg) ;
         }
-      /*  if (! Arrays.asList(TypeModalite.values()).contains(modaliteRequest.getTypeModalite())) {
-            erroMsg ="invalid value for type modalité field";
-            throw new Exception(erroMsg);
-        }*/
         if(modaliteRequest.getNatureDemande() == null){
             erroMsg ="empty nature demande field";
             throw new Exception(erroMsg) ;
