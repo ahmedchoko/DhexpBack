@@ -12,19 +12,19 @@ import org.springframework.data.domain.Page;
 
 
 public interface StopLossService {
-    Page<StopLoss> getAllStopLoss( int page, int size);
+    Page<StopLoss> getAllStopLoss( int page, int size) throws Exception;
 
-    StopLoss createStopLoss(StopLossDto stoplossRequest);
+    StopLoss createStopLoss(StopLossDto stoplossRequest) throws Exception;
 
-    StopLoss getStopLossById(Long id);
+    StopLoss getStopLossById(Long id) throws Exception;
 
-    StopLoss updateStopLoss(Long id, StopLossDto stoplossRequest);
+    StopLoss updateStopLoss(Long id, StopLossDto stoplossRequest) throws Exception;
 
-    StopLoss deleteStopLoss(Long id);
-    List<StoplossPartenaire> getSLPartenaire();
-    StoplossPartenaire createSLPartenaire(StoplossPartenaireDto stoplossPartenaireRequest);
-    StoplossPartenaire updateSLPartenaire(StoplossPartenaireDto slpartenaire);
+    StopLoss deleteStopLoss(Long id) throws Exception;
+    List<StoplossPartenaire> getSLPartenaire() throws Exception;
+    StoplossPartenaire createSLPartenaire(StoplossPartenaireDto stoplossPartenaireRequest) throws Exception;
+    StoplossPartenaire updateSLPartenaire(StoplossPartenaireDto slpartenaire) throws Exception;
 
-    StoplossPartenaire supprimerSLPartenaire(StoplossPartenaireDto slpartenaire);
-    Page<StoplossPartenaire> getSLPartenaire(int page, int size);
+    StoplossPartenaire supprimerSLPartenaire(StoplossPartenaireDto slpartenaire) throws Exception;
+    Page<StoplossPartenaire> getSLPartenaire(int page, int size) throws Exception;
 }

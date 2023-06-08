@@ -11,6 +11,7 @@ import com.wevioo.parametrage.services.ModaliteService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,13 +40,13 @@ public class ModaliteController {
 	 * @return ResponseEntity containing the paginated list of Modalites.
 	 */
 	@GetMapping
-	public ResponseEntity<Page<Modalite>> getAllModalite(@RequestParam(defaultValue = "0") int page,
+	public ResponseEntity<?> getAllModalite(@RequestParam(defaultValue = "0") int page,
 	                                                     @RequestParam(defaultValue = "10") int size) {
 	    try {
 	        Page<Modalite> modalites = modaliteService.getAllModalite(page, size);
 	        return ResponseEntity.ok().body(modalites);
-	    } catch (NotFoundException exception) {
-	        return ResponseEntity.notFound().build();
+	    } catch (Exception exception) {
+	        return new ResponseEntity<>(exception.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
 	}
 
@@ -56,18 +57,12 @@ public class ModaliteController {
 	 * @return ResponseEntity containing the created Modalite.
 	 */
 	@PostMapping
-	public ResponseEntity<Modalite> createModalite(@RequestBody ModaliteDto modaliteRequest) {
+	public ResponseEntity<?> createModalite(@RequestBody ModaliteDto modaliteRequest) {
 	    try {
-	        Fond fond = fondService.getFondById(modaliteRequest.getFond().getIdFond());
-	        List<TypeDemande> listeMod = new ArrayList<>();
-	        fond.getModalites().forEach((Modalite mod) -> listeMod.add(mod.getNatureDemande()));
-	        if (listeMod.contains(modaliteRequest.getNatureDemande())) {
-	            return ResponseEntity.badRequest().build();
-	        }
 	        Modalite modalite = modaliteService.createModalite(modaliteRequest);
 	        return ResponseEntity.ok().body(modalite);
-	    } catch (NotFoundException exception) {
-	        return ResponseEntity.badRequest().build();
+	    } catch (Exception exception) {
+	        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
 	    }
 	}
 
@@ -78,12 +73,12 @@ public class ModaliteController {
 	 * @return ResponseEntity containing the retrieved Modalite.
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<Modalite> getModaliteById(@PathVariable(name = "id") Long id) {
+	public ResponseEntity<?> getModaliteById(@PathVariable(name = "id") Long id) {
 	    try {
 	        Modalite modalite = modaliteService.getModaliteById(id);
 	        return ResponseEntity.ok().body(modalite);
-	    } catch (NotFoundException exception) {
-	        return ResponseEntity.notFound().build();
+	    } catch (Exception exception) {
+	        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
 	    }
 	}
 
@@ -95,23 +90,13 @@ public class ModaliteController {
 	 * @return ResponseEntity containing the updated Modalite.
 	 */
 	@PutMapping("/{id}")
-	public ResponseEntity<Modalite> updateModalite(@PathVariable(name = "id") Long id,
+	public ResponseEntity<?> updateModalite(@PathVariable(name = "id") Long id,
 	                                                @RequestBody ModaliteDto modaliteRequest) {
 	    try {
-	        Fond fond = fondService.getFondById(modaliteRequest.getFond().getIdFond());
-	        List<TypeModalite> listeMod = new ArrayList<>();
-	        fond.getModalites().forEach((Modalite mod) -> listeMod.add(mod.getTypeModalite()));
-	        if (modaliteRequest.getTypeModalite() == modaliteService.getModaliteById(id).getTypeModalite()) {
-	            Modalite modalite = modaliteService.updateModalite(id, modaliteRequest);
-	            return ResponseEntity.ok().body(modalite);
-	        }
-	        if (listeMod.contains(modaliteRequest.getTypeModalite())) {
-	            return ResponseEntity.badRequest().build();
-	        }
 	        Modalite modalite = modaliteService.updateModalite(id, modaliteRequest);
 	        return ResponseEntity.ok().body(modalite);
-	    } catch (NotFoundException exception) {
-	        return ResponseEntity.badRequest().build();
+	    } catch (Exception exception) {
+	        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
 	    }
 	}
 
@@ -122,12 +107,12 @@ public class ModaliteController {
 	 * @return ResponseEntity containing the deleted Modalite.
 	 */
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Modalite> deleteModalite(@PathVariable(name = "id") Long id) {
+	public ResponseEntity<?> deleteModalite(@PathVariable(name = "id") Long id) {
 	    try {
 	        Modalite modalite = modaliteService.deleteModalite(id);
 	        return ResponseEntity.ok().body(modalite);
-	    } catch (NotFoundException exception) {
-	        return ResponseEntity.notFound().build();
+	    } catch (Exception exception) {
+	        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
 	    }
 	}
 

@@ -11,6 +11,7 @@ import com.wevioo.parametrage.entities.StopLoss;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,13 +37,13 @@ public class ZoneController {
 	 * @return the paginated list of zones
 	 */
 	@GetMapping()
-	public ResponseEntity<Page<Zone>> getAllZones(@RequestParam(defaultValue = "0") int page,
+	public ResponseEntity<?> getAllZones(@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "20") int size) {
 		try {
 			Page<Zone> zones = zoneService.getAllZones(page, size);
 			return ResponseEntity.ok().body(zones);
-		} catch (NotFoundException exception) {
-			return ResponseEntity.notFound().build();
+		} catch (Exception exception) {
+			return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -53,12 +54,12 @@ public class ZoneController {
 	 * @return the created zone
 	 */
 	@PostMapping
-	public ResponseEntity<Zone> createZone(@RequestBody ZoneDTO zoneRequest) {
+	public ResponseEntity<?> createZone(@RequestBody ZoneDTO zoneRequest) {
 		try {
 			Zone zone = zoneService.createZone(zoneRequest);
 			return ResponseEntity.ok().body(zone);
-		} catch (NotFoundException exception) {
-			return ResponseEntity.badRequest().build();
+		} catch (Exception exception) {
+			return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -69,12 +70,12 @@ public class ZoneController {
 	 * @return the zone with the given ID
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<Zone> getZoneById(@PathVariable(name = "id") Long id) {
+	public ResponseEntity<?> getZoneById(@PathVariable(name = "id") Long id) {
 		try {
 			Zone zone = zoneService.getZoneById(id);
 			return ResponseEntity.ok().body(zone);
-		} catch (NotFoundException exception) {
-			return ResponseEntity.notFound().build();
+		} catch (Exception exception) {
+			return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST) ;
 		}
 	}
 
@@ -86,12 +87,12 @@ public class ZoneController {
 	 * @return the updated zone
 	 */
 	@PutMapping("/{id}")
-	public ResponseEntity<Zone> updateZone(@PathVariable(name = "id") Long id, @RequestBody ZoneDTO zoneRequest) {
+	public ResponseEntity<?> updateZone(@PathVariable(name = "id") Long id, @RequestBody ZoneDTO zoneRequest) {
 		try {
 			Zone zone = zoneService.updateZone(id, zoneRequest);
 			return ResponseEntity.ok().body(zone);
-		} catch (NotFoundException exception) {
-			return ResponseEntity.notFound().build();
+		} catch (Exception exception) {
+			return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST) ;
 		}
 
 	}
@@ -103,12 +104,12 @@ public class ZoneController {
 	 * @return the deleted zone
 	 */
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Zone> deleteZone(@PathVariable(name = "id") Long id) {
+	public ResponseEntity<?> deleteZone(@PathVariable(name = "id") Long id) {
 		try {
 			Zone zone = zoneService.deleteZone(id);
 			return ResponseEntity.ok().body(zone);
-		} catch (NotFoundException exception) {
-			return ResponseEntity.notFound().build();
+		} catch (Exception exception) {
+			return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST) ;
 		}
 	}
 

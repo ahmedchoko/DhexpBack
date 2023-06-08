@@ -190,8 +190,6 @@ public class DemandeServiceImpl implements DemandeService{
 		return demandeRepository.getDemandesEncours(pageable);
 	}
 
-
-
 	@Override
 	public Demande updateDemande(DemandeDto demande) throws ParseException {
 	Demande updatedDemande = demandeRepository.findById(Long.valueOf(demande.getIdDemande()))

@@ -29,10 +29,10 @@ public class DemandeDto {
     private String mail;
     private String profession;
     private String natureActivite;
-    private Activite activites;
+    private String activites;
     private String codePostal;
     private String addresse;
-    private Delegation delegation;
+    private String delegation;
     private String region;
     private String raisonSociale;
     private String formeJuridique;

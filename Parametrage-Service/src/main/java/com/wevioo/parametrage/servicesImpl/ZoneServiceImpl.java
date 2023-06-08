@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import com.wevioo.parametrage.dto.ZoneDTO;
+import com.wevioo.parametrage.entities.Gouvernorat;
+import com.wevioo.parametrage.repository.DelegationRepository;
+import com.wevioo.parametrage.repository.GouvernoratRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +23,56 @@ import com.wevioo.parametrage.services.ZoneService;
 public class ZoneServiceImpl implements ZoneService {
     @Autowired
     private ZoneRepository zoneRepository;
+    @Autowired
+    private DelegationRepository delegationRepository;
+    @Autowired
+    private GouvernoratRepository gouvernoratRepository;
+    private String errMsg;
+    void Vérif(ZoneDTO zoneRequest) throws Exception{
+        if((zoneRequest.getNomZone() == null) || (zoneRequest.getNomZone() == "")){
+            errMsg = "empty nom field";
+            throw new Exception(errMsg);
+        }
+        if((zoneRequest.getNomArabeZone() == null) || (zoneRequest.getNomArabeZone() == "")){
+            errMsg = "empty nom Arabe field";
+            throw new Exception(errMsg);
+        }
+        if((zoneRequest.getCodeZone() == null) || (zoneRequest.getCodeZone() == "")){
+            errMsg = "empty code field";
+            throw new Exception(errMsg);
+        }
+        if(zoneRequest.getGouvernorats().isEmpty() || (zoneRequest.getGouvernorats() == null) ){
+            errMsg = "empty gouvernorats field";
+            throw new Exception(errMsg);
+        }
+        if(zoneRequest.getDelegations().isEmpty() || (zoneRequest.getDelegations() == null) ){
+            errMsg = "empty delegations field";
+            throw new Exception(errMsg);
+        }
+        if((! zoneRepository.findByNomZone(zoneRequest.getNomZone()).isEmpty())
+        || (! zoneRepository.findByNomArabeZone(zoneRequest.getNomArabeZone()).isEmpty())
+        || (! zoneRepository.findByCodeZone(zoneRequest.getCodeZone()).isEmpty())){
+            errMsg = "Zone existante";
+            throw new Exception(errMsg);
+        }
 
+        if(! gouvernoratRepository.findAll().containsAll(zoneRequest.getGouvernorats())) {
+            errMsg = "Gouvernorat(s) non existant(s)!";
+            throw new Exception(errMsg);
+        }
+        if(! delegationRepository.findAll().containsAll(zoneRequest.getDelegations())) {
+            errMsg = "Gouvernorat(s) non existant(s)!";
+            throw new Exception(errMsg);
+        }
+
+        for (Zone zone : zoneRepository.findAll()) {
+            if (zone.getGouvernorats().containsAll(zoneRequest.getGouvernorats())) {
+                errMsg = "Zone dupliquée!";
+                throw new Exception(errMsg);
+            }
+        }
+
+    }
     /**
      * Retrieves all zones with pagination.
      *
@@ -29,10 +81,14 @@ public class ZoneServiceImpl implements ZoneService {
      * @return A page of Zone objects
      */
     @Override
-    public Page<Zone> getAllZones(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("idZone"));
-        Page<Zone> myDataPage = zoneRepository.findAll(pageable);
-        return myDataPage;
+    public Page<Zone> getAllZones(int page, int size) throws Exception{
+        try {
+            Pageable pageable = PageRequest.of(page, size, Sort.by("idZone"));
+            Page<Zone> myDataPage = zoneRepository.findAll(pageable);
+            return myDataPage;
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 
     /**
@@ -42,15 +98,21 @@ public class ZoneServiceImpl implements ZoneService {
      * @return The created Zone object
      */
     @Override
-    public Zone createZone(ZoneDTO zoneRequest) {
-        Zone zone = Zone.builder()
-                .nomZone(zoneRequest.getNomZone())
-                .nomArabeZone(zoneRequest.getNomArabeZone())
-                .gouvernorats(zoneRequest.getGouvernorats())
-                .delegations(zoneRequest.getDelegations())
-                .build();
-        zoneRepository.save(zone);
-        return zone;
+    public Zone createZone(ZoneDTO zoneRequest) throws Exception {
+        Vérif(zoneRequest);
+        try {
+            Zone zone = Zone.builder()
+                    .nomZone(zoneRequest.getNomZone())
+                    .nomArabeZone(zoneRequest.getNomArabeZone())
+                    .codeZone(zoneRequest.getCodeZone())
+                    .gouvernorats(zoneRequest.getGouvernorats())
+                    .delegations(zoneRequest.getDelegations())
+                    .build();
+            zoneRepository.save(zone);
+            return zone;
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 
     /**
@@ -61,10 +123,15 @@ public class ZoneServiceImpl implements ZoneService {
      * @throws NoSuchElementException if the Zone is not found
      */
     @Override
-    public Zone getZoneById(Long id) {
-        Zone zone = zoneRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Resource with id " + id + " not found"));
-        return zone;
+    public Zone getZoneById(Long id) throws Exception{
+        try{
+            Zone zone = zoneRepository.findById(id)
+                    .orElseThrow(() -> new Exception("Zone inexistante!"));
+            return zone;
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+
     }
 
     /**
@@ -76,15 +143,21 @@ public class ZoneServiceImpl implements ZoneService {
      * @throws NoSuchElementException if the Zone is not found
      */
     @Override
-    public Zone updateZone(Long id, ZoneDTO zoneRequest) {
+    public Zone updateZone(Long id, ZoneDTO zoneRequest) throws Exception {
         Zone zone = zoneRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Resource with id " + id + " not found"));
-        zone.setNomZone(zoneRequest.getNomZone());
-        zone.setNomArabeZone(zoneRequest.getNomArabeZone());
-        zone.setDelegations(zoneRequest.getDelegations());
-        zone.setGouvernorats(zoneRequest.getGouvernorats());
-        zoneRepository.save(zone);
-        return zone;
+                .orElseThrow(() -> new Exception("Zone inexistante!"));
+        Vérif(zoneRequest);
+        try {
+            zone.setCodeZone(zoneRequest.getCodeZone());
+            zone.setNomZone(zoneRequest.getNomZone());
+            zone.setNomArabeZone(zoneRequest.getNomArabeZone());
+            zone.setDelegations(zoneRequest.getDelegations());
+            zone.setGouvernorats(zoneRequest.getGouvernorats());
+            zoneRepository.save(zone);
+            return zone;
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 
     /**
@@ -95,11 +168,15 @@ public class ZoneServiceImpl implements ZoneService {
      * @throws NoSuchElementException if the Zone is not found
      */
     @Override
-    public Zone deleteZone(Long id) {
+    public Zone deleteZone(Long id) throws Exception{
         Zone zone = zoneRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Resource with id " + id + " not found"));
-        zoneRepository.deleteById(id);
-        return zone;
+                .orElseThrow(() -> new Exception("Zone inexistante!"));
+        try {
+            zoneRepository.deleteById(id);
+            return zone;
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 
     /**

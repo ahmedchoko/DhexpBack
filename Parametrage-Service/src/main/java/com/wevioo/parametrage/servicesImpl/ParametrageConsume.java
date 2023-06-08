@@ -37,7 +37,7 @@ public class ParametrageConsume {
      * @param event The ParametrageEvent received from Kafka.
      */
     @KafkaListener(topics = "topic1", groupId = "fond")
-    public void consumeMessage(ParametrageEvent event) {
+    public void consumeMessage(ParametrageEvent event) throws Exception {
         // Fetch the list of Fond objects
         List<Fond> fonds = fondServiceImpl.listFond();
         List<Partenaire> partenaires = partenaireServiceImpl.getAllPartenaire();

@@ -17,5 +17,8 @@ public interface ModaliteRepository extends PagingAndSortingRepository<Modalite,
      */
     @Query("SELECT MONTH(c.dateSignature), m.natureDemande, Avg(f.tresorerieFond) AS totalTresorerie FROM Convention c JOIN c.modalite m JOIN m.fond f GROUP BY MONTH(c.dateSignature), m.natureDemande, f.tresorerieFond")
     List<Object[]> findModaliteSummaryByDemandeTypeAndTresorie();
+    List<Modalite> findByAbrevModalite(String abrev);
+    List<Modalite> findByNomArabeModalite(String nom);
+    List<Modalite> findByNomCompletModalite(String abrev);
 
 }

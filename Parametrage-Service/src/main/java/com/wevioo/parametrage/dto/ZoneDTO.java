@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ZoneDTO {
 	private Long idZone;
+	private String codeZone;
 	private String nomZone ;
 	private String nomArabeZone ;
 	Set<Gouvernorat> gouvernorats;

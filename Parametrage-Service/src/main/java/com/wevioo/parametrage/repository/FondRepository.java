@@ -1,5 +1,6 @@
 package com.wevioo.parametrage.repository;
 
+import com.wevioo.parametrage.entities.Modalite;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -43,4 +44,6 @@ public interface FondRepository extends JpaRepository<Fond, Long>, JpaSpecificat
      */
     @Query("SELECT Sum(f.tresorerieFond) FROM Fond f")
     float FondTotal();
+
+    List<Fond> findByModalites(Modalite mod);
 }

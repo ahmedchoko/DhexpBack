@@ -12,7 +12,6 @@ import com.wevioo.demande.entities.Demande;
 public interface DemandeService {
 
 
-
 	public Page<Demande> getDemandes(int page, int size);
 	public String VerifCritereEligibilite(DemandePreliminaireDTO demandePreliminaire);
 	public  Page <Demande>  getDemandePreliminaire(int page, int size);

@@ -56,7 +56,7 @@ public class PartenaireServiceTest {
     private ModaliteServiceImpl modaliteservice ;
 	
 	@Test
-	public void testAddPartenairewithconvention() throws ParseException {
+	public void testAddPartenairewithconvention() throws Exception {
 		Modalite m = new Modalite((long)2,"ASN8");
 		Mockito.when(modaliteRepository.findById((long)2)).thenReturn(Optional.of(m));
 		Partenaire partenaire = new Partenaire("ABC");

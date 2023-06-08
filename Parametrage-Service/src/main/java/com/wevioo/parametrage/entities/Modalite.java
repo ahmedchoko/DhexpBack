@@ -35,12 +35,12 @@ public class Modalite {
 	@OneToMany(mappedBy="modalite")
 	private List <Convention> conventions ;
 	//nom complet de la modalité
-	@Column(name = "nom_complet", nullable = false, unique = true)
+	@Column(name = "nom_complet", nullable = true, unique = true)
 	private String nomCompletModalite;
 	//nom en arabe de la modalité
 	@Column(name = "nom_arabe", nullable = true, unique = true)
 	private String nomArabeModalite;
-	@Column(name = "abréviation", nullable = true, unique = true)
+	@Column(name = "abréviation", nullable = false, unique = true)
 	//abréviation
 	private String abrevModalite ;
 	//Statut de la modalité
