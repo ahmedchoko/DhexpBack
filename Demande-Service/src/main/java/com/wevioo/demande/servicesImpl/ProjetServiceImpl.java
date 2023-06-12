@@ -15,20 +15,20 @@ public class ProjetServiceImpl implements ProjetService{
     @Override
     public Projet createProjet(Projet ProjetRequest) {
         Projet projet = Projet.builder()
-                .approvisionnement(ProjetRequest.getApprovisionnement())
+               /// .approvisionnement(ProjetRequest.getApprovisionnement())
                 .codePostal(ProjetRequest.getCodePostal())
                 .delegation(ProjetRequest.getDelegation())
-                .envConcurrentiel(ProjetRequest.getEnvConcurrentiel())
+             ///   .envConcurrentiel(ProjetRequest.getEnvConcurrentiel())
                 .facteurRisque(ProjetRequest.getFacteurRisque())
-                .garanties(ProjetRequest.getGaranties())
+              ///  .garanties(ProjetRequest.getGaranties())
                 .typeProjet(ProjetRequest.getTypeProjet())
-                .norme(ProjetRequest.getNorme())
+              ///  .norme(ProjetRequest.getNorme())
              //   .zone(ProjetRequest.getZone())
                 .site(ProjetRequest.getSite())
-                .moyenProduction(ProjetRequest.getMoyenProduction())
-                .prodOuServices(ProjetRequest.getProdOuServices())
-                .potentielMarche(ProjetRequest.getPotentielMarche())
-                .strategieComm(ProjetRequest.getStrategieComm())
+             ///   .moyenProduction(ProjetRequest.getMoyenProduction())
+             ///   .prodOuServices(ProjetRequest.getProdOuServices())
+              ////  .potentielMarche(ProjetRequest.getPotentielMarche())
+             ////   .strategieComm(ProjetRequest.getStrategieComm())
                 .build();
         projetRepository.save(projet);
         return projet;
@@ -46,20 +46,20 @@ public class ProjetServiceImpl implements ProjetService{
     public Projet updateProjet(Long id, Projet ProjetRequest) {
         Projet projet = projetRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Resource with id "+id+" not found"));
-        projet.setApprovisionnement(ProjetRequest.getApprovisionnement());
+     ///   projet.setApprovisionnement(ProjetRequest.getApprovisionnement());
         projet.setCodePostal(ProjetRequest.getCodePostal());
         projet.setDelegation(ProjetRequest.getDelegation());
-        projet.setEnvConcurrentiel(ProjetRequest.getEnvConcurrentiel());
+    ///    projet.setEnvConcurrentiel(ProjetRequest.getEnvConcurrentiel());
         projet.setFacteurRisque(ProjetRequest.getFacteurRisque());
-        projet.setGaranties(ProjetRequest.getGaranties());
+      //  projet.setGaranties(ProjetRequest.getGaranties());
         projet.setTypeProjet(ProjetRequest.getTypeProjet());
-        projet.setNorme(ProjetRequest.getNorme());
+     ///   projet.setNorme(ProjetRequest.getNorme());
       ///  projet.setZone(ProjetRequest.getZone());
         projet.setSite(ProjetRequest.getSite());
-        projet.setMoyenProduction(ProjetRequest.getMoyenProduction());
-        projet.setProdOuServices(ProjetRequest.getProdOuServices());
-        projet.setPotentielMarche(ProjetRequest.getPotentielMarche());
-        projet.setStrategieComm(ProjetRequest.getStrategieComm());
+    ///    projet.setMoyenProduction(ProjetRequest.getMoyenProduction());
+     ////   projet.setProdOuServices(ProjetRequest.getProdOuServices());
+      ////  projet.setPotentielMarche(ProjetRequest.getPotentielMarche());
+      ///  projet.setStrategieComm(ProjetRequest.getStrategieComm());
         return projetRepository.save(projet);
     }
 

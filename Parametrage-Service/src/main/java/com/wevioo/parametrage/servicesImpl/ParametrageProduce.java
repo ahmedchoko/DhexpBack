@@ -1,4 +1,4 @@
-package com.wevioo.parametrage.servicesImpl;
+package com.wevioo.parametrage.servicesimpl;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.kafka.core.KafkaTemplate;

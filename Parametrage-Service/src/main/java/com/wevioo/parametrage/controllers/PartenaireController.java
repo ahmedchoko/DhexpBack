@@ -1,5 +1,6 @@
 package com.wevioo.parametrage.controllers;
 
+import com.wevioo.parametrage.dto.ConventionDTO;
 import com.wevioo.parametrage.dto.PartenaireDTO;
 import com.wevioo.parametrage.entities.Convention;
 import com.wevioo.parametrage.entities.Partenaire;
@@ -63,7 +64,7 @@ public class PartenaireController {
      * @return ResponseEntity containing the ID of the created Partenaire.
      */
     @PostMapping()
-    public ResponseEntity<?> createPartenaire(@RequestBody Partenaire partenaire) {
+    public ResponseEntity<?> createPartenaire(@RequestBody PartenaireDTO partenaire) {
         try {
             Partenaire partenaireSaved = partenaireService.addPartenaire(partenaire);
             return ResponseEntity.status(HttpStatus.CREATED).body(partenaireSaved.getIdPartenaire());
@@ -85,10 +86,10 @@ public class PartenaireController {
      * @return ResponseEntity containing the ID of the updated Partenaire.
      */
     @PostMapping("/{id}")
-    public ResponseEntity<?> updatePartenaire(@PathVariable(name = "id") Long id, @RequestBody Partenaire partenaire) {
+    public ResponseEntity<?> updatePartenaire(@PathVariable(name = "id") Long id, @RequestBody PartenaireDTO partenaire) {
         try {
-            Long partenaireId = partenaireService.modifyPartenaire(partenaire);
-            return ResponseEntity.status(HttpStatus.OK).body(partenaireId);
+            Partenaire partenairesaved = partenaireService.modifyPartenaire(partenaire);
+            return ResponseEntity.status(HttpStatus.OK).body(partenairesaved.getIdPartenaire());
         }
         catch (ValidationException e) {
             // Handle validation errors
@@ -108,10 +109,10 @@ public class PartenaireController {
      * @return ResponseEntity containing the ID of the created Partenaire.
      */
     @PostMapping("/conventions")
-    public ResponseEntity<?> addPartenaireWithConvention(@RequestBody List<Convention> conventions) {
+    public ResponseEntity<?> addPartenaireWithConvention(@RequestBody ConventionDTO convention) {
         try {
-            Convention convention = partenaireService.addPartenairewithcvt(conventions);
-            return ResponseEntity.status(HttpStatus.CREATED).body(convention.getPartenaire().getIdPartenaire());
+            Convention conventionsaved = partenaireService.addPartenairewithcvt(convention);
+            return ResponseEntity.status(HttpStatus.CREATED).body(conventionsaved.getPartenaire().getIdPartenaire());
         }
         catch (ValidationException e) {
             // Handle validation errors
@@ -137,10 +138,9 @@ public class PartenaireController {
     @PutMapping()
     public ResponseEntity<?> modifyConvention(
             @RequestParam(defaultValue = "IdConvention") Long idConvention,
-            @RequestParam(defaultValue = "critere") String critere,
             @RequestParam(defaultValue = "dateBlocage") String dateBlocage) {
         try {
-            partenaireService.modifyConvention(idConvention, critere, dateBlocage);
+            partenaireService.modifyConvention(idConvention,dateBlocage);
             return ResponseEntity.ok(idConvention);
         }catch (ValidationException e) {
             // Handle validation errors
@@ -185,7 +185,10 @@ public class PartenaireController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
+    @GetMapping("/list")
+    public List<Partenaire> getPartenaireList() {
+		 return partenaireRepository.findAll();
+		 }
 
     /**
      * Get a list of Partenaires based on the provided filters.
@@ -204,16 +207,14 @@ public class PartenaireController {
     @GetMapping()
 	  public ResponseEntity < ? > getPartenaires(  @RequestParam(value = "searchFond",required=false) String searchFond,
 			                                       @RequestParam(value = "searchModalite",required=false) String searchModalite,
-			                                       @RequestParam(value = "MontantMaxsearchTerm",required=false) String MontantMaxsearchTerm,
-                                                 @RequestParam(value = "MontantMinsearchTerm",required=false) String MontantMinsearchTerm,
-                                                 @RequestParam(value = "StatutsearchTerm",required=false) String StatutsearchTerm,
+			                                       @RequestParam(value = "MontantMaxsearchTerm",required=false) String montantMaxsearchTerm,
+                                                 @RequestParam(value = "MontantMinsearchTerm",required=false) String montantMinsearchTerm,
+                                                 @RequestParam(value = "StatutsearchTerm",required=false) String statutsearchTerm,
 			                               @RequestParam(defaultValue = "1") int page,
                                          @RequestParam(defaultValue = "3") int size) throws ParseException {
-	    Map < String, Object > jsonResponseMap = new LinkedHashMap < String, Object > ();
-	    System.out.println("MontantMinsearchTerm"+MontantMinsearchTerm);
-	    Page < Partenaire > listofParteanaire = partenaireService.getAllPartenaire(searchFond ,searchModalite,MontantMinsearchTerm,MontantMaxsearchTerm,StatutsearchTerm,page,size);
-	    System.out.println(listofParteanaire);
-	    List < PartenaireDTO > listofPartenaireDTO = new ArrayList < PartenaireDTO > ();
+	    Map < String, Object > jsonResponseMap = new LinkedHashMap();
+	    Page < Partenaire > listofParteanaire = partenaireService.getAllPartenaire(searchFond ,searchModalite,montantMinsearchTerm,montantMaxsearchTerm,statutsearchTerm,page,size);
+	    List < PartenaireDTO > listofPartenaireDTO = new ArrayList();
 	    if (!listofParteanaire.isEmpty()) {
 	      for (Partenaire partenaire: listofParteanaire ) {
 	    	  listofPartenaireDTO.add(modelMapper.map(partenaire, PartenaireDTO.class));
@@ -229,7 +230,7 @@ public class PartenaireController {
 		     for (Partenaire partenaire: listofPartenaire1 ) {
 		    	 listofPartenaireDTO.add(modelMapper.map(partenaire, PartenaireDTO.class));
 		      }
-		     List < PartenaireDTO > listofPartenaireDto1 = new ArrayList < PartenaireDTO > ();
+		     List < PartenaireDTO > listofPartenaireDto1 = new ArrayList();
 		      jsonResponseMap.put("data", listofPartenaireDto1);
 			     jsonResponseMap.put("pagebale", listofPartenaire1);
 	      return new ResponseEntity < > (jsonResponseMap, HttpStatus.OK);
@@ -237,5 +238,19 @@ public class PartenaireController {
 		      
 	    }
 	  }
-
+    @GetMapping("abrev/{abrv}")
+    public ResponseEntity<?> getPartenaireByAbrv(@PathVariable String abrv) {
+        try {
+            Partenaire partenaire = partenaireService.getPartenaireByAbrv(abrv);
+            if (partenaire != null) {
+                PartenaireDTO partenaireDto = modelMapper.map(partenaire, PartenaireDTO.class);
+                return ResponseEntity.ok(partenaireDto);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            // Handle the exception
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving the partner.");
+        }
+    }
 }

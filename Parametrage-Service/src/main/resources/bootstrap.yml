@@ -1,10 +1,4 @@
 spring:
-  web:
-    resources:
-      static-locations: classpath:/static/
-      cache:
-        cachecontrol:
-          no-store: true
   servlet:
     multipart:
       enabled : true       

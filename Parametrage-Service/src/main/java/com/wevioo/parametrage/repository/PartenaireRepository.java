@@ -36,6 +36,24 @@ public interface PartenaireRepository extends JpaRepository<Partenaire, Long>, J
     // Add this method to perform the custom query
     @Query("SELECT p FROM Partenaire p WHERE p.site = :site AND p.idPartenaire <> :id")
 	Partenaire findBySiteExceptId(String site, Long id);
-    @Query("SELECT p FROM Partenaire p WHERE p.numTelephone = :numTelephone AND p.id <> :id")
+    @Query("SELECT p FROM Partenaire p WHERE p.numTelephone = :numTelephone AND p.idPartenaire <> :id")
 	Partenaire findByNumTelephoneExceptId(String numTelephone, Long id);
+    
+    // Add this method to perform the custom query
+    @Query("SELECT p FROM Partenaire p WHERE p.numFax = :numFax")
+    Partenaire findByNumFax(String numFax);
+    // Add this method to perform the custom query
+    @Query("SELECT p FROM Partenaire p WHERE p.mail = :mail")
+    Partenaire findByMail(String mail);
+    // Add this method to perform the custom query
+    @Query("SELECT p FROM Partenaire p WHERE p.site = :site")
+	Partenaire findBySite(String site);
+    @Query("SELECT p FROM Partenaire p WHERE p.numTelephone = :numTelephone")
+	Partenaire findByNumTelephone(String numTelephone);
+    
+    @Query("SELECT p FROM Partenaire p WHERE p.abrevPartenaire = :abrevPartenaire AND p.idPartenaire <> :id")
+	Partenaire findByAbrevPartenaireExceptId(String abrevPartenaire, Long id);
+    
+    
+    Partenaire findByAbrevPartenaire(String abrevPartenaire);
 }

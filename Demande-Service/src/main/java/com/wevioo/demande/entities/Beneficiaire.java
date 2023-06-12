@@ -26,41 +26,33 @@ public class Beneficiaire {
     private Long idBeneficiaire;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type_personne")
-    @NotNull
+    @Column(name = "type_personne", nullable = true)
     private TYPEPERSONNE typPersonne;
 
-    @Column(name = "nature_activite")
-    @NotNull
+    @Column(name = "nature_activite", nullable = true)
     @Size(max = 255)
     private String natureActivite;
 
-    @Column(name = "numero_rib")
-    @NotNull
+    @Column(name = "numero_rib", nullable = true)
     @Size(max = 255)
     private String numeroRib;
 
-    @Column(name = "activite")
-    @NotNull
+    @Column(name = "activite", nullable = true)
     private Long activite;
 
-    @Column(name = "region")
-    @NotNull
+    @Column(name = "region", nullable = true)
     @Size(max = 255)
     private String region;
 
 
-    @Column(name = "delegation_id")
-    @NotNull
+    @Column(name = "delegation_id", nullable = true)
     private Long delegationId;
     
-    @Column(name = "adresse")
-    @NotNull
+    @Column(name = "adresse", nullable = true)
     @Size(max = 255)
     private String adresse;
 
-    @Column(name = "code_postal")
-    @NotNull
+    @Column(name = "code_postal", nullable = true)
     private Integer codePostal;
 
     @OneToOne(mappedBy = "beneficiaire", cascade = CascadeType.ALL, orphanRemoval = true)

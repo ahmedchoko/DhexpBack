@@ -102,7 +102,7 @@ public class ZoneController {
 	 * @param id the zone ID
 	 * @return the deleted zone
 	 */
-	@DeleteMapping("/{id}")
+	@PostMapping("/{id}")
 	public ResponseEntity<Zone> deleteZone(@PathVariable(name = "id") Long id) {
 		try {
 			Zone zone = zoneService.deleteZone(id);
@@ -118,7 +118,7 @@ public class ZoneController {
 	 *
 	 * @return the list of zones
 	 */
-	@GetMapping("/listZone")
+	@GetMapping("/listzone")
 	public List<ZoneDTO> listZone() {
 		List<ZoneDTO> listofZoneDto = new ArrayList<ZoneDTO>();
 		for (Zone zone : zoneService.listZone()) {
@@ -132,7 +132,7 @@ public class ZoneController {
 	 *
 	 * @return the list of zones without assignment
 	 */
-	@GetMapping("/listZoneWithoutAffectation")
+	@GetMapping("/nonaffecte")
 	public ResponseEntity<List<Zone>> listZoneWithoutAffectation() {
 		try {
 			List<Zone> zones = zoneService.listZoneWithoutAffectation();

@@ -1,6 +1,8 @@
-package com.wevioo.parametrage.servicesImpl;
+package com.wevioo.parametrage.servicesimpl;
 
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -10,6 +12,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import javax.validation.ValidationException;
 
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,12 +54,12 @@ public class FondServiceImpl implements FondService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Page<Fond> getAllFond(String date1, String date2, String StatutsearchTerm, String MontantMaxsearchTerm,
-	                            String MontantMinsearchTerm, int page, int size) throws ParseException {
+	public Page<Fond> getAllFond(String date1, String date2, String statutsearchterm, String montantmaxsearchterm,
+	                            String montantminsearchterm, int page, int size) throws ParseException {
 	    try {
 	        Pageable pageable = PageRequest.of(page, size);
-	        Specification<Fond> spec = FondSpecification.getSpec(MontantMinsearchTerm, MontantMaxsearchTerm,
-	                StatutsearchTerm, date1, date2);
+	        Specification<Fond> spec = FondSpecification.getSpec(montantminsearchterm, montantmaxsearchterm,
+	        		statutsearchterm, date1, date2);
 	        Page<Fond> fonds = fondRepository.findAll(spec, pageable);
 	        for (Fond fond : fonds.getContent()) {
 	            fond.getSecteurs().size();
@@ -76,7 +79,7 @@ public class FondServiceImpl implements FondService {
 	@Override
 	public Fond addFond(Fond fond) {
 	    try {
-	        validateFond(fond); // Validate non-nullable attributes
+	    	validateaddFond(fond); // Validate non-nullable attributes
 	        
 	        Fond fond1 = new Fond();
 	        fond1.setMontantMax(fond.getMontantMax());
@@ -107,16 +110,16 @@ public class FondServiceImpl implements FondService {
 	        }
 	        
 	        return newFond;
-	    } catch (DataIntegrityViolationException ex) {
-	        // Handle the exception for data integrity violations
-	        throw new IllegalArgumentException("Validation error: " + ex.getMessage());
+	    } catch (IllegalArgumentException e) {
+	        // Handle validation errors
+	        throw new ValidationException("Validation error: " + e.getMessage());
 	    } catch (Exception ex) {
 	        // Handle other exceptions
 	        throw new IllegalStateException("An error occurred while adding the Fond: " + ex.getMessage());
 	    }
 	}
 	
-	private void validateFond(Fond fond) {
+	private void validateaddFond(Fond fond) {
 	    if (fond.getMontantMax() == null) {
 	        throw new IllegalArgumentException("Validation error: MontantMax is required");
 	    }
@@ -132,7 +135,12 @@ public class FondServiceImpl implements FondService {
 	    if (fond.getDateDemarrageFond() == null) {
 	        throw new IllegalArgumentException("Validation error: DateDemarrageFond is required");
 	    }
+	    LocalDate dateCloture = fond.getDateClotureFond().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	    LocalDate dateDemarrage = fond.getDateDemarrageFond().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
+	    if (dateCloture.isBefore(dateDemarrage)) {
+	        throw new IllegalArgumentException("Validation error: DateClotureFond must be after DateDemarrageFond");
+	    }
 	    if (fond.getStatut() == null) {
 	        throw new IllegalArgumentException("Validation error: Statut is required");
 	    }
@@ -158,24 +166,90 @@ public class FondServiceImpl implements FondService {
 	    }
 	    
 	    // Check uniqueness of attributes
-        Fond existingAbrevFond = fondRepository.findByAbrevFondExceptId(fond.getAbrevFond(), fond.getIdFond());
+        Fond existingAbrevFond = fondRepository.findByAbrevFond(fond.getAbrevFond());
         if (existingAbrevFond != null) {
             throw new IllegalArgumentException("Abreviation must be unique.");
         }
         // Check uniqueness of attributes
-        Fond existingNomFond = fondRepository.findByNomFondExceptId(fond.getNomFond(), fond.getIdFond());
+        Fond existingNomFond = fondRepository.findByNomFond(fond.getNomFond());
         if (existingNomFond != null) {
             throw new IllegalArgumentException("NomFond must be unique.");
         }
         
 	}
+	
+	
+	private void validatemodifyFond(Fond fond) {
+		 if (fond.getMontantMax() == null) {
+		        throw new IllegalArgumentException("Validation error: MontantMax is required");
+		    }
+
+		    if (fond.getMontantMin() == null) {
+		        throw new IllegalArgumentException("Validation error: MontantMin is required");
+		    }
+		    if(fond.getMontantMax()<fond.getMontantMin()) {
+		        throw new IllegalArgumentException("Validation error: MontantMax must be > MontantMin");
+		    }
+
+		    if (fond.getDateClotureFond() == null) {
+		        throw new IllegalArgumentException("Validation error: DateClotureFond is required");
+		    }
+
+		    if (fond.getDateDemarrageFond() == null) {
+		        throw new IllegalArgumentException("Validation error: DateDemarrageFond is required");
+		    }
+			 // Get the current date
+			 LocalDate currentDate = LocalDate.now();
+			 LocalDate dateDemarrage = fond.getDateDemarrageFond().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+			 if (currentDate.isAfter(dateDemarrage)) {
+			     throw new IllegalArgumentException("Validation error: Cannot modify if the current date is greater than the date démarrage");
+			 }
+		    LocalDate dateCloture = fond.getDateClotureFond().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		    if (dateCloture.isBefore(dateDemarrage)) {
+		        throw new IllegalArgumentException("Validation error: DateClotureFond must be after DateDemarrageFond");
+		    }
+
+		    if (fond.getStatut() == null) {
+		        throw new IllegalArgumentException("Validation error: Statut is required");
+		    }
+
+		    if (fond.getAbrevFond() == null) {
+		        throw new IllegalArgumentException("Validation error: AbrevFond is required");
+		    }
+
+		    if (fond.getNomArabeFond() == null) {
+		        throw new IllegalArgumentException("Validation error: NomArabeFond is required");
+		    }
+
+		    if (fond.getNomCompletFond() == null) {
+		        throw new IllegalArgumentException("Validation error: NomCompletFond is required");
+		    }
+
+
+		    if (fond.getTresorerieFond() == null) {
+		        throw new IllegalArgumentException("Validation error: TresorerieFond is required");
+		    }
+		    
+		    // Check uniqueness of attributes
+	        Fond existingAbrevFond = fondRepository.findByAbrevFondExceptId(fond.getAbrevFond(), fond.getIdFond());
+	        if (existingAbrevFond != null) {
+	            throw new IllegalArgumentException("Abreviation must be unique.");
+	        }
+	        // Check uniqueness of attributes
+	        Fond existingNomFond = fondRepository.findByNomFondExceptId(fond.getNomFond(), fond.getIdFond());
+	        if (existingNomFond != null) {
+	            throw new IllegalArgumentException("NomFond must be unique.");
+	        }
+	        
+	}
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void deleteFond(Long id) {
+	public void deleteFond(Long id) throws EntityNotFoundException {
 	    try {
-	        Fond fond = fondRepository.getById(id);
+	        Fond fond = fondRepository.findById(id).get();
 	        fond.setStatut(Fondstatut.ARCHIVE);
 	        fondRepository.save(fond);
 	    } catch (EntityNotFoundException e) {
@@ -193,7 +267,7 @@ public class FondServiceImpl implements FondService {
 	@Override
 	public void modifyFond(Fond fond) {
 	    try {
-	    	validateFond(fond);
+	    	validatemodifyFond(fond);
 	        Set<Secteur> secteurs = new HashSet<>();
 	        for (Secteur secteurInput : fond.getSecteurs()) {
 	            Secteur existingSecteur = secteurRepository.findById(secteurInput.getIdSec()).orElse(null);

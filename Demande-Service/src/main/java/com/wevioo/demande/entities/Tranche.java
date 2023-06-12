@@ -28,7 +28,7 @@ public class Tranche {
     @Column(name = "idTranche")
 	private Long idTranche;
     //numéro de la tranche
-    @Column(name = "numéro_tranche", nullable = false)
+    @Column(name = "numéro_tranche", nullable = true)
     private Integer numeroTranche ;
     //liste des amortissements de la tranche
 

@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.ValidationException;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,15 +33,19 @@ public class QuotiteController {
      * Add a new Quotite.
      *
      * @param quotite The Quotite object to be added.
+     * @return 
      */
     @PostMapping()
-    public void addQuotite(@RequestBody Quotite quotite) {
+    public ResponseEntity<?> addQuotite(@RequestBody Quotite quotite) {
         try {
             quotiteService.addQuotite(quotite);
-        } catch (Exception e) {
+          return ResponseEntity.status(HttpStatus.CREATED).body("Quotite est crée avec succée");
+        }catch (ValidationException e) {
+            // Handle validation errors
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }catch (Exception e) {
             // Handle the exception
-            e.printStackTrace();
-            throw new RuntimeException("Failed to add quotite: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating the quotite.");
         }
     }
 
@@ -69,11 +75,14 @@ public class QuotiteController {
      * @param quotite The modified Quotite object.
      * @return ResponseEntity containing the ID of the modified Quotite.
      */
-    @PutMapping()
-    public ResponseEntity<Long> modifyQuotite(@RequestBody Quotite quotite) {
+    @PostMapping("/{id}")
+    public ResponseEntity<?> modifyQuotite(@PathVariable Long id,@RequestBody Quotite quotite) {
         try {
             Long modifiedQuotiteId = quotiteService.modifyQuotite(quotite);
             return ResponseEntity.status(HttpStatus.OK).body(modifiedQuotiteId);
+        }catch (ValidationException e) {
+            // Handle validation errors
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
             // Handle the exception
             e.printStackTrace();
@@ -110,7 +119,6 @@ public class QuotiteController {
 
         Page<Quotite> listofQuotite = quotiteService.getAllQuotite(
                 page, size, fondsearchTerm, zonesearchTerm, zonalsearchTerm, ritic, nouveauProm, creditLeasing);
-        
         List<QuotiteDTO> listofQuotiteDto = new ArrayList<>();
         if (!listofQuotite.isEmpty()) {
             for (Quotite quotite : listofQuotite) {

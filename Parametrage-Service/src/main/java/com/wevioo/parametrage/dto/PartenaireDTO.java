@@ -25,8 +25,8 @@ public class PartenaireDTO {
 	private String nomArabePartenaire ;
 	private String abrevPartenaire ; 
 	private String adresse ;
-	private Long numTelephone ; 
-	private Long numFax ; 
+	private String numTelephone ; 
+	private String numFax ; 
 	private String mail ; 
 	private String codeBic ;
 	private String site ;

@@ -1,7 +1,5 @@
 server:
   port: ${DEMANDE_PORT:8091}
-  servlet:
-    context-path: /demande
 eureka:
   client:
     serviceUrl:

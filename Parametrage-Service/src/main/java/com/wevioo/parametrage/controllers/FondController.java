@@ -6,6 +6,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityNotFoundException;
+import javax.validation.ValidationException;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,7 +21,7 @@ import com.wevioo.parametrage.entities.Activite;
 import com.wevioo.parametrage.entities.Fond;
 import com.wevioo.parametrage.entities.Secteur;
 import com.wevioo.parametrage.services.FondService;
-import com.wevioo.parametrage.servicesImpl.ParametrageProduce;
+import com.wevioo.parametrage.servicesimpl.ParametrageProduce;
 
 @RestController
 @RequestMapping("parametrage/api/v1/fonds")
@@ -84,16 +87,19 @@ public class FondController {
      * @param id L'identifiant du fond à supprimer.
      * @return ResponseEntity indiquant le résultat de l'opération de suppression.
      */
-    @DeleteMapping("/{id}")
+    @PostMapping("archive/{id}")
     public ResponseEntity<?> deleteFond(@PathVariable Long id) {
         try {
             fondService.deleteFond(id);
             return ResponseEntity.ok().build();
-        } catch (Exception e) {
+        } catch (EntityNotFoundException e) {
+            // Handle validation errors
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
+ 
     /**
      * Modifier un fond par son Id.
      *

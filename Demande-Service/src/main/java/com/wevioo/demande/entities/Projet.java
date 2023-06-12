@@ -24,47 +24,27 @@ public class Projet {
     @Column(name = "idProjet")
     private Long idProjet;
     //type du projet
-    @Column(name = "type_projet", nullable = false)
+    @Column(name = "type_projet", nullable = true)
     @Enumerated(EnumType.STRING)
     private TypeProjet typeProjet;
     //code postal
-    @Column(name = "code_postal", nullable = false)
+    @Column(name = "code_postal", nullable = true)
     private Integer codePostal;
-    //garanties ??? projet
-    @Column(name = "garanties", nullable = false)
-    private String garanties;
+
     //facteur risque
-    @Column(name = "facteur_risque", nullable = false)
+    @Column(name = "facteur_risque", nullable = true)
     private String facteurRisque;
-    //norme du projet
-    @Column(name = "norme", nullable = false)
-    private String norme;
-    //moyen de production
-    @Column(name = "moyen_production", nullable = true)
-    private String moyenProduction;
-    //approvisionnement
-    @Column(name = "approvisionnement", nullable = true)
-    private String approvisionnement;
-    //environnement concurrentiel
-    @Column(name = "env_concurrentiel", nullable = true)
-    private String envConcurrentiel;
-    //potentiel marché
-    @Column(name = "potentiel_marché", nullable = true)
-    private String potentielMarche;
-    //stratégie de communication
-    @Column(name = "stratégie_comm", nullable = true)
-    private String strategieComm;
+
+
     //site d'implantation
     @Column(name = "site", nullable = true)
     private String site;
-    //production ou services
-    @Column(name = "prod_ou_serv", nullable = true)
-    private String prodOuServices;
+    
     //demande associée au projet
     @JsonIgnore
 	@OneToOne(mappedBy="projet")
     private Demande demande;
     //délégation du projet
-    @Column(name="délégation", nullable = false)
+    @Column(name="délégation", nullable = true)
 	private Long delegation;
 }

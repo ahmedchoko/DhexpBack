@@ -3,6 +3,9 @@ package com.wevioo.parametrage.services;
 import java.text.ParseException;
 import java.util.List;
 import org.springframework.data.domain.Page;
+
+import com.wevioo.parametrage.dto.ConventionDTO;
+import com.wevioo.parametrage.dto.PartenaireDTO;
 import com.wevioo.parametrage.entities.Convention;
 import com.wevioo.parametrage.entities.Partenaire;
 
@@ -35,7 +38,7 @@ public interface PartenaireService {
 		 * @param partenaire The Partenaire entity to add
 		 * @return The ID of the newly added Partenaire entity
 		 */
-	 public Partenaire addPartenaire(Partenaire partenaire );
+	 public Partenaire addPartenaire(PartenaireDTO partenaire );
 		/**
 		 * Retrieves a page of Partenaire entities.
 		 * 
@@ -60,7 +63,7 @@ public interface PartenaireService {
 		 * @return The ID of the modified Partenaire entity
 		 */
 		
-	 public Long modifyPartenaire(Partenaire partenaire);
+	 public Partenaire modifyPartenaire(PartenaireDTO partenaire);
 
 		/**
 		 * Adds a new Partenaire entity with the given list of conventions.
@@ -70,7 +73,7 @@ public interface PartenaireService {
 		 * @return The Partenaire entity with the added conventions
 		 */
 		
-	public Convention addPartenairewithcvt(List <Convention> conventions);
+	public Convention addPartenairewithcvt(ConventionDTO convention);
 	/**
 	 * Modifies a Convention entity by its ID.
 	 * 
@@ -80,7 +83,7 @@ public interface PartenaireService {
 	 * @return The ID of the modified Convention entity
 	 * @throws ParseException if there's an error parsing the DateBlocage value
 	 */
-	public Long modifyConvention(Long conventionId , String critere, String DateBlocage) throws ParseException;
+	public Long modifyConvention(Long conventionId, String DateBlocage) throws ParseException;
 	
 
 	/**
@@ -103,4 +106,6 @@ public interface PartenaireService {
 	 */
 	
 	public int nombreTotalPartenaire();
+
+	public Partenaire getPartenaireByAbrv(String abrv);
 }

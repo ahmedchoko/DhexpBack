@@ -3,6 +3,7 @@ package com.wevioo.parametrage.dto;
 import java.util.Date;
 import java.util.List;
 
+import com.wevioo.parametrage.entities.Partenaire;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,5 +15,7 @@ public class ConventionDTO {
 
 	private Long idConvention;
 	private Date dateSignature ; 
-	private List <ModaliteDto> modalites ;
+	private ModaliteDto modalite ;
+	private PartenaireDTO partenaire ;
+
 }

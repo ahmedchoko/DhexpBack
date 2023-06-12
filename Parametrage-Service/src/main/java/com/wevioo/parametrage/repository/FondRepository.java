@@ -49,4 +49,10 @@ public interface FondRepository extends JpaRepository<Fond, Long>, JpaSpecificat
     // Add this method to perform the custom query
     @Query("SELECT f FROM Fond f WHERE f.nomFond = :nomFond AND f.idFond <> :id")
 	Fond findByNomFondExceptId(String nomFond, Long id);
+    // Add this method to perform the custom query
+    @Query("SELECT f FROM Fond f WHERE f.abrevFond = :abrevFond")
+	Fond findByAbrevFond(String abrevFond);
+    // Add this method to perform the custom query
+    @Query("SELECT f FROM Fond f WHERE f.nomFond = :nomFond")
+	Fond findByNomFond(String nomFond);
 }

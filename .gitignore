@@ -5,6 +5,7 @@ HELP.md
 /Discovery-Server/target/
 /Demande-Service/target/
 /Parametrage-Service/target/
+/Parametrage-Service/src/main/resources/static/
 /Camunda-Service
 /Test-Service
 !.mvn/wrapper/maven-wrapper.jar

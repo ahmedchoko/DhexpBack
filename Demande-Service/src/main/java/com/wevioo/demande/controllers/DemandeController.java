@@ -18,8 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @RestController
-@ControllerAdvice
-@RequestMapping("/demande/api/v/demandes")
+@RequestMapping("demande/api/v1/demandes")
 public class DemandeController {
 
     @Autowired
