@@ -38,7 +38,7 @@ public class Beneficiaire {
     private String numeroRib;
 
     @Column(name = "activite", nullable = true)
-    private Long activite;
+    private String activite;
 
     @Column(name = "region", nullable = true)
     @Size(max = 255)

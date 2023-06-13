@@ -66,8 +66,8 @@ public class DemandeController {
      * @param demande The demande object to be updated.
      * @return The response entity containing the updated demande object.
      */
-    @PutMapping()
-    public ResponseEntity<Demande> updateDemande(@RequestBody DemandeDto demande) {
+    @PostMapping("/{id}")
+    public ResponseEntity<Demande> updateDemande(@PathVariable(name = "id") Long id ,@RequestBody DemandeDto demande) {
         try {
             Demande updateDemande = demandeServiceImpl.updateDemande(demande);
             return ResponseEntity.ok().body(updateDemande);

@@ -198,27 +198,33 @@ public class DemandeServiceImpl implements DemandeService{
 			.orElseThrow(() -> new NoSuchElementException("Resource with id "+" not found"));
 
 		/////Beneficiaire
-		updatedDemande.getBeneficiare().setAdresse(demande.getAddresse());
-		updatedDemande.getBeneficiare().setNatureActivite(demande.getNatureActivite());
+		Beneficiaire beneficiaire =updatedDemande.getBeneficiare();
+		beneficiaire.setAdresse(demande.getAddresse());
+		beneficiaire.setActivite(demande.getActivites());
+		beneficiaire.setNatureActivite(demande.getNatureActivite());
 		//updatedDemande.getBeneficiare().setCodeActivite(demande.getActivites().getIdAct());
-		updatedDemande.getBeneficiare().setCodePostal(Integer.getInteger(demande.getCodePostal()));
+		beneficiaire.setCodePostal(demande.getCodePostal());
 		//updatedDemande.getBeneficiare().setDelegation(demande.getDelegation());
-		updatedDemande.getBeneficiare().setRegion(demande.getRegion());
+		beneficiaire.setRegion(demande.getRegion());
 		///updatedDemande.getBeneficiare().setActivite(demande.getActivites().getCodeActivite());
-		updatedDemande.getBeneficiare().setNumeroRib(demande.getNumerocompte());
+		beneficiaire.setNumeroRib(demande.getNumerocompte());
+
 		if (demande.getBeneficiaire().equals(TYPEPERSONNE.PHYSIQUE)) {
-			updatedDemande.getBeneficiare().getPersonnePhysique().setNumPieceIdentification(demande.getNumPieceIdentification());
-			updatedDemande.getBeneficiare().getPersonnePhysique().setTelephonefixe(demande.getTelephonefixe());
+			PersonnePhysique pph =  beneficiaire.getPersonnePhysique();
+					pph.setNumPieceIdentification(demande.getNumPieceIdentification());
+			pph.setTelephonefixe(demande.getTelephonefixe());
 			///updatedDemande.getBeneficiare().getPersonnePhysique().setTelephoneMobile1(demande.getTelephoneMobile1());
 			////updatedDemande.getBeneficiare().getPersonnePhysique().setTelephoneMobile2(demande.getTelephoneMobile2());
-			updatedDemande.getBeneficiare().getPersonnePhysique().setGenre(demande.getGenre());
-			updatedDemande.getBeneficiare().getPersonnePhysique().setMail(demande.getMail());
-			updatedDemande.getBeneficiare().getPersonnePhysique().setNomCompletBenificiaire(demande.getNomCompletBenificiare());
-			updatedDemande.getBeneficiare().getPersonnePhysique().setTypePieceIdentification(PieceIdentification.valueOf(demande.getTypePieceIdentification()));
+			pph.setGenre(demande.getGenre());
+			pph.setMail(demande.getMail());
+			pph.setNomCompletBenificiaire(demande.getNomCompletBenificiare());
+			pph.setTypePieceIdentification(PieceIdentification.valueOf(demande.getTypePieceIdentification()));
+			
 		}
 		if( demande.getBeneficiaire().equals(TYPEPERSONNE.MORALE) ) {
-			updatedDemande.getBeneficiare().getPersonneMorale().setFormeJuridique(FormeJuridique.valueOf(demande.getFormeJuridique()));
-			updatedDemande.getBeneficiare().getPersonneMorale().setRaisonSociale(demande.getRaisonSociale());
+			PersonneMorale pm =  beneficiaire.getPersonneMorale();
+			pm.setFormeJuridique(FormeJuridique.valueOf(demande.getFormeJuridique()));
+			pm.setRaisonSociale(demande.getRaisonSociale());
 		}
 
 		//////Credit
@@ -227,11 +233,11 @@ public class DemandeServiceImpl implements DemandeService{
 		SimpleDateFormat f = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
 		Date DateBlocage = f.parse(demande.getDateDeblocage());
 		updatedDemande.getCredit().setDateDeblocage(DateBlocage);
-		Date DateDerniereTombeePrincipale = f.parse(demande.getDateDerniereTombeePrincipale());
+		///Date DateDerniereTombeePrincipale = f.parse(demande.getDateDerniereTombeePrincipale());
 	////	updatedDemande.getCredit().setDateDerniereTombePrincipale(DateDerniereTombeePrincipale);
 		Date DateEntreeProduction = f.parse(demande.getDateEntreeProduction());
 		updatedDemande.getCredit().setDateEntreeProduction(DateEntreeProduction);
-		Date DatePremiereTombeePrincipale = f.parse(demande.getDatePremiereTombeePrincipale());
+	///	Date DatePremiereTombeePrincipale = f.parse(demande.getDatePremiereTombeePrincipale());
 	////	updatedDemande.getCredit().setDatePremiereTombePrincipale(DatePremiereTombeePrincipale);
 		Date DateAutorisation = f.parse(demande.getDateDeclaration());
 		updatedDemande.getCredit().setDateAutorisation(DateAutorisation);
@@ -242,14 +248,14 @@ public class DemandeServiceImpl implements DemandeService{
 		//updatedDemande.getCredit().setImmobilisationNettesAvantNouvelInvestissement();
 		updatedDemande.getCredit().setMontantCredit(Long.valueOf(demande.getMontantCredit()));
 		updatedDemande.getCredit().setMontantrisque(Long.valueOf(demande.getMontantRisque()));
-		updatedDemande.getCredit().setMontantCreditDebloquee(Long.valueOf(demande.getMontantGarantieDebloque()));
+		///updatedDemande.getCredit().setMontantCreditDebloquee(Long.valueOf(demande.getMontantGarantieDebloque()));
 
 
 		/////Projet
-		updatedDemande.getProjet().setDelegation(demande.getDelegationProjet().getDelegation());
-		updatedDemande.getProjet().setCodePostal(Integer.getInteger(demande.getCodePostal()));
+		updatedDemande.getProjet().setDelegation(demande.getDelegation());
+		updatedDemande.getProjet().setCodePostal(demande.getCodePostal());
 		updatedDemande.getProjet().setSite(demande.getZoneImplementation());
-		updatedDemande.getProjet().setCodePostal(demande.getDelegationProjet().getCodePostal());
+		updatedDemande.getProjet().setCodePostal(demande.getCodePostal());
 
 
 		////Demande
@@ -259,8 +265,7 @@ public class DemandeServiceImpl implements DemandeService{
 		updatedDemande.setCodeCentraleRisque(demande.getCodecentralerisques());
 		Date DateDeclaration = f.parse(demande.getDateDeclaration());
 		updatedDemande.setDateDeclaration(DateDeclaration);
-		updatedDemande.setStatut(demande.getStatut());
-
+		updatedDemande.setStatut("VALIDEE");
 		demandeRepository.save(updatedDemande);
 		return updatedDemande;
 	}

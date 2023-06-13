@@ -46,5 +46,5 @@ public class Projet {
     private Demande demande;
     //délégation du projet
     @Column(name="délégation", nullable = true)
-	private Long delegation;
+	private String delegation;
 }
