@@ -61,7 +61,6 @@ public class PartenaireSpecification {
             if (statut != null && !statut.isEmpty() && !statut.equals("Recherche par statut")) {
                 predicates.add(criteriaBuilder.equal(root.get("statut"), Fondstatut.valueOf(statut.toUpperCase())));
             }
-
             if (!fond.equals("Recherche par fond") && !fond.isEmpty()) {
                 Join<Partenaire, Convention> conventionJoin = root.join("conventions", JoinType.INNER);
                 Join<Convention, Modalite> modaliteJoin = conventionJoin.join("modalite", JoinType.INNER);

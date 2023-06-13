@@ -25,10 +25,10 @@ public class PersonneMorale extends Personne implements Serializable{
 	@Column(name = "id_Personne")
 	private Long idPersonneMorale;
 	//raison social du bénéficiaire moral
-	@Column(name="raison_social", nullable = false)
+	@Column(name="raison_social", nullable = true)
 	private String raisonSociale ;
 	//forme juridique du bénéficiaire
-	@Column(name = "forme_juridique", nullable = false)
+	@Column(name = "forme_juridique", nullable = true)
 	@Enumerated(EnumType.STRING)
 	private FormeJuridique formeJuridique;
 	//bénéficiaire

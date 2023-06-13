@@ -37,13 +37,13 @@ public class ZoneController {
 	 * @return the paginated list of zones
 	 */
 	@GetMapping()
-	public ResponseEntity<?> getAllZones(@RequestParam(defaultValue = "0") int page,
+	public ResponseEntity<Page<Zone>> getAllZones(@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "20") int size) {
 		try {
 			Page<Zone> zones = zoneService.getAllZones(page, size);
 			return ResponseEntity.ok().body(zones);
-		} catch (Exception exception) {
-			return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (NotFoundException exception) {
+			return ResponseEntity.notFound().build();
 		}
 	}
 
@@ -54,12 +54,12 @@ public class ZoneController {
 	 * @return the created zone
 	 */
 	@PostMapping
-	public ResponseEntity<?> createZone(@RequestBody ZoneDTO zoneRequest) {
+	public ResponseEntity<Zone> createZone(@RequestBody ZoneDTO zoneRequest) {
 		try {
 			Zone zone = zoneService.createZone(zoneRequest);
 			return ResponseEntity.ok().body(zone);
-		} catch (Exception exception) {
-			return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (NotFoundException exception) {
+			return ResponseEntity.badRequest().build();
 		}
 	}
 
@@ -70,12 +70,12 @@ public class ZoneController {
 	 * @return the zone with the given ID
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getZoneById(@PathVariable(name = "id") Long id) {
+	public ResponseEntity<Zone> getZoneById(@PathVariable(name = "id") Long id) {
 		try {
 			Zone zone = zoneService.getZoneById(id);
 			return ResponseEntity.ok().body(zone);
-		} catch (Exception exception) {
-			return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST) ;
+		} catch (NotFoundException exception) {
+			return ResponseEntity.notFound().build();
 		}
 	}
 
@@ -87,12 +87,12 @@ public class ZoneController {
 	 * @return the updated zone
 	 */
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateZone(@PathVariable(name = "id") Long id, @RequestBody ZoneDTO zoneRequest) {
+	public ResponseEntity<Zone> updateZone(@PathVariable(name = "id") Long id, @RequestBody ZoneDTO zoneRequest) {
 		try {
 			Zone zone = zoneService.updateZone(id, zoneRequest);
 			return ResponseEntity.ok().body(zone);
-		} catch (Exception exception) {
-			return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST) ;
+		} catch (NotFoundException exception) {
+			return ResponseEntity.notFound().build();
 		}
 
 	}
@@ -104,12 +104,12 @@ public class ZoneController {
 	 * @return the deleted zone
 	 */
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteZone(@PathVariable(name = "id") Long id) {
+	public ResponseEntity<Zone> deleteZone(@PathVariable(name = "id") Long id) {
 		try {
 			Zone zone = zoneService.deleteZone(id);
 			return ResponseEntity.ok().body(zone);
-		} catch (Exception exception) {
-			return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST) ;
+		} catch (NotFoundException exception) {
+			return ResponseEntity.notFound().build();
 		}
 	}
 
@@ -133,7 +133,7 @@ public class ZoneController {
 	 *
 	 * @return the list of zones without assignment
 	 */
-	@GetMapping("/listZoneWithoutAffectation")
+	@GetMapping("/nonaffecte")
 	public ResponseEntity<List<Zone>> listZoneWithoutAffectation() {
 		try {
 			List<Zone> zones = zoneService.listZoneWithoutAffectation();

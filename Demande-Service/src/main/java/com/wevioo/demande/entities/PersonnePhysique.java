@@ -27,28 +27,28 @@ public class PersonnePhysique extends Personne implements Serializable{
 	@Column(name = "idPersonne")
 	private Long idPersonnePhysique;
 	//nom complet du bénéficiaire physique
-	@Column(name = "nom_complet", nullable = false)
+	@Column(name = "nom_complet", nullable = true)
 	private String nomCompletBenificiare;
 	//type de la pièce d'identification
-	@Column(name = "pièce_identification", nullable = false)
+	@Column(name = "pièce_identification", nullable = true)
 	private PieceIdentification typePieceIdentification;
 	//numéro de la pièce d'identification
-	@Column(name = "numéro_identification", nullable = false, unique = true)
+	@Column(name = "numéro_identification", nullable = true, unique = true)
 	private String numPieceIdentification;
 	//sexe du bénéficiare physique
-	@Column(name = "genre", nullable = false)
+	@Column(name = "genre", nullable =true)
 	private String genre ;
 	//téléphone du bénéficiaire
-	@Column(name = "téléphone_fixe", nullable = true)
+	@Column(name = "téléphone_fixe", nullable = true, unique = true)
 	private String telephonefixe;
 	//téléphone mobile du bénéficiaire
-	@Column(name = "téléphone_mobile1", nullable = false, unique = true)
-	private String telephoneMobile1;
+	//pattern
+	@Column(name = "téléphone_mobile", nullable = true, unique = true)
+	private String telephoneMobile;
 	//Autre téléphone mobile du bénéficiaire
-	@Column(name = "téléphone_mobile2", nullable = false)
-	private String telephoneMobile2;
 	//adresse email du bénéficiaire
-	@Column(name = "email", nullable = false, unique = true)
+	// pattern 
+	@Column(name = "email", nullable = true, unique = true)
 	private String mail;
 
 	@JsonIgnore
@@ -96,18 +96,13 @@ public class PersonnePhysique extends Personne implements Serializable{
 	public void setTelephonefixe(String telephonefixe) {
 		this.telephonefixe = telephonefixe;
 	}
-	public String getTelephoneMobile1() {
-		return telephoneMobile1;
+	public String getTelephoneMobile() {
+		return telephoneMobile;
 	}
-	public void setTelephoneMobile1(String telephoneMobile1) {
-		this.telephoneMobile1 = telephoneMobile1;
+	public void setTelephoneMobile(String telephoneMobile1) {
+		this.telephoneMobile = telephoneMobile1;
 	}
-	public String getTelephoneMobile2() {
-		return telephoneMobile2;
-	}
-	public void setTelephoneMobile2(String telephoneMobile2) {
-		this.telephoneMobile2 = telephoneMobile2;
-	}
+
 	public String getMail() {
 		return mail;
 	}

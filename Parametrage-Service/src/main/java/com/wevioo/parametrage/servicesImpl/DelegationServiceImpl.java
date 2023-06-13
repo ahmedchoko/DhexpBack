@@ -1,4 +1,4 @@
-package com.wevioo.parametrage.servicesImpl;
+package com.wevioo.parametrage.servicesimpl;
 
 import com.wevioo.parametrage.entities.Delegation;
 import com.wevioo.parametrage.repository.DelegationRepository;

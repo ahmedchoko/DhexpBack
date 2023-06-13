@@ -71,13 +71,15 @@ public class DemandeServiceImpl implements DemandeService{
         this.partenaires = event.getPartenaire();
         this.stoplosspartenaires = event.getStpparteanire();
     }
-	@Override
+    @Override
 	public String verifCritereEligibilite(DemandePreliminaireDTO demandePreliminaire) {
 	    boolean estEligible = true;
 	    String message = "";
         Modalite mod = null ;
+        Long montant = (long)0 ;
+        Long res=(long) 0;
 	    for (Fond fond : this.fonds) {
-	        if (fond.getIdFond().toString().equals(demandePreliminaire.getFond())) {
+	        if (fond.getNomFond().equals(demandePreliminaire.getFond())) {
 	            if (!fond.getStatut().toString().equals("ACTIF") && estEligible==true) {
 	                estEligible = false;
 	                message = "Le fond choisi n'est pas actif";
@@ -118,8 +120,7 @@ public class DemandeServiceImpl implements DemandeService{
 	                    conventions = conventions + " " + convention.getModalite().getTypeModalite();
 	                    if (convention.getModalite().getTypeModalite().toString().equals(demandePreliminaire.getModalite())) {
 	                        conventionTrouvee = true;
-	                        Long res=(long) 0;
-							Long montant = demandePreliminaire.getMontantinvestissement();
+							 montant = demandePreliminaire.getMontantinvestissement();
 							for(StoplossPartenaire stoplosspartenaire : stoplosspartenaires) {
 								if(partenaire.getIdPartenaire().equals(stoplosspartenaire.getPartenaire().getIdPartenaire())) {
 										Integer taux = stoplosspartenaire.getTauxSLPartenaire() ;
@@ -127,50 +128,50 @@ public class DemandeServiceImpl implements DemandeService{
 								}
 
 							}
-							if(montant< res) {
-								message = "Parfait demande preliminaire est accepte";
-								Demande demande = new Demande();
-								demande.setStatut("ENCOURS");
-								demande.setReferenceDemande(demandePreliminaire.getReferencedossierpartenaire());
-								//demande.setPartenaire(partenaire);
-								demande.setNouveauPromoteur(demandePreliminaire.getNouvPromo());
-								demande.setNumeroCompte(demandePreliminaire.getNumerocompte());
-								demande.setNumeroRne(demandePreliminaire.getNumerorne());
-								Credit credit =new Credit();
-							    credit.setTypeCredit(demandePreliminaire.getTypecredit());
-							    credit.setMontantCreditAutorise(demandePreliminaire.getMontantcreditautorise());
-							    credit.setObjetCredit(demandePreliminaire.getObjetcredit());
-							    Credit creditsaved = creditRepository.save(credit);
-								demande.setCredit(creditsaved);
-								Projet projet = new Projet();
-								projet.setTypeProjet(demandePreliminaire.getTypeprojet());
-								Projet projetsaved = projetRepository.save(projet);
-								//demande.setPartenaire(partenaire);
-								//demande.setModalite(mod);
-								demande.setProjet(projetsaved);
-								Beneficiaire beneficiare = new Beneficiaire();
-								beneficiare.setTypPersonne(demandePreliminaire.getTypebenificiaire());
-								if(demandePreliminaire.getTypebenificiaire().equals(TYPEPERSONNE.MORALE)) {
-									Beneficiaire beneficiaresaved = beneficiaireRepository.save(beneficiare);
-									PersonneMorale personnemorale = new PersonneMorale();
-									personnemorale.setBeneficiaire(beneficiaresaved);
-									PersonneMorale personnemoralesaved = personneMoraleRepository.save(personnemorale);
-									demande.setBeneficiaire(beneficiaresaved);
-								}
-								else {
-									Beneficiaire beneficiaresaved = beneficiaireRepository.save(beneficiare);
-									PersonnePhysique personnephysique = new PersonnePhysique();
-									personnephysique.setBeneficiaire(beneficiaresaved);
-									PersonnePhysique personnephysiquesaved = personnePhysiqueRepository.save(personnephysique);
-									demande.setBeneficiaire(beneficiaresaved);
-								}
-								demandeRepository.save(demande);
-							}
-							else {
-								message = "Le montant mis dépasse le taux du partenaire choisis sur ce fond" ;
-							}
 	                    }
 	                }
+	        		if(montant< res) {
+						message = "Parfait demande preliminaire est accepte";
+						Demande demande = new Demande();
+						demande.setStatut("ENCOURS");
+						//demande.setPartenaire(partenaire);
+						demande.setNouveauPromoteur(demandePreliminaire.getNouvPromo());
+						demande.setNumeroCompte(demandePreliminaire.getNumerocompte());
+						demande.setNumeroRne(demandePreliminaire.getNumerorne());
+						Credit credit =new Credit();
+					    credit.setTypeCredit(demandePreliminaire.getTypecredit());
+					    credit.setMontantCreditAutorise(demandePreliminaire.getMontantcreditautorise());
+					    credit.setObjetCredit(demandePreliminaire.getObjetcredit());
+					    Credit creditsaved = creditRepository.save(credit);
+						demande.setCredit(creditsaved);
+						Projet projet = new Projet();
+						projet.setTypeProjet(demandePreliminaire.getTypeprojet());
+						Projet projetsaved = projetRepository.save(projet);
+						demande.setPartenaire(partenaire.getAbrevPartenaire());
+						demande.setModalite(mod.getAbrevModalite());
+						demande.setFond(demandePreliminaire.getFond());
+						demande.setProjet(projetsaved);
+						Beneficiaire beneficiare = new Beneficiaire();
+						beneficiare.setTypPersonne(demandePreliminaire.getTypebenificiaire());
+						if(demandePreliminaire.getTypebenificiaire().equals(TYPEPERSONNE.MORALE)) {
+							Beneficiaire beneficiaresaved = beneficiaireRepository.save(beneficiare);
+							PersonneMorale personnemorale = new PersonneMorale();
+							personnemorale.setBeneficiaire(beneficiaresaved);
+							PersonneMorale personnemoralesaved = personneMoraleRepository.save(personnemorale);
+							demande.setBeneficiare(beneficiaresaved);
+						}
+						else {
+							Beneficiaire beneficiaresaved = beneficiaireRepository.save(beneficiare);
+							PersonnePhysique personnephysique = new PersonnePhysique();
+							personnephysique.setBeneficiaire(beneficiaresaved);
+							PersonnePhysique personnephysiquesaved = personnePhysiqueRepository.save(personnephysique);
+							demande.setBeneficiare(beneficiaresaved);
+						}
+						demandeRepository.save(demande);
+					}
+					else {
+						message = "Le montant mis dépasse le taux du partenaire choisis sur ce fond" ;
+					}
 	                if (!conventionTrouvee && estEligible==true) {
 	                    estEligible = false;
 	                    message = "Le partenaire choisi n'a pas signé un contrat " + demandePreliminaire.getModalite() +
@@ -183,7 +184,6 @@ public class DemandeServiceImpl implements DemandeService{
 
 	    return message;
 	}
-
 	@Override
 	public Page <Demande> getDemandePreliminaire(int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
@@ -225,40 +225,39 @@ public class DemandeServiceImpl implements DemandeService{
 		SimpleDateFormat f = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
 		Date DateBlocage = f.parse(demande.getDateDeblocage());
 		updatedDemande.getCredit().setDateDeblocage(DateBlocage);
-		Date DateDerniereTombeePrincipale = f.parse(demande.getDateDerniereTombeePrincipale());
-		updatedDemande.getCredit().setDateDerniereTombePrincipale(DateDerniereTombeePrincipale);
+		///Date DateDerniereTombeePrincipale = f.parse(demande.getDateDerniereTombeePrincipale());
+	////	updatedDemande.getCredit().setDateDerniereTombePrincipale(DateDerniereTombeePrincipale);
 		Date DateEntreeProduction = f.parse(demande.getDateEntreeProduction());
 		updatedDemande.getCredit().setDateEntreeProduction(DateEntreeProduction);
-		Date DatePremiereTombeePrincipale = f.parse(demande.getDatePremiereTombeePrincipale());
-		updatedDemande.getCredit().setDatePremiereTombePrincipale(DatePremiereTombeePrincipale);
+	///	Date DatePremiereTombeePrincipale = f.parse(demande.getDatePremiereTombeePrincipale());
+	////	updatedDemande.getCredit().setDatePremiereTombePrincipale(DatePremiereTombeePrincipale);
 		Date DateAutorisation = f.parse(demande.getDateDeclaration());
 		updatedDemande.getCredit().setDateAutorisation(DateAutorisation);
 		updatedDemande.getCredit().setDureeCredit(Long.valueOf(demande.getDureeCredit()));
-		updatedDemande.getCredit().setEligibleRITI(Choix.valueOf(demande.getRitic()));
+	////	updatedDemande.getCredit().setEligibleRITI(Choix.valueOf(demande.getRitic()));
 		updatedDemande.getCredit().setFormeRomboursement(FormeRomboursement.valueOf(demande.getFormeRomboursement()));
 		updatedDemande.getCredit().setPeriodicite(Periodicite.valueOf(demande.getPeriodicite()));
 		//updatedDemande.getCredit().setImmobilisationNettesAvantNouvelInvestissement();
 		updatedDemande.getCredit().setMontantCredit(Long.valueOf(demande.getMontantCredit()));
 		updatedDemande.getCredit().setMontantrisque(Long.valueOf(demande.getMontantRisque()));
-		updatedDemande.getCredit().setMontantCreditDebloquee(Long.valueOf(demande.getMontantGarantieDebloque()));
+		///updatedDemande.getCredit().setMontantCreditDebloquee(Long.valueOf(demande.getMontantGarantieDebloque()));
 
 
 		/////Projet
-		updatedDemande.getProjet().setDelegation(demande.getDelegationProjet().getDelegation());
-		updatedDemande.getProjet().setCodePostal(Integer.getInteger(demande.getCodePostal()));
+		updatedDemande.getProjet().setDelegation(demande.getDelegation());
+		updatedDemande.getProjet().setCodePostal(demande.getCodePostal());
 		updatedDemande.getProjet().setSite(demande.getZoneImplementation());
-		updatedDemande.getProjet().setCodePostal(demande.getDelegationProjet().getCodePostal());
+		updatedDemande.getProjet().setCodePostal(demande.getCodePostal());
 
 
 		////Demande
 		updatedDemande.setNouveauPromoteur(demande.getNouveauPromoteur());
-		updatedDemande.setReferenceDemande(demande.getReferenceDemande());
+	/////	updatedDemande.setReferenceDemande(demande.getReferenceDemande());
 		updatedDemande.setUtilisateur(demande.getUtilisateur());
 		updatedDemande.setCodeCentraleRisque(demande.getCodecentralerisques());
 		Date DateDeclaration = f.parse(demande.getDateDeclaration());
 		updatedDemande.setDateDeclaration(DateDeclaration);
-		updatedDemande.setStatut(demande.getStatut());
-
+		updatedDemande.setStatut("VALIDEE");
 		demandeRepository.save(updatedDemande);
 		return updatedDemande;
 	}

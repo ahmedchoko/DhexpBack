@@ -18,8 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @RestController
-@ControllerAdvice
-@RequestMapping("/demande/api/v/demandes")
+@RequestMapping("demande/api/v1/demandes")
 public class DemandeController {
 
     @Autowired
@@ -67,8 +66,8 @@ public class DemandeController {
      * @param demande The demande object to be updated.
      * @return The response entity containing the updated demande object.
      */
-    @PutMapping()
-    public ResponseEntity<Demande> updateDemande(@RequestBody DemandeDto demande) {
+    @PostMapping("/{id}")
+    public ResponseEntity<Demande> updateDemande(@PathVariable(name = "id") Long id ,@RequestBody DemandeDto demande) {
         try {
             Demande updateDemande = demandeServiceImpl.updateDemande(demande);
             return ResponseEntity.ok().body(updateDemande);

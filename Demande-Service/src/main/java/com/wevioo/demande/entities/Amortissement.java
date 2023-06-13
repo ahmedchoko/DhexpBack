@@ -34,28 +34,22 @@ public class Amortissement {
     private Long idAmortissement;
     
     @Column(name = "numero_echeance")
-    @NotNull
     @Size(max = 255)
     private String numeroEcheance;
     
     @Column(name = "date_echeance")
-    @NotNull
     private Date dateEcheance;
     
     @Column(name = "montant_amortissement")
-    @NotNull
     private Long montantAmortissement;
     
     @Column(name = "montant_echeance")
-    @NotNull
     private Long montantEcheance;
     
     @Column(name = "restant_du")
-    @NotNull
     private Long restantDu;
     
     @Column(name = "statuts_echeance")
-    @NotNull
     @Size(max = 255)
     private String statutsEcheance;
     

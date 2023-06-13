@@ -1,10 +1,9 @@
 package com.wevioo.parametrage.controllers;
 
+import com.wevioo.parametrage.dto.ConventionDTO;
 import com.wevioo.parametrage.dto.PartenaireDTO;
 import com.wevioo.parametrage.entities.Convention;
-import com.wevioo.parametrage.entities.Modalite;
 import com.wevioo.parametrage.entities.Partenaire;
-import com.wevioo.parametrage.enums.TypePatenaire;
 import com.wevioo.parametrage.repository.PartenaireRepository;
 import com.wevioo.parametrage.services.PartenaireService;
 import org.modelmapper.ModelMapper;
@@ -19,6 +18,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.validation.ValidationException;
 
 @RestController
 @RequestMapping("parametrage/api/v1/partenaires")
@@ -41,14 +42,20 @@ public class PartenaireController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<?> getPartenaireById(@PathVariable Long id) {
-        Partenaire partenaire = partenaireService.getPartenaireById(id);
-        if (partenaire != null) {
-            PartenaireDTO partenaireDto = modelMapper.map(partenaire, PartenaireDTO.class);
-            return ResponseEntity.ok(partenaireDto);
-        } else {
-            return ResponseEntity.notFound().build();
+        try {
+            Partenaire partenaire = partenaireService.getPartenaireById(id);
+            if (partenaire != null) {
+                PartenaireDTO partenaireDto = modelMapper.map(partenaire, PartenaireDTO.class);
+                return ResponseEntity.ok(partenaireDto);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            // Handle the exception
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving the partner.");
         }
     }
+
 
     /**
      * Create a new Partenaire.
@@ -57,10 +64,19 @@ public class PartenaireController {
      * @return ResponseEntity containing the ID of the created Partenaire.
      */
     @PostMapping()
-    public ResponseEntity<Long> createPartenaire(@RequestBody Partenaire partenaire) {
-        Long partenaireId = partenaireService.addPartenaire(partenaire);
-        return ResponseEntity.status(HttpStatus.CREATED).body(partenaireId);
+    public ResponseEntity<?> createPartenaire(@RequestBody PartenaireDTO partenaire) {
+        try {
+            Partenaire partenaireSaved = partenaireService.addPartenaire(partenaire);
+            return ResponseEntity.status(HttpStatus.CREATED).body(partenaireSaved.getIdPartenaire());
+        } catch (ValidationException e) {
+            // Handle validation errors
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            // Handle the exception
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating the partner.");
+        }
     }
+
 
     /**
      * Update a Partenaire by its ID.
@@ -69,11 +85,22 @@ public class PartenaireController {
      * @param partenaire The updated Partenaire object.
      * @return ResponseEntity containing the ID of the updated Partenaire.
      */
-    @PutMapping("/{id}")
-    public ResponseEntity<Long> updatePartenaire(@PathVariable Long id, @RequestBody Partenaire partenaire) {
-        Long partenaireId = partenaireService.modifyPartenaire(partenaire);
-        return ResponseEntity.status(HttpStatus.OK).body(partenaireId);
+    @PostMapping("/{id}")
+    public ResponseEntity<?> updatePartenaire(@PathVariable(name = "id") Long id, @RequestBody PartenaireDTO partenaire) {
+        try {
+            Partenaire partenairesaved = partenaireService.modifyPartenaire(partenaire);
+            return ResponseEntity.status(HttpStatus.OK).body(partenairesaved.getIdPartenaire());
+        }
+        catch (ValidationException e) {
+            // Handle validation errors
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }  
+        catch (Exception e) {
+            // Handle the exception
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating the partner.");
+        }
     }
+
 
     /**
      * Add a Partenaire with a list of Conventions.
@@ -82,22 +109,22 @@ public class PartenaireController {
      * @return ResponseEntity containing the ID of the created Partenaire.
      */
     @PostMapping("/conventions")
-    public ResponseEntity<Long> addPartenaireWithConvention(@RequestBody List<Convention> conventions) {
-        Convention convention = partenaireService.addPartenairewithcvt(conventions);
-        return ResponseEntity.status(HttpStatus.CREATED).body(convention.getPartenaire().getIdPartenaire());
+    public ResponseEntity<?> addPartenaireWithConvention(@RequestBody ConventionDTO convention) {
+        try {
+            Convention conventionsaved = partenaireService.addPartenairewithcvt(convention);
+            return ResponseEntity.status(HttpStatus.CREATED).body(conventionsaved.getPartenaire().getIdPartenaire());
+        }
+        catch (ValidationException e) {
+            // Handle validation errors
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }  
+        catch (Exception e) {
+            // Handle the exception
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
-    /**
-     * Update a Partenaire with a list of Conventions.
-     *
-     * @param conventions The list of Conventions to be associated with the Partenaire.
-     * @return ResponseEntity containing the ID of the updated Partenaire.
-     */
-    @PutMapping("/conventions")
-    public ResponseEntity<Long> modifyPartenaireWithConvention(@RequestBody List<Convention> conventions) {
-        Long partenaireId = partenaireService.modifyPartenairewithcvt(conventions);
-        return ResponseEntity.status(HttpStatus.OK).body(partenaireId);
-    }
+
 
     /**
      * Update a Convention.
@@ -109,13 +136,21 @@ public class PartenaireController {
      * @throws ParseException if the dateBlocage cannot be parsed.
      */
     @PutMapping()
-    public ResponseEntity<Long> modifyConvention(
+    public ResponseEntity<?> modifyConvention(
             @RequestParam(defaultValue = "IdConvention") Long idConvention,
-            @RequestParam(defaultValue = "critere") String critere,
-            @RequestParam(defaultValue = "dateBlocage") String dateBlocage) throws ParseException {
-        partenaireService.modifyConvnetion(idConvention, critere, dateBlocage);
-        return ResponseEntity.ok(idConvention);
+            @RequestParam(defaultValue = "dateBlocage") String dateBlocage) {
+        try {
+            partenaireService.modifyConvention(idConvention,dateBlocage);
+            return ResponseEntity.ok(idConvention);
+        }catch (ValidationException e) {
+            // Handle validation errors
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }  catch (Exception e) {
+            // Handle other exceptions
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
+
 
 
     /**
@@ -123,22 +158,37 @@ public class PartenaireController {
      *
      * @return ResponseEntity containing the count of Partenaires by type.
      */
-    @GetMapping("/getPartenaireParType")
+    @GetMapping("/type")
     public ResponseEntity<List> getPartenaireParType() {
-        List partenaireCountByType = partenaireRepository.getNobrePartenaireParType();
-        return ResponseEntity.ok(partenaireCountByType);
+        try {
+            List partenaireCountByType = partenaireRepository.getNobrePartenaireParType();
+            return ResponseEntity.ok(partenaireCountByType);
+        } catch (Exception e) {
+            // Handle the exception
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
+
 
     /**
      * Get the total count of Partenaires.
      *
      * @return ResponseEntity containing the total count of Partenaires.
      */
-    @GetMapping("/nombreTotalPartenaire")
+    @GetMapping("/total")
     public ResponseEntity<Integer> getNombreTotalPartenaire() {
-        int totalPartenaires = partenaireService.nombreTotalPartenaire();
-        return ResponseEntity.ok(totalPartenaires);
+        try {
+            int totalPartenaires = partenaireService.nombreTotalPartenaire();
+            return ResponseEntity.ok(totalPartenaires);
+        } catch (Exception e) {
+            // Handle the exception
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
+    @GetMapping("/list")
+    public List<Partenaire> getPartenaireList() {
+		 return partenaireRepository.findAll();
+		 }
 
     /**
      * Get a list of Partenaires based on the provided filters.
@@ -153,35 +203,54 @@ public class PartenaireController {
      * @return ResponseEntity containing the list of filtered Partenaires.
      * @throws ParseException if the search terms cannot be parsed.
      */
+    
     @GetMapping()
-    public ResponseEntity<?> getPartenaires(
-            @RequestParam(value = "searchFond", required = false) String searchFond,
-            @RequestParam(value = "searchModalite", required = false) String searchModalite,
-            @RequestParam(value = "MontantMaxsearchTerm", required = false) String MontantMaxsearchTerm,
-            @RequestParam(value = "MontantMinsearchTerm", required = false) String MontantMinsearchTerm,
-            @RequestParam(value = "StatutsearchTerm", required = false) String StatutsearchTerm,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "3") int size) throws ParseException {
-        Map<String, Object> jsonResponseMap = new LinkedHashMap<>();
+	  public ResponseEntity < ? > getPartenaires(  @RequestParam(value = "searchFond",required=false) String searchFond,
+			                                       @RequestParam(value = "searchModalite",required=false) String searchModalite,
+			                                       @RequestParam(value = "MontantMaxsearchTerm",required=false) String montantMaxsearchTerm,
+                                                 @RequestParam(value = "MontantMinsearchTerm",required=false) String montantMinsearchTerm,
+                                                 @RequestParam(value = "StatutsearchTerm",required=false) String statutsearchTerm,
+			                               @RequestParam(defaultValue = "1") int page,
+                                         @RequestParam(defaultValue = "3") int size) throws ParseException {
+	    Map < String, Object > jsonResponseMap = new LinkedHashMap();
+	    Page < Partenaire > listofParteanaire = partenaireService.getAllPartenaire(searchFond ,searchModalite,montantMinsearchTerm,montantMaxsearchTerm,statutsearchTerm,page,size);
+	    List < PartenaireDTO > listofPartenaireDTO = new ArrayList();
+	    if (!listofParteanaire.isEmpty()) {
+	      for (Partenaire partenaire: listofParteanaire ) {
+	    	  listofPartenaireDTO.add(modelMapper.map(partenaire, PartenaireDTO.class));
+	      }
+	      jsonResponseMap.put("status", 1);
+	     jsonResponseMap.put("data", listofPartenaireDTO);
+	     jsonResponseMap.put("pagebale", listofParteanaire);
+	      return new ResponseEntity < > (jsonResponseMap, HttpStatus.OK);
+	    } else {
 
-        Page<Partenaire> listofPartenaire = partenaireService.getAllPartenaire(
-                searchFond, searchModalite, MontantMinsearchTerm, MontantMaxsearchTerm,
-                StatutsearchTerm, page, size);
-
-        List<PartenaireDTO> listofPartenaireDTO = new ArrayList<>();
-        if (!listofPartenaire.isEmpty()) {
-            for (Partenaire partenaire : listofPartenaire) {
-                listofPartenaireDTO.add(modelMapper.map(partenaire, PartenaireDTO.class));
+	        jsonResponseMap.put("status", 1);
+	        Page < Partenaire > listofPartenaire1 = partenaireService.getPartenaireList(page, size);
+		     for (Partenaire partenaire: listofPartenaire1 ) {
+		    	 listofPartenaireDTO.add(modelMapper.map(partenaire, PartenaireDTO.class));
+		      }
+		     List < PartenaireDTO > listofPartenaireDto1 = new ArrayList();
+		      jsonResponseMap.put("data", listofPartenaireDto1);
+			     jsonResponseMap.put("pagebale", listofPartenaire1);
+	      return new ResponseEntity < > (jsonResponseMap, HttpStatus.OK);
+		
+		      
+	    }
+	  }
+    @GetMapping("abrev/{abrv}")
+    public ResponseEntity<?> getPartenaireByAbrv(@PathVariable String abrv) {
+        try {
+            Partenaire partenaire = partenaireService.getPartenaireByAbrv(abrv);
+            if (partenaire != null) {
+                PartenaireDTO partenaireDto = modelMapper.map(partenaire, PartenaireDTO.class);
+                return ResponseEntity.ok(partenaireDto);
+            } else {
+                return ResponseEntity.notFound().build();
             }
-            jsonResponseMap.put("status", HttpStatus.OK.value());
-            jsonResponseMap.put("data", listofPartenaireDTO);
-            jsonResponseMap.put("pageable", listofPartenaire);
-            return new ResponseEntity<>(jsonResponseMap, HttpStatus.OK);
-        } else {
-            jsonResponseMap.put("status", HttpStatus.OK.value());
-            jsonResponseMap.put("data", listofPartenaireDTO);
-            jsonResponseMap.put("pageable", listofPartenaire);
-            return new ResponseEntity<>(jsonResponseMap, HttpStatus.OK);
+        } catch (Exception e) {
+            // Handle the exception
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving the partner.");
         }
     }
 }

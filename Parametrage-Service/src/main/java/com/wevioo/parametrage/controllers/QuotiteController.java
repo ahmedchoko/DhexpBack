@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.ValidationException;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,11 +33,22 @@ public class QuotiteController {
      * Add a new Quotite.
      *
      * @param quotite The Quotite object to be added.
+     * @return 
      */
     @PostMapping()
-    public void addQuotite(@RequestBody Quotite quotite) {
-        quotiteService.addQuotite(quotite);
+    public ResponseEntity<?> addQuotite(@RequestBody Quotite quotite) {
+        try {
+            quotiteService.addQuotite(quotite);
+          return ResponseEntity.status(HttpStatus.CREATED).body("Quotite est crée avec succée");
+        }catch (ValidationException e) {
+            // Handle validation errors
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }catch (Exception e) {
+            // Handle the exception
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating the quotite.");
+        }
     }
+
 
     /**
      * Get a Quotite by ID.
@@ -44,9 +57,17 @@ public class QuotiteController {
      * @return ResponseEntity containing the Quotite.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Quotite> getQuotiteById(@PathVariable() Long id) {
-        return ResponseEntity.ok(quotiteService.getQuotiteById(id));
+    public ResponseEntity<Quotite> getQuotiteById(@PathVariable Long id) {
+        try {
+            Quotite quotite = quotiteService.getQuotiteById(id);
+            return ResponseEntity.ok(quotite);
+        } catch (Exception e) {
+            // Handle the exception
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
     }
+
 
     /**
      * Modify a Quotite.
@@ -54,10 +75,21 @@ public class QuotiteController {
      * @param quotite The modified Quotite object.
      * @return ResponseEntity containing the ID of the modified Quotite.
      */
-    @PutMapping()
-    public ResponseEntity<Long> modifyQuotite(@RequestBody Quotite quotite) {
-        return ResponseEntity.status(HttpStatus.OK).body(quotiteService.modifyQuotite(quotite));
+    @PostMapping("/{id}")
+    public ResponseEntity<?> modifyQuotite(@PathVariable Long id,@RequestBody Quotite quotite) {
+        try {
+            Long modifiedQuotiteId = quotiteService.modifyQuotite(quotite);
+            return ResponseEntity.status(HttpStatus.OK).body(modifiedQuotiteId);
+        }catch (ValidationException e) {
+            // Handle validation errors
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            // Handle the exception
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
+
 
     /**
      * Get a list of filtered Quotites.
@@ -83,11 +115,10 @@ public class QuotiteController {
             @RequestParam(value = "creditLeasing", required = false) String creditLeasing,
             @RequestParam(value = "page") int page,
             @RequestParam(value = "size") int size) throws ParseException {
-        Map<String, Object> jsonResponseMap = new LinkedHashMap<>();
+    	try { Map<String, Object> jsonResponseMap = new LinkedHashMap<>();
 
         Page<Quotite> listofQuotite = quotiteService.getAllQuotite(
                 page, size, fondsearchTerm, zonesearchTerm, zonalsearchTerm, ritic, nouveauProm, creditLeasing);
-        
         List<QuotiteDTO> listofQuotiteDto = new ArrayList<>();
         if (!listofQuotite.isEmpty()) {
             for (Quotite quotite : listofQuotite) {
@@ -106,6 +137,11 @@ public class QuotiteController {
             jsonResponseMap.put("data", listofQuotiteDto);
             jsonResponseMap.put("pagebale", listofQuotite1);
             return new ResponseEntity<>(jsonResponseMap, HttpStatus.OK);
+        }
+    	}
+    	catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

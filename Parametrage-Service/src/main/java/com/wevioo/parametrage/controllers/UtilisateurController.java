@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.validation.ValidationException;
+
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,13 +46,16 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wevioo.parametrage.dto.FondDTO;
+import com.wevioo.parametrage.dto.PartenaireDTO;
 import com.wevioo.parametrage.dto.UtilisateurDTO;
 import com.wevioo.parametrage.entities.Fond;
+import com.wevioo.parametrage.entities.Partenaire;
 import com.wevioo.parametrage.entities.Utilisateur;
 import com.wevioo.parametrage.repository.UtilisateurRepository;
 import com.wevioo.parametrage.services.UtilisateurService;
@@ -64,7 +69,6 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/parametrage/api/v1/utilisateurs")
 public class UtilisateurController {
 	
-	private final ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
 
 	// Create the resource pattern resolver bean
 	@Autowired
@@ -82,8 +86,18 @@ public class UtilisateurController {
      * @return the user based on its id
      */
 	@GetMapping("/{id}")
-	public Utilisateur getUtilisateurById(@PathVariable(name = "id") String id) {
-		return utilisateurservice.getUtilisateur(id) ;
+	public ResponseEntity<?> getUtilisateurById(@PathVariable(name = "id") String id) {
+		 try {
+	            Utilisateur utilisateur = utilisateurservice.getUtilisateur(id);
+	            if (utilisateur != null) {
+	                return ResponseEntity.ok(utilisateur);
+	            } else {
+	                return ResponseEntity.notFound().build();
+	            }
+	        } catch (Exception e) {
+	            // Handle the exception
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving the user.");
+	        }
 	}
 	   /**
      * add the user .
@@ -92,10 +106,18 @@ public class UtilisateurController {
      * @return  the created user
      */
 	@PostMapping()
-public Utilisateur addUtilisateurWithoutImage(@RequestBody Utilisateur utilisateur) {
+public ResponseEntity<?> addUtilisateurWithoutImage(@RequestBody Utilisateur utilisateur) {
 		
-	return utilisateurservice.addUtilisateur(utilisateur);
-		
+	   try {
+           Utilisateur utilisateursaved = utilisateurservice.addUtilisateur(utilisateur);
+           return ResponseEntity.status(HttpStatus.CREATED).body(utilisateursaved);
+       } catch (ValidationException e) {
+           // Handle validation errors
+           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+       } catch (Exception e) {
+           // Handle the exception
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating the user.");
+       }
 	}
 	   /**
      * add the user .
@@ -105,53 +127,53 @@ public Utilisateur addUtilisateurWithoutImage(@RequestBody Utilisateur utilisate
      * @return  the created user
      */
 	@PostMapping("/image")
-public Mono<Utilisateur> addUtilisateur(@RequestPart("utilisateur") Mono<FormFieldPart> utilisateurPartMono,
-                                        @RequestPart("file") FilePart file) throws IOException {
-    return utilisateurPartMono.flatMap(utilisateurPart -> {
-        // Get the utilisateur JSON string
-        String utilisateurJson = utilisateurPart.value();
+	public Mono<Utilisateur> addUtilisateur(@RequestPart("utilisateur") Mono<FormFieldPart> utilisateurPartMono,
+	                                        @RequestPart(value = "file", required = false) FilePart file) throws IOException {
+	    return utilisateurPartMono.flatMap(utilisateurPart -> {
+	        // Get the utilisateur JSON string
+	        String utilisateurJson = utilisateurPart.value();
 
-        // Convert the JSON string to the Utilisateur object
-        ObjectMapper objectMapper = new ObjectMapper();
-        Utilisateur utilisateur = null;
-        try {
-            utilisateur = objectMapper.readValue(utilisateurJson, Utilisateur.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+	        // Convert the JSON string to the Utilisateur object
+	        ObjectMapper objectMapper = new ObjectMapper();
+	        Utilisateur utilisateur = null;
+	        try {
+	            utilisateur = objectMapper.readValue(utilisateurJson, Utilisateur.class);
+	        } catch (JsonProcessingException e) {
+	            e.printStackTrace();
+	        }
 
-        // Save the utilisateur object first
-        Utilisateur savedUtilisateur = utilisateurservice.addUtilisateur(utilisateur);
+	        // Save the utilisateur object first
+	        Utilisateur savedUtilisateur = null;
+	        try {
+	            savedUtilisateur = utilisateurservice.addUtilisateur(utilisateur);
+	        } catch (ValidationException e) {
+	            // Return an error response
+	            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+	        } catch (Exception e) {
+	            // Handle other exceptions
+	            e.printStackTrace();
+	            // Return an error response
+	            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error creating the user.");
+	        }
 
-        // Process and save the uploaded file
-        if (!file.filename().isEmpty()) {
-            String fileName = UUID.randomUUID().toString() + "." + FilenameUtils.getExtension(file.filename());
-            String uploadDir = "src/main/resources/static/";
-            Path destination = Paths.get(uploadDir).resolve(fileName);
+	        // Process and save the uploaded file if available
+	        if (file != null) {
+	            return utilisateurservice.savefile(savedUtilisateur, file);
+	        } else {
+	            // Return the saved utilisateur without processing the file
+	            return Mono.just(savedUtilisateur);
+	        }
+	    });
+	}
 
-            return file.transferTo(destination.toFile()).then(Mono.fromCallable(() -> {
-                String imageUrl = "http://localhost:8060/images/" + fileName; // Assuming the endpoint to serve images is "/images"
-                savedUtilisateur.setPhoto(imageUrl);
-                utilisateurRepository.save(savedUtilisateur);
-                // Trigger the refresh of the static directory
-                Path staticDirectory = Paths.get("src/main/resources/static/");
-                Files.walk(staticDirectory)
-                        .filter(Files::isRegularFile)
-                        .forEach(files -> resourcePatternResolver.getResource("file:" + files.toAbsolutePath()));
-
-                return savedUtilisateur; // Return the saved Utilisateur object
-            }));
-        }
-        return Mono.just(savedUtilisateur);
-    });
-}
 	   /**
   * set the user activated.
   *
   * @param id the user id
   */
-	@PutMapping()
-	public void SetActivatedUtilisateur(@RequestParam() Long id) {
+	@PostMapping("/{id}")
+	public void SetActivatedUtilisateur(@PathVariable(name = "id")  Long id) {
+		
 		 utilisateurservice.setActivatedUtilisateur(id) ;
 	}
 	 /**

@@ -6,6 +6,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityNotFoundException;
+import javax.validation.ValidationException;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,7 +21,7 @@ import com.wevioo.parametrage.entities.Activite;
 import com.wevioo.parametrage.entities.Fond;
 import com.wevioo.parametrage.entities.Secteur;
 import com.wevioo.parametrage.services.FondService;
-import com.wevioo.parametrage.servicesImpl.ParametrageProduce;
+import com.wevioo.parametrage.servicesimpl.ParametrageProduce;
 
 @RestController
 @RequestMapping("parametrage/api/v1/fonds")
@@ -42,10 +45,17 @@ public class FondController {
      */
     @PostMapping
     public ResponseEntity<?> addFond(@RequestBody FondDTO fondDto) {
-        Fond fond = modelMapper.map(fondDto, Fond.class);
-        fondService.addFond(fond);
-        return ResponseEntity.ok().build();
+        try {
+            Fond fond = modelMapper.map(fondDto, Fond.class);
+            fondService.addFond(fond);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            // Handle the exception
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while adding the fond.");
+        }
     }
+
 
     /**
      * Avoir un fond par son Id.
@@ -55,14 +65,21 @@ public class FondController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<?> getFondById(@PathVariable Long id) {
-        Fond fond = fondService.getFondById(id);
-        if (fond != null) {
-            FondDTO fondDto = modelMapper.map(fond, FondDTO.class);
-            return ResponseEntity.ok(fondDto);
-        } else {
-            return ResponseEntity.notFound().build();
+        try {
+            Fond fond = fondService.getFondById(id);
+            if (fond != null) {
+                FondDTO fondDto = modelMapper.map(fond, FondDTO.class);
+                return ResponseEntity.ok(fondDto);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            // Handle the exception
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while retrieving the fond.");
         }
     }
+
 
     /**
      * Supprimer un fond par son Id.
@@ -70,46 +87,72 @@ public class FondController {
      * @param id L'identifiant du fond à supprimer.
      * @return ResponseEntity indiquant le résultat de l'opération de suppression.
      */
-    @DeleteMapping("/{id}")
+    @PostMapping("archive/{id}")
     public ResponseEntity<?> deleteFond(@PathVariable Long id) {
         try {
             fondService.deleteFond(id);
             return ResponseEntity.ok().build();
-        } catch (Exception e) {
+        } catch (EntityNotFoundException e) {
+            // Handle validation errors
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
+ 
     /**
      * Modifier un fond par son Id.
      *
      * @param fondDto Le fond à modifier.
      * @return ResponseEntity indiquant le résultat de l'opération de modification.
      */
-    @PutMapping
-    public ResponseEntity<?> modifyFond(@RequestBody FondDTO fondDto) {
-        Fond fond = modelMapper.map(fondDto, Fond.class);
-        fondService.modifyFond(fond);
-        return ResponseEntity.ok().build();
+    @PostMapping("/{id}")
+    public ResponseEntity<?> modifyFond(@PathVariable(name = "id") Long id,@RequestBody FondDTO fondDto) {
+        try {
+            Fond fond = modelMapper.map(fondDto, Fond.class);
+            fondService.modifyFond(fond);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            // Handle the exception
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while modifying the fond.");
+        }
     }
+
     /**
      * Avoir la liste des fond.
      *
      * @return ResponseEntity indiquant la liste des fonds.
      */
-    @GetMapping()
-	public ResponseEntity<List<Fond>> listFond() {
-		return ResponseEntity.ok(fondService.listFond());
-	}
+    @GetMapping
+    public ResponseEntity<List<Fond>> listFond() {
+        try {
+            List<Fond> fonds = fondService.listFond();
+            return ResponseEntity.ok(fonds);
+        } catch (Exception e) {
+            // Handle the exception
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
     /**
      * Avoir la liste des secteurs.
      *
      * @return Liste des secteurs.
      */
     @GetMapping("/secteurs")
-    public List<Secteur> getAllSecteur() {
-        return fondService.getAllSecteur();
+    public ResponseEntity<List<Secteur>> getAllSecteur() {
+        try {
+            List<Secteur> secteurs = fondService.getAllSecteur();
+            return ResponseEntity.ok(secteurs);
+        } catch (Exception e) {
+            // Handle the exception
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
+
 
     /**
      * Avoir la liste des activités.
@@ -117,9 +160,17 @@ public class FondController {
      * @return Liste des activités.
      */
     @GetMapping("/activites")
-    public List<Activite> getAllActivite() {
-        return fondService.listActivites();
+    public ResponseEntity<List<Activite>> getAllActivite() {
+        try {
+            List<Activite> activites = fondService.listActivites();
+            return ResponseEntity.ok(activites);
+        } catch (Exception e) {
+            // Handle the exception
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
+
 
     /**
      * Avoir la liste des fonds non archivés.
@@ -127,39 +178,69 @@ public class FondController {
      * @return Liste des fonds non archivés.
      */
     @GetMapping("/nonArchives")
-    public List<Fond> getNonArchivedFonds() {
-        return fondService.getNonArchivedFonds();
+    public ResponseEntity<List<Fond>> getNonArchivedFonds() {
+        try {
+            List<Fond> fonds = fondService.getNonArchivedFonds();
+            return ResponseEntity.ok(fonds);
+        } catch (Exception e) {
+            // Handle the exception
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
+
 
     /**
      * Avoir la somme de trésorerie du totalité des fonds par secteurs.
      *
      * @return Liste des résultats de la somme de trésorerie par secteurs.
      */
-    @GetMapping("/fondTresorieBySecteur")
-    public List<?> fondTresorieBySecteur() {
-        return fondService.fondTresorieBySecteur();
+    @GetMapping("/tresorie")
+    public ResponseEntity<List<?>> fondTresorieBySecteur() {
+        try {
+            List<?> result = fondService.fondTresorieBySecteur();
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            // Handle the exception
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
+
 
     /**
      * Avoir le nombre total de fonds par statut.
      *
      * @return Liste des résultats du nombre total de fonds par statut.
      */
-    @GetMapping("/fondCountByStatus")
-    public List<?> fondCountByStatus() {
-        return fondService.fondCountByStatus();
+    @GetMapping("/status")
+    public ResponseEntity<List<?>> fondCountByStatus() {
+        try {
+            List<?> result = fondService.fondCountByStatus();
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            // Handle the exception
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
-
     /**
      * Avoir le nombre total de fonds.
      *
      * @return Le nombre total de fonds.
      */
-    @GetMapping("/fondTotal")
-    public float fondTotal() {
-        return fondService.fondTotal();
+    @GetMapping("/total")
+    public ResponseEntity<Float> fondTotal() {
+        try {
+            float total = fondService.fondTotal();
+            return ResponseEntity.ok(total);
+        } catch (Exception e) {
+            // Handle the exception
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
+
 
     /**
      * Avoir la liste des fonds filtrés et paginés.

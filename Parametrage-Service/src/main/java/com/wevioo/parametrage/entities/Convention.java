@@ -21,7 +21,7 @@ public class Convention {
 	@Column(name="idConvention")
 	private Long idConvention;
 	//date de la signature de la convention
-	@Column(name = "dateSignature")
+	@Column(name = "dateSignature", nullable= false)
 	private Date dateSignature ; 
 	//partenaire conventionné
 	@JsonIgnoreProperties("conventions")

@@ -23,7 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.wevioo.parametrage.ParametrageApplication;
 import com.wevioo.parametrage.entities.Fond;
 import com.wevioo.parametrage.repository.FondRepository;
-import com.wevioo.parametrage.servicesImpl.FondServiceImpl;
+import com.wevioo.parametrage.servicesimpl.FondServiceImpl;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
